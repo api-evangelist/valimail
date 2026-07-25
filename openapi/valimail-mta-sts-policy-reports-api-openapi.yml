@@ -1,0 +1,465 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts MTA-STS Policy Reports API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: MTA-STS Policy Reports
+paths:
+  /accounts/{slug}/mta-sts/tls:
+    get:
+      tags:
+      - MTA-STS Policy Reports
+      description: The MTA-STS Policy Reports - TLS endpoint responds with the data available within MTA-STS policy report files.
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+          example: valimail
+      - name: start-date
+        in: query
+        description: Start date of the report (ISO 8601 format) -  The date value should be formatted as YYYY-MM-DD. This is the starting date of the time range you wish to retrieve the report for
+        required: true
+        schema:
+          type: string
+          format: date
+          example: '2025-01-01'
+      - name: end-date
+        in: query
+        description: End date of the report (ISO 8601 format) - The date value should be formatted as YYYY-MM-DD. This is the end date of the time range you wish to retrieve the report for
+        required: true
+        schema:
+          type: string
+          format: date
+          example: '2025-03-19'
+      - name: domain-names
+        in: query
+        description: Array of domain names to filter the report data. If not provided, the report will return data for all existing domains on the account.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          example:
+          - example.com
+          - example.org
+      - name: policy-mx-host
+        in: query
+        description: 'policy-mx-host to filter the report data. '
+        required: false
+        schema:
+          type: string
+          description: The MX host value present in the TLS reports
+          example: mx1.example.com
+      - name: policy-mode
+        in: query
+        description: 'policy-mode to filter the report data. '
+        required: false
+        schema:
+          type: string
+          description: The policy mode value present in the TLS reports
+          enum:
+          - none
+          - enforce
+          - testing
+          - unknown
+      - name: limit
+        in: query
+        description: Limit the number of records returned. Default is 20.
+        required: false
+        schema:
+          type: integer
+          example: 30
+      - name: page
+        in: query
+        description: Page number for pagination. Default is 1.
+        required: false
+        schema:
+          type: integer
+          example: 1
+      - name: sort
+        in: query
+        description: Sort the results by a specific field. The '-' prefix indicates descending order.
+        required: false
+        schema:
+          type: string
+          example: domain, -policy-mx-host
+      responses:
+        '200':
+          description: 'Ok - Returns TLS reporting data with pagination information. The response includes: Count (total number of records), Next/Previous (URLs for pagination), and Results array containing TLS report entries. Each result entry contains: domain (domain name), report-id (unique identifier), version (policy version), policy-mode (enforcement mode), policy-mx-host (MX hostname), and max-age (policy cache duration in seconds).'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MtaStsTlsReportResponse'
+              example:
+                Count: 100
+                Next: /reports/tls?start-date=2025-01-01&end-date=2025-03-19&limit=20&page=2
+                Previous: /reports/tls?start-date=2025-01-01&end-date=2025-03-19&limit=20&page=1
+                Results:
+                - domain: example.com
+                  report-id: 1234567890abcdef
+                  version: STSv1
+                  policy-mode: testing
+                  policy-mx-host: mx1.example.com
+                  max-age: 86400
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '404':
+          description: Not Found - No data available for the parameters informed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: no report available for the parameters informed
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: Failed to normalize or parse the request
+        '500':
+          description: Internal server error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: Internal server error
+  /accounts/{slug}/mta-sts/tls/summary:
+    get:
+      tags:
+      - MTA-STS Policy Reports
+      description: The MTA-STS Policy Reports - TLS summary endpoint responds with aggregated success and failure counts, plus a daily message count series.
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+          example: valimail
+      - name: start-date
+        in: query
+        description: Start date of the report. The date value should be formatted as YYYY-MM-DD.
+        required: true
+        schema:
+          type: string
+          format: date
+          example: '2025-01-01'
+      - name: end-date
+        in: query
+        description: End date of the report. The date value should be formatted as YYYY-MM-DD.
+        required: true
+        schema:
+          type: string
+          format: date
+          example: '2025-03-19'
+      - name: domain-names
+        in: query
+        description: Array of domain names to filter the report data. If not provided, the report will return data for all existing domains on the account.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          example:
+          - example.com
+          - example.org
+      - name: policy-mx-host
+        in: query
+        description: The MX host value present in the TLS reports.
+        required: false
+        schema:
+          type: string
+          example: mx1.example.com
+      - name: policy-mode
+        in: query
+        description: The policy mode value present in the TLS reports.
+        required: false
+        schema:
+          type: string
+          enum:
+          - none
+          - enforce
+          - testing
+          - unknown
+      responses:
+        '200':
+          description: Ok - Returns TLS summary data including success count, failure count, and message count series.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success-count:
+                    type: integer
+                    example: 120
+                  failure-count:
+                    type: integer
+                    example: 15
+                  message-count-series:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date-received:
+                          type: string
+                          format: date
+                          example: '2025-01-01'
+                        success-count:
+                          type: integer
+                          example: 40
+                        failure-count:
+                          type: integer
+                          example: 5
+                        total-count:
+                          type: integer
+                          example: 45
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+        '404':
+          description: Not Found - No data available for the parameters informed
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+        '500':
+          description: Internal server error - Service, database, or unclassified error
+  /accounts/{slug}/mta-sts/tls/failure-details:
+    get:
+      tags:
+      - MTA-STS Policy Reports
+      description: The MTA-STS Policy Reports - Failure Details endpoint responds with the details of the failure messages present in the MTA-STS policy reports received.
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+          example: valimail
+      - name: report-id
+        in: query
+        description: Report Identifier - The report ID is a unique identifier for the TLS report. It is typically a string of alphanumeric characters that is generated by the reporting system. This ID is used to reference and retrieve specific reports files.
+        required: true
+        schema:
+          type: string
+          example: 2a41076e-942e-4b5c-a38e-8ea5f1c77a95
+      - name: domain-name
+        in: query
+        description: Domain Name - The domain name is the name of the domain for which the TLS report is generated. It is typically in the format of "example.com". This parameter is used to filter the results to a specific domain.
+        required: true
+        schema:
+          type: string
+          example: example.com
+      - name: policy-mode
+        in: query
+        description: 'policy-mode to filter the report data. '
+        required: false
+        schema:
+          type: string
+          description: The policy mode value present in the TLS reports (Policies)
+          enum:
+          - none
+          - enforce
+          - testing
+          - unknown
+      - name: policy-type
+        in: query
+        description: 'policy-type to filter the report data. '
+        required: false
+        schema:
+          type: string
+          description: The policy type value present in the TLS reports
+          enum:
+          - no-policy-found
+          - tlsa
+          - sts
+      responses:
+        '200':
+          description: Ok - An array of failure details data available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MtaStsTlsFailureDetailsResponse'
+              example:
+              - domain_name: example.com
+                report_id: 2a41076e-942e-4b5c-a38e-8ea5f1c77a95
+                sending_mta_ip: 127.0.0.1
+                start_date: '2025-01-01'
+                end_date: '2025-01-02'
+                receiving_ip: 127.0.0.2
+                receiving_mx_host_name: mx1.example.com
+                success_count: 150
+                failure_count: 10
+        '400':
+          description: Bad Request - Invalid request parameters
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: no report available for the parameters informed
+        '404':
+          description: Not Found - No data available for the parameters informed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: no report available for the parameters informed
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+        '500':
+          description: Internal server error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Error message
+                    example: Internal server error
+components:
+  schemas:
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    MtaStsTlsReportResponse:
+      type: object
+      properties:
+        Count:
+          type: integer
+          description: Total number of records in the dataset
+        Next:
+          type: string
+          description: URL for the next page of results in the pagination sequence
+        Previous:
+          type: string
+          description: URL for the previous page of results in the pagination sequence
+        Results:
+          type: array
+          description: Array containing the TLS report data entries
+          items:
+            type: object
+            properties:
+              domain:
+                type: string
+                description: Domain name for which the TLS report was generated
+              report-id:
+                type: string
+                description: Unique identifier for the TLS report
+              version:
+                type: string
+                description: Version of the MTA-STS policy (e.g., STSv1)
+              policy-mode:
+                type: string
+                description: MTA-STS policy enforcement mode (none, testing, enforce)
+              policy-mx-host:
+                type: string
+                description: Mail exchange (MX) hostname specified in the policy
+              max-age:
+                type: integer
+                description: Maximum age in seconds for caching the policy
+    MtaStsTlsFailureDetailsResponse:
+      type: array
+      description: Array containing detailed failure information from MTA-STS TLS reports
+      items:
+        type: object
+        properties:
+          domain_name:
+            type: string
+            description: Domain name for which the TLS failure details were generated
+          report_id:
+            type: string
+            description: Unique identifier for the TLS report containing these failure details
+          sending_mta_ip:
+            type: string
+            description: IP address of the Mail Transfer Agent (MTA) that initiated the connection
+          start_date:
+            type: string
+            description: Start date of the reporting period from the original TLS report
+          end_date:
+            type: string
+            description: End date of the reporting period from the original TLS report
+          receiving_ip:
+            type: string
+            description: IP address of the receiving mail server that processed the connection
+          receiving_mx_host_name:
+            type: string
+            description: Hostname of the receiving Mail Exchange (MX) server
+          success_count:
+            type: integer
+            description: Total number of successful TLS sessions during the reporting period
+          failure_count:
+            type: integer
+            description: Total number of failed TLS sessions during the reporting period
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

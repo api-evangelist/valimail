@@ -1,0 +1,744 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Accounts
+paths:
+  /accounts/packages:
+    get:
+      summary: Returns a list of packages available for a partner account.
+      description: This endpoint returns a list of packages available for a partner account. The response will include the package slug and package name. (Packages are listed according to the authenticated credential)
+      tags:
+      - Accounts
+      responses:
+        '200':
+          description: OK - Packages slugs are provided
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    package-slug:
+                      type: string
+                    package-name:
+                      type: string
+                example:
+                - package-slug: package-slug-1
+                  package-name: package-name-1
+                - package-slug: package-slug-2
+                  package-name: package-name-2
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts:
+    get:
+      summary: Returns accounts and subsidiaries that are linked to the partner account. (If no query parameters are provided, all accounts and subsidiaries linked to the partner account will be returned.)
+      tags:
+      - Accounts
+      parameters:
+      - name: domains
+        in: query
+        description: Filter by List of Organizational Domain Names (org domains).
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          example:
+          - dmarceverywhere.com
+          - heytest.com
+      - name: name
+        in: query
+        description: Filter by List of Account Names
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          example:
+          - Valimail
+          - MyCompanyName
+      - name: slug
+        in: query
+        description: Filter by List of Account Slugs
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          example:
+          - valimail
+          - mycompanyslug
+      - name: parent-slug
+        in: query
+        description: Filter by List of Parent Account Slugs (Only valid for admin accounts)
+        schema:
+          type: array
+          items:
+            type: string
+          example:
+          - valimail
+          - mycompanyslug
+      - name: reverse
+        in: query
+        description: Reverse the order of the list to be provided.
+        schema:
+          type: boolean
+        example: false
+      - name: sort-key
+        in: query
+        description: 'Sorts the given list by a key. Allowed values: slug, name, parent_slug, enabled_org_domains_limit, blocked_org_domains_limit, sending_sub_domains_limit, approved_senders_limit.'
+        schema:
+          type: string
+        example: name
+      - name: page
+        in: query
+        description: Page to be accessed according to the division of items provided in conjunction with the 'per-page' parameter.
+        schema:
+          type: integer
+        example: 1
+      - name: per-page
+        in: query
+        description: Number of accounts per page on the provided list.
+        schema:
+          type: integer
+        example: 100
+      responses:
+        '200':
+          description: OK - Accounts and subsidiaries linked to the partner account are provided. Response fields are omitted when the value is empty or null.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountListItem'
+                example:
+                - name: Valimail
+                  org-domain-name:
+                  - dmarceverywhere.com
+                  - heytest.com
+                  parent-slug: valimail
+                  slug: valimail
+                  enabled-org-domains-limit: '100'
+                  blocked-org-domains-limit: '100'
+                  sending-sub-domains-limit: '100'
+                  approved-senders-limit: '100'
+                - name: MyCompanyName
+                  org-domain-name:
+                  - dmarceverywhere.com
+                  - heytest.com
+                  parent-slug: valimail
+                  slug: mycompanyslug
+                  enabled-org-domains-limit: '100'
+                  blocked-org-domains-limit: '100'
+                  sending-sub-domains-limit: '100'
+                  approved-senders-limit: '100'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                params: slug=invalid-account
+                detail:
+                - field: slug
+                  value: invalid-account
+                  message: invalid slug provided
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Creates a new account with the partner account as the parent account and also creates all domains provided in the request body as enabled domains linked to the account that was created.
+      description: <b>Optional:</b> <br> - org-domain-name (the list of the domains that will be associated with the account) <br> - enabled-org-domains-limit (the limit of enabled domains) <br> - blocked-org-domains-limit (the limit of blocked domains) <br> - sending-sub-domains-limit (the limit of domains with sender services) <br> - approved-senders-limit (the limit of approved senders) <br> - package-slug (if it is not provided, the account will be created with the default package Valimail Core, subject to partner package permissions. To get the package-slug, please use [GET]/accounts/packages endpoint) <br> <b>Required:</b> <br> - name (the name of the account. It also is the base for the account slug to be created) <br><br> <b>Response notes:</b> <br> - empty or null fields are omitted from the response payload <br> - numeric limit fields are serialized as strings in the response payload
+      tags:
+      - Accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the account.
+                org-domain-name:
+                  type: array
+                  items:
+                    type: string
+                  description: List of domains associated with the account.
+                enabled-org-domains-limit:
+                  type: integer
+                  description: Limit of enabled domains.
+                blocked-org-domains-limit:
+                  type: integer
+                  description: Limit of blocked domains.
+                sending-sub-domains-limit:
+                  type: integer
+                  description: Limit of domains with sender services.
+                approved-senders-limit:
+                  type: integer
+                  description: Limit of approved senders.
+                package-slug:
+                  type: string
+                  description: Package slug (optional) for the account creation
+            example:
+              name: valimail
+              org-domain-name:
+              - dmarceverywhere.com
+              - heytest.com
+              enabled-org-domains-limit: 100
+              blocked-org-domains-limit: 100
+              sending-sub-domains-limit: 100
+              approved-senders-limit: 100
+              package-slug: custom-package
+      responses:
+        '200':
+          description: OK - Account created. Response fields are omitted when the value is empty or null, and numeric limit fields are returned as strings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+                example:
+                  name: valimail
+                  org-domain-name:
+                  - dmarceverywhere.com
+                  - heytest.com
+                  parent-slug: valimail
+                  slug: valimail
+                  package-slug: custom-package
+                  enabled-org-domains-limit: '100'
+                  blocked-org-domains-limit: '100'
+                  sending-sub-domains-limit: '100'
+                  approved-senders-limit: '100'
+        '400':
+          description: Bad Request - Invalid request payload, invalid app-id, or package not available for the partner
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+                - $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              examples:
+                missing-name:
+                  value:
+                    params: '{"org-domain-name":["alpha-example.com","beta-example.com"],"enabled-org-domains-limit":100,"blocked-org-domains-limit":200,"sending-sub-domains-limit":300,"approved-senders-limit":400,"package-slug":"custom-package"}'
+                    details:
+                    - field: name
+                      value: ''
+                      message: can't be blank
+                invalid-package:
+                  value:
+                    request: /accounts
+                    message: package not specified or not available
+                    type: invalid-package-error
+                    call: internal
+                invalid-app-id:
+                  value:
+                    request: /accounts
+                    message: invalid app-id provided
+                    type: invalid-app-id
+                    call: internal
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Domain creation failed or one of the requested domains is invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts
+                message: Enter a valid organizational domain name.
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Internal API lookup failed or another unclassified server error occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts
+                message: Error response from Internal API
+                type: internal-api-error
+                call: internal
+  /accounts/{slug}:
+    get:
+      summary: Returns a single account that are linked to the partner account according to the account slug provided.
+      tags:
+      - Accounts
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      responses:
+        '200':
+          description: Ok - Account is provided. Response fields are omitted when the value is empty or null.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountListItem'
+              example:
+                name: Valimail
+                org-domain-name:
+                - dmarceverywhere.com
+                - heytest.com
+                parent-slug: valimail
+                slug: valimail
+                enabled-org-domains-limit: '100'
+                blocked-org-domains-limit: '100'
+                sending-sub-domains-limit: '100'
+                approved-senders-limit: '100'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                params: slug=invalid+slug
+                detail:
+                - field: account-slug
+                  value: invalid slug
+                  message: only allowed alphanumerics, underscore and hyphen
+        '404':
+          description: Not Found - Account slug does not exist or is not authorized for the authenticated partner.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                request: /accounts/missing-account
+                message: account not found
+                type: not-found
+                call: api
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Updates name, limits, and package of authorized accounts according to the slug provided in the path.
+      description: Empty string values are treated as not provided. Numeric 0 values are treated as not provided. If approved-senders-limit is -1, the account stores a null approved sender limit and reads it back as -1. If package-slug is omitted, the existing package is preserved.
+      tags:
+      - Accounts
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be updated.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateAccount'
+            example:
+              name: valimail
+              enabled-org-domains-limit: 100
+              blocked-org-domains-limit: 100
+              sending-sub-domains-limit: 100
+              approved-senders-limit: 100
+              package-slug: custom-package
+      responses:
+        '200':
+          description: Ok - Account updated. Response fields are omitted when the value is empty or null, and numeric limit fields are returned as strings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+              example:
+                name: valimail
+                org-domain-name:
+                - dmarceverywhere.com
+                - heytest.com
+                parent-slug: valimail
+                slug: valimail
+                package-slug: custom-package
+                enabled-org-domains-limit: '100'
+                blocked-org-domains-limit: '100'
+                sending-sub-domains-limit: '100'
+                approved-senders-limit: '100'
+        '400':
+          description: Bad Request - Invalid app-id or package-slug
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                request: /accounts/valimail
+                message: package not specified or not available
+                type: invalid-package-error
+                call: internal
+        '404':
+          description: Not Found - Account slug is invalid or not authorized for the authenticated partner
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                request: /accounts/valimail
+                message: account not found
+                type: not-found
+                call: internal
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/v2:
+    delete:
+      summary: Deletes the account according to the account slug provided. Depending on the account's domains, either destroys the account or revokes it by removing its users and domains.
+      tags:
+      - Accounts
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be deleted.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      responses:
+        '200':
+          description: Ok - Account deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    Account:
+      type: object
+      description: Account response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
+      properties:
+        name:
+          type: string
+          description: 'Required: Name of the account.'
+        org-domain-name:
+          type: array
+          items:
+            type: string
+          description: 'Optional: List of domains associated with the account.'
+        parent-slug:
+          type: string
+          description: 'Optional: Partner account slug of the child account'
+        slug:
+          type: string
+          description: 'Optional: Account identifier.'
+        enabled-org-domains-limit:
+          type: string
+          description: 'Optional: Limit of enabled domains, serialized as a string in responses.'
+        blocked-org-domains-limit:
+          type: string
+          description: 'Optional: Limit of blocked domains, serialized as a string in responses.'
+        sending-sub-domains-limit:
+          type: string
+          description: 'Optional: Limit of domains with sender services, serialized as a string in responses.'
+        approved-senders-limit:
+          type: string
+          description: 'Optional: Limit of approved senders, serialized as a string in responses.'
+        package-slug:
+          type: string
+          description: 'Optional: Slug of the package assigned to the account.'
+    UpdateAccount:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the account. Empty strings are treated as not provided.
+        enabled-org-domains-limit:
+          type: integer
+          description: Limit of enabled domains. A value of 0 is treated as not provided.
+        blocked-org-domains-limit:
+          type: integer
+          description: Limit of blocked domains. A value of 0 is treated as not provided.
+        sending-sub-domains-limit:
+          type: integer
+          description: Limit of domains with sender services. A value of 0 is treated as not provided.
+        approved-senders-limit:
+          type: integer
+          description: Limit of approved senders. A value of 0 is treated as not provided. A value of -1 clears the stored limit and reads back as -1.
+        package-slug:
+          type: string
+          description: Package slug to assign to the account. When omitted, the existing package remains unchanged.
+    AccountListItem:
+      type: object
+      description: Account read response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
+      properties:
+        name:
+          type: string
+          description: 'Required: Name of the account.'
+        org-domain-name:
+          type: array
+          items:
+            type: string
+          description: 'Optional: List of domains associated with the account.'
+        parent-slug:
+          type: string
+          description: 'Optional: Partner account slug of the child account'
+        slug:
+          type: string
+          description: 'Optional: Account identifier.'
+        enabled-org-domains-limit:
+          type: string
+          description: 'Optional: Limit of enabled domains, serialized as a string in responses.'
+        blocked-org-domains-limit:
+          type: string
+          description: 'Optional: Limit of blocked domains, serialized as a string in responses.'
+        sending-sub-domains-limit:
+          type: string
+          description: 'Optional: Limit of domains with sender services, serialized as a string in responses.'
+        approved-senders-limit:
+          type: string
+          description: 'Optional: Limit of approved senders, serialized as a string in responses.'
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+          nullable: true
+        message:
+          type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

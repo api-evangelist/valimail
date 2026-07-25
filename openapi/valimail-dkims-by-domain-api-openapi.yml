@@ -1,0 +1,744 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts DKIMs by Domain API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: DKIMs by Domain
+paths:
+  /accounts/{slug}/domains/{domain}/dkims:
+    get:
+      summary: Returns a list of all DKIMs linked to the domain or subdomain
+      tags:
+      - DKIMs by Domain
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain to be queried.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      - name: reverse
+        description: A boolean value indicating if the results should be returned in reverse order
+        in: query
+        schema:
+          type: boolean
+        example: false
+      responses:
+        '200':
+          description: Ok - List of DKIMs for the given sender is provided (the response item will include the cname-target or the public-key depending on it's data)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dkim'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/dkims
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/dkims
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Creates a new DKIM for the domain or subdomain
+      tags:
+      - DKIMs by Domain
+      description: 'Creates a new DKIM for the domain. The DKIM can be create either with a public key or with a CNAME target, but not both.
+
+        '
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to create a DKIM for the domain.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the Sender is linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Selector:
+                  type: string
+                  description: Selector for the DKIM record.
+                PublicKey:
+                  type: string
+                  description: Public key for the DKIM record. Provide either PublicKey or CnameTarget.
+                Comment:
+                  type: string
+                  description: Optional comment for the DKIM record.
+                CnameTarget:
+                  type: string
+                  description: CNAME target for the DKIM record. Provide either PublicKey or CnameTarget.
+                ExactDomainOnly:
+                  type: boolean
+                  description: Optional. When true, adds the exact domain signing flag (`t=s`) to the generated DKIM record.
+                ShortKeyOverride:
+                  type: boolean
+                  description: Optional. When true, allows creating a DKIM with a public key shorter than 1024 bits.
+                SkipVersionTag:
+                  type: boolean
+                  description: Optional. When true, omits the `v=DKIM1` tag from the generated DKIM record.
+                SkipKeyTag:
+                  type: boolean
+                  description: Optional. When true, omits the `k` tag from the generated DKIM record.
+            example:
+              Selector: selector1
+              PublicKey: public-key-here
+              Comment: This is a comment
+              ExactDomainOnly: true
+              ShortKeyOverride: true
+              SkipVersionTag: true
+              SkipKeyTag: true
+      responses:
+        '200':
+          description: Ok - New DKIM created (the response will include the cname-target or the public-key depending on the input)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dkim'
+        '400':
+          description: Bad Request - Missing Authorization Token or invalid payload
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DefaultOdinErrorResponse'
+                - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+              examples:
+                missingAuthorizationToken:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: 'missing Authorization: Bearer header'
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '400'
+                missingSelectorParameter:
+                  value:
+                    params: '{"PublicKey":"xxxx"}'
+                    details:
+                    - field: Selector
+                      value: ''
+                      message: can't be blank
+                missingPublicKeyAndCnameTarget:
+                  value:
+                    params: '{"Selector":"selector4","Comment":"Missing keys"}'
+                    details:
+                    - field: PublicKey
+                      value: ''
+                      message: either PublicKey or CnameTarget must be present
+                publicKeyAndCnameTargetBothProvided:
+                  value:
+                    params: '{"Selector":"selector3","PublicKey":"xxxx","CnameTarget":"cname.dkim.example.net"}'
+                    details:
+                    - field: PublicKey
+                      value: xxxx
+                      message: PublicKey and CnameTarget cannot both be present
+                invalidPublicKey:
+                  value:
+                    params: '{"Selector":"selector_invalid","PublicKey":"xxxx","Comment":"This is a comment"}'
+                    details:
+                    - field: PublicKey
+                      value: xxxx
+                      message: The key value provided is not a valid RSA public key. Double check the value and try again.
+                invalidCnameTarget:
+                  value:
+                    params: '{"Selector":"selector7","CnameTarget":"invalid-cname","Comment":"bad cname"}'
+                    details:
+                    - field: CnameTarget
+                      value: invalid-cname
+                      message: '''invalid-cname'' is not a valid domain name.'
+                shortPublicKeyWithoutOverride:
+                  value:
+                    params: '{"Selector":"selector-short","PublicKey":"short-public-key-here"}'
+                    details:
+                    - field: PublicKey
+                      value: 768
+                      message: The key length of 768 is smaller than the minimum allowed key length of 1024 bits.
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain, or sender not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/dkims
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/dkims
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                senderNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/dkims
+                    message: Sender not found (only if a sender-slug is provided in the request body)
+                    type: not-found
+                    call: internal
+        '409':
+          description: Conflict - Existing selector for the sender
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/dkims
+                message: Selector already exists
+                type: conflict
+                call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/domains/{domain}/dkims/{selector}:
+    get:
+      summary: Returns a single DKIM according to the selector
+      tags:
+      - DKIMs by Domain
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the Sender is linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      - name: selector
+        in: path
+        description: DKIM selector to be queried.
+        schema:
+          type: string
+        required: true
+        example: selector1
+      responses:
+        '200':
+          description: Ok - DKIM data is provided (the response will include the cname-target or the public-key depending on the data)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dkim'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Dkim not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/dkims/selector1
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/dkims/selector1
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                dkimKeyNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/dkims/missing
+                    message: DKIM key not found
+                    type: not-found
+                    request-id: req-404
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Updates DKIM comment, sender owner, and domain owner, and optionally sender slug associated with it
+      tags:
+      - DKIMs by Domain
+      description: Update a specific DKIM comment, sender owner, and domain owner by selector. When the "new-sender-slug" is part of the request, the DKIM will updated the link to the new sender slug.
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to update a DKIM.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the Sender is linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      - name: selector
+        in: path
+        description: DKIM selector
+        schema:
+          type: string
+        required: true
+        example: selector1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                new-sender-slug:
+                  type: string
+                  description: New sender slug to be associated with the DKIM (optional)
+                  required: false
+                comment:
+                  type: string
+                  description: Comment to be associated with the DKIM
+                sender-owner:
+                  type: string
+                  description: Sender Owner to be associated with the DKIM
+                domain-owner:
+                  type: string
+                  description: Domain Owner to be associated with the DKIM
+              example:
+                new-sender-slug: mailgun
+                comment: This is a comment update
+                sender-owner: mysenderowner@example.com
+                domain-owner: mydomainowner@example.com
+      responses:
+        '200':
+          description: Ok - DKIM updated (the response will include the cname-target or the public-key depending on the data)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dkim'
+        '400':
+          description: Bad Request - Missing Authorization Token or invalid payload
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DefaultOdinErrorResponse'
+                - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+              examples:
+                missingAuthorizationToken:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: 'missing Authorization: Bearer header'
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '400'
+                missingUpdatableAttributes:
+                  value:
+                    params: ''
+                    details:
+                    - field: comment
+                      value: ''
+                      message: At least one of comment, sender-owner, domain-owner, or new-sender-slug must be provided
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain, sender, or DKIM key not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/dkims/selector1
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/dkims/selector1
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                senderNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/dkims/selector1
+                    message: Sender not found (only if a sender-slug is provided in the request body)
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                dkimKeyNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/dkims/missing
+                    message: DKIM key not found
+                    type: not-found
+                    request-id: req-123
+                    call: internal
+                newSenderNotConfigured:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/dkims/selector-update
+                    message: Sender not found (only if a sender-slug is provided in the request body)
+                    type: not-found
+                    request-id: req-456
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    Dkim:
+      type: object
+      properties:
+        selector:
+          type: string
+          description: Selector for the DKIM record
+        comment:
+          type: string
+          description: Optional comment for the DKIM record
+        public-key:
+          type: string
+          description: Public key for the DKIM record
+        cname-target:
+          type: string
+          description: CNAME target for the DKIM record
+        sender-slug:
+          type: string
+          description: Slug of the sender associated with the DKIM record
+        domain-slug:
+          type: string
+          description: Slug of the domain associated with the DKIM record
+        sender-owner:
+          type: string
+          description: Owner of the sender
+        domain-owner:
+          type: string
+          description: Owner of the domain
+        reverse:
+          type: boolean
+          description: Indicates if the sorting should be reversed
+      example:
+        selector: selector1
+        comment: This is a comment
+        public-key: public-key-here
+        cname-target: cname-here
+        sender-slug: sendgrid
+        domain-slug: dmarceverywhere.com
+        sender-owner: valimail
+        domain-owner: valimail
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    Any: {}
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+          nullable: true
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

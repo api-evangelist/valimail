@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts Webhooks API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Webhooks
+paths:
+  /webhooks/keys:
+    get:
+      tags:
+      - Webhooks
+      summary: Returns the public keys used to verify webhook signatures
+      description: Returns a map of key IDs to base64-encoded Ed25519 public keys.
+      security: []
+      responses:
+        '200':
+          description: Ok - Webhook public keys
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookPublicKeys'
+              example:
+                v1: MCowBQYDK2VwAyEA7qfrsoAMbKGQWiSiGQ0LMmUZ4U9zDE89j9cV5qlrGqE=
+        '503':
+          description: Service Unavailable - Webhook public keys not configured
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                request: /webhooks/keys
+                message: webhook public keys not configured
+                type: service-unavailable
+                request-id: XnZlLUJLJvcdFXExvFpPVdLiROhoAMKy
+                call: api
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                request: /webhooks/keys
+                message: internal server error
+                type: internal-error
+                request-id: XnZlLUJLJvcdFXExvFpPVdLiROhoAMKy
+                call: internal
+components:
+  schemas:
+    Any: {}
+    WebhookPublicKeys:
+      type: object
+      description: Map of key IDs to base64-encoded Ed25519 public keys.
+      additionalProperties:
+        type: string
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

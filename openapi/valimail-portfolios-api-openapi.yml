@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts Portfolios API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Portfolios
+paths:
+  /accounts/{slug}/portfolios:
+    get:
+      summary: Returns domains connected to portfolios of all linked accounts
+      tags:
+      - Portfolios
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      responses:
+        '200':
+          description: Ok - A list of all account's portfolios that have domains connected to it.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioSets'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    PortfolioSets:
+      type: array
+      items:
+        properties:
+          portfolio-name:
+            type: string
+          account-name:
+            type: string
+          domain-name:
+            type: string
+          org-domain-name:
+            type: string
+      example:
+      - portfolio-name: Valimail
+        account-name: Valimail
+        domain-name: dmarceverywhere.com
+        org-domain-name: dmarceverywhere.com
+      - portfolio-name: Valimail
+        account-name: Valimail
+        domain-name: heytest.com
+        org-domain-name: heytest.com
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts Authentication API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Authentication
+paths:
+  /auth:
+    post:
+      tags:
+      - Authentication
+      summary: Authenticates the API user with the credentials (client-id and app-id)
+      description: When the authentication is successful, the response will include a bearer token and a timestamp of when the token expires.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyRequest'
+            example:
+              client-id: 34acfc47-e910-4dcc-bb22-e2816f7e1e4c
+              app-id: 358e2665-dfb9-4a9f-b8db-c0404b7bf087
+      responses:
+        '200':
+          description: Ok - Authenticated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResponse'
+              example:
+                token: M2I2ZjU1NWUtN2E0Mi00NTkyLWEyNWYtNjIwNGNlNTI3NzVh
+                expires-at: '2029-10-31T18:26:50.597068836Z'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    KeyResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        expires-at:
+          type: string
+    KeyRequest:
+      type: object
+      properties:
+        client-id:
+          type: string
+        app-id:
+          type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

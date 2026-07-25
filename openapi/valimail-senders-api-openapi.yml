@@ -1,0 +1,765 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts Senders API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Senders
+paths:
+  /accounts/{slug}/domains/{domain}/senders:
+    get:
+      summary: Returns the list of senders for the given domain/subdomain and account slug
+      tags:
+      - Senders
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain to be queried.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      responses:
+        '200':
+          description: Ok - List of Senders linked to the domain are provided
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sender'
+              example:
+              - slug: sender-slug-1
+                name: Sender 1
+                status: pending_approval
+                domainSlug: dmarceverywhere.com
+                accountSlug: valimail
+              - slug: sender-slug-2
+                name: Sender 2
+                status: approved
+                domainSlug: dmarceverywhere.com
+                accountSlug: valimail
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Senders not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Creates a new sender link with a domain/subdomain (to list the senders available to be connected to the domain/subdomain, use /resource/senders)
+      tags:
+      - Senders
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to create a sender link with a domain.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the sender will be linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Slug:
+                  type: string
+            example:
+              Slug: sendgrid
+      responses:
+        '200':
+          description: Ok - New sender linked to the domain
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sender'
+              example:
+                slug: sendgrid
+                name: SendGrid
+                status: pending_approval
+                domainSlug: dmarceverywhere.com
+                accountSlug: valimail
+        '400':
+          description: Bad Request - Missing Authorization Token or invalid payload
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DefaultOdinErrorResponse'
+                - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+              examples:
+                missingAuthorizationToken:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: 'missing Authorization: Bearer header'
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '400'
+                missingSlugParameter:
+                  value:
+                    params: '{}'
+                    details:
+                    - field: Slug
+                      value: ''
+                      message: can't be blank
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account or domain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/senders
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/senders
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '403':
+          description: Forbidden - Approved sender quota exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders
+                message: Approved sender quota exceeded
+                type: forbidden
+                call: internal
+        '409':
+          description: Conflict - Existing link between sender and domain
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders
+                message: Email service provider has already been taken
+                type: conflict
+                call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              examples:
+                invalidDomain:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Invalid domain
+                    type: invalid-domain
+                    call: internal
+                senderSlugNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders
+                    message: Sender slug not found
+                    type: invalid-sender
+                    call: internal
+                domainCannotEnableAnotherSender:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders
+                    message: This domain does not allow the enabling of another sender.
+                    type: invalid-sender
+                    call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/domains/{domain}/senders/{sender-slug}:
+    get:
+      summary: Retuns a single sender according to the sender slug
+      tags:
+      - Senders
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug which the sender is linked to the domain.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the sender is linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      - name: sender-slug
+        in: path
+        description: Sender slug which the sender is linked to the domain
+        required: true
+        schema:
+          type: string
+        example: sendgrid
+      responses:
+        '200':
+          description: Ok - Sender linked to the domain is provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sender'
+              example:
+                slug: sendgrid
+                name: SendGrid
+                status: approved
+                domainSlug: dmarceverywhere.com
+                accountSlug: valimail
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Sender not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/senders/sendgrid
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/senders/sendgrid
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                senderNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders/no-such-sender
+                    message: Sender not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Updates the status of a sender linked to the domain/subdomain to "approved", "denied" or "pending_approval".
+      tags:
+      - Senders
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to update a sender linked to the domain.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the sender is linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      - name: sender-slug
+        in: path
+        description: Sender slug linked to the domain
+        required: true
+        schema:
+          type: string
+        example: sendgrid
+      requestBody:
+        description: The status can be either "approved", "denied" or "pending_approval".
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                Status:
+                  type: string
+            example:
+              Status: approved
+      responses:
+        '200':
+          description: Ok - Sender status updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sender'
+        '400':
+          description: Bad Request - Missing Authorization Token or invalid payload
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DefaultOdinErrorResponse'
+                - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+              examples:
+                missingAuthorizationToken:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: 'missing Authorization: Bearer header'
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '400'
+                invalidStatus:
+                  value:
+                    params: '{"Status":"bork-bork-bork"}'
+                    details:
+                    - field: status
+                      value: ''
+                      message: 'Invalid status ''bork-bork-bork''. Acceptable values: ''approved'', ''denied'', ''pending_approval''.'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain, or sender not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/senders/sendgrid
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/senders/sendgrid
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                senderNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders/no-such-sender
+                    message: Sender not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /resource/senders:
+    get:
+      summary: Returns the list of senders available to be connected to the domain (the slug can be used on [POST]"/accounts/{slug}/domains/{domain}/senders")
+      tags:
+      - Senders
+      responses:
+        '200':
+          description: Ok - List of senders available to be connected to the domain is provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SendersProviders'
+              example:
+              - slug: sendgrid
+                name: SendGrid
+              - slug: mailgun
+                name: Mailgun
+              - slug: sparkpost
+                name: SparkPost
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    SendersProviders:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: The sender slug to be used in all senders endpoints
+        name:
+          type: string
+          description: The real name of the sender
+    Sender:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: The unique identifier of the sender.
+        name:
+          type: string
+          description: The name of the sender.
+        status:
+          type: string
+          description: The status of the sender (e.g., approved, denied or pending_approval).
+        domainSlug:
+          type: string
+          description: The unique identifier of the domain associated with the sender.
+        accountSlug:
+          type: string
+          description: The unique identifier of the account associated with the sender.
+        reverse:
+          type: boolean
+          description: A boolean value indicating if the results should be returned in reverse order.
+        sortKey:
+          type: string
+          description: The key to sort the results (e.g., name, status, etc.).
+      example:
+        slug: sendgrid
+        name: SendGrid
+        status: pending_approval
+        domainSlug: dmarceverywhere.com
+        accountSlug: valimail
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    Any: {}
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+          nullable: true
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

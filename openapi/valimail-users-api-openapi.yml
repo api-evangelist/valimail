@@ -1,0 +1,662 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts Users API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Users
+paths:
+  /accounts/{slug}/users:
+    get:
+      summary: Returns users linked to the account slug provided.
+      tags:
+      - Users
+      parameters:
+      - name: slug
+        in: path
+        description: Filter by Account slug.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: email
+        in: query
+        description: Filter by List of emails.
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - test@email.com
+        - anothertest@email.com
+      - name: first-name
+        in: query
+        description: Filter by List of First Names.
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - John
+        - Jane
+      - name: last-name
+        in: query
+        description: Filter by List of Last Names.
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - Doe
+        - Smith
+      - name: user-slug
+        in: query
+        description: Filter by List of User slugs.
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - john-doe
+        - jane-smith
+      - name: has-accepted-invitation
+        in: query
+        description: Boolean flag. Use true to return users whose invitation has already been accepted, and false to return users whose invitation has not been accepted.
+        schema:
+          type: boolean
+        example: true
+      - name: user-type
+        in: query
+        description: Filter by List of user types.
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - member
+            - owner
+            - marketer
+        example:
+        - owner
+        - marketer
+      - name: reverse
+        in: query
+        description: Reverse the order of the list to be provided.
+        schema:
+          type: boolean
+        example: false
+      - name: sort-key
+        in: query
+        description: 'Sorts the given list by a key. Allowed values: slug, email, first_name, last_name, account_slug, last_active_at, user_type.'
+        schema:
+          type: string
+        example: email
+      - name: page
+        in: query
+        description: Page to be accessed according to the division of items provided in conjunction with the 'per-page' parameter.
+        schema:
+          type: integer
+        example: 1
+      - name: per-page
+        in: query
+        description: Number of users per page on the provided list.
+        schema:
+          type: integer
+        example: 100
+      responses:
+        '200':
+          description: OK - List of the Users linked to the account slug are provided
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Creates a new user linked to the account slug provided and sends an invitation email.
+      tags:
+      - Users
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to create an user.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUser'
+      responses:
+        '200':
+          description: Ok - New user created and invitation generated. The response includes the activation link that was generated for the invitation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitedUser'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/users/{user-slug}/invitation:
+    post:
+      summary: Sends a new invitation email for the existing user and returns the latest activation link.
+      description: If the user has already accepted the invitation, the response returns invitation-accepted-at and an empty activation-link.
+      tags:
+      - Users
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to find the user.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: user-slug
+        in: path
+        description: User slug to receive a new invitation.
+        required: true
+        schema:
+          type: string
+        example: john-doe
+      responses:
+        '200':
+          description: Ok - Invitation email processed. The response includes the latest activation link, or invitation-accepted-at with an empty activation-link when the invitation has already been accepted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvitedUser'
+              examples:
+                success-invitation-resend:
+                  summary: Invitation resent successfully
+                  value:
+                    email: test@234.com
+                    first-name: John
+                    last-name: Doe
+                    slug: john-doe
+                    account-slug: valimail
+                    last-active-at: '2026-02-24T12:30:00Z'
+                    user-type: owner
+                    activation-link: https://app.valimail.com/users/invitation/accept?invitation_token=example-token
+                invitation-already-accepted:
+                  summary: User already accepted the invitation
+                  value:
+                    email: test@234.com
+                    first-name: John
+                    last-name: Doe
+                    slug: john-doe
+                    account-slug: valimail
+                    last-active-at: '2026-02-24T12:30:00Z'
+                    invitation-accepted-at: '2026-04-07T09:15:00Z'
+                    user-type: owner
+                    activation-link: ''
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found - Account or user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/users/{user-slug}:
+    get:
+      summary: Returns account user data by account slug and user slug.
+      tags:
+      - Users
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: user-slug
+        in: path
+        description: User slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: john-doe
+      responses:
+        '200':
+          description: Ok - Single User is provided (response fields will appear according to the existing data)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found - Account or user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Updates user data by account slug and user slug.
+      tags:
+      - Users
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to update an user.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: user-slug
+        in: path
+        description: User slug to be updated.
+        required: true
+        schema:
+          type: string
+        example: john-doe
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Ok - User Updated (response fields will appear according to the existing data)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found - Account or user not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/v2/users/{user-slug}:
+    delete:
+      summary: Inactivates a user according to the account slug and user slug provided.
+      tags:
+      - Users
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: user-slug
+        in: path
+        description: User slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: john-doe
+      responses:
+        '200':
+          description: deleted user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDelete'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    InvitedUser:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          activation-link:
+            type: string
+            description: Invitation activation URL. Returned as an empty string when the invitation has already been accepted and invitation-accepted-at is present in the response.
+      example:
+        email: test@234.com
+        first-name: John
+        last-name: Doe
+        slug: john-doe
+        account-slug: valimail
+        last-active-at: '2026-02-24T12:30:00Z'
+        user-type: owner
+        activation-link: https://app.valimail.com/users/invitation/accept?invitation_token=example-token
+    CreateUser:
+      type: object
+      properties:
+        email:
+          description: Email of the user.
+          type: string
+        first-name:
+          description: First name of the user.
+          type: string
+        last-name:
+          description: Last name of the user.
+          type: string
+        user-type:
+          description: 'Optional: User type in the account. Defaults to owner. Marketer is only valid when the account supports that role.'
+          type: string
+          enum:
+          - member
+          - owner
+          - marketer
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        first-name:
+          type: string
+        last-name:
+          type: string
+        slug:
+          type: string
+        account-slug:
+          type: string
+        last-active-at:
+          type: string
+          format: date-time
+        invitation-accepted-at:
+          type: string
+          format: date-time
+          description: Present when the invitation has already been accepted.
+        user-type:
+          type: string
+          enum:
+          - member
+          - owner
+          - marketer
+      example:
+        email: test@234.com
+        first-name: John
+        last-name: Doe
+        slug: john-doe
+        account-slug: valimail
+        last-active-at: '2026-02-24T12:30:00Z'
+        invitation-accepted-at: '2026-04-07T09:15:00Z'
+        user-type: owner
+    UserUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+        first-name:
+          type: string
+        last-name:
+          type: string
+        user-type:
+          type: string
+          enum:
+          - member
+          - owner
+          - marketer
+    UserDelete:
+      type: object
+      properties:
+        slug:
+          type: string
+        account-slug:
+          type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

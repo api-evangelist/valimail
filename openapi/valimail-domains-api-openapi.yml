@@ -1,0 +1,796 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts Domains API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Domains
+paths:
+  /accounts/{slug}/domains:
+    get:
+      summary: Returns a list of domains and/or subdomains with relevant data for a given account
+      tags:
+      - Domains
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: query
+        description: Filter by List of Domains.
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+          example:
+          - dmarceverywhere.com
+          - heytest.com
+      - name: dmarc-record
+        description: Filter by List of DMARC record types.
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - None
+        - NS
+        - CNAME
+        - TXT
+      - name: enforcement-status
+        description: Filter by List of Enforcement statuses.
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - Not Configured
+        - Not At Enforcement
+        - Sending With Enforcement
+        - Blocked
+      - name: dmarc-policy
+        description: Filter by List of DMARC policies.
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - None
+        - Quarantine
+        - Reject
+      - name: sending-status
+        description: Filter by List of Sending statuses.
+        in: query
+        schema:
+          type: array
+          items:
+            type: string
+        example:
+        - Active
+        - Reporting Only
+        - Blocked
+      - name: org-domain-only
+        description: Filter to return only organizational domains when true.
+        in: query
+        schema:
+          type: boolean
+        example: false
+      - name: reverse
+        description: Reverse the order of the list to be provided.
+        in: query
+        schema:
+          type: boolean
+        example: false
+      - name: sort-key
+        description: Sorts the given list by a key. (e.g., domain_name, dmarc_record_type, enforcement_status, dmarc_policy, sending_status, last_report_date)
+        in: query
+        schema:
+          type: string
+        example: domain_name
+      responses:
+        '200':
+          description: Ok - List of Domains linked to the account slug are provided
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Domain'
+              example:
+              - domain: dmarceverywhere.com
+                is-org-domain: true
+                dmarc-record: CNAME
+                enforcement-status: Not At Enforcement
+                dmarc-policy: Quarantine
+                sending-status: Active
+                account-slug: valimail
+                dmarc-pcd: Quarantine
+                last-report-date: '2021-01-01'
+              - domain: heytest.com
+                is-org-domain: true
+                dmarc-record: TXT
+                enforcement-status: Not At Enforcement
+                dmarc-policy: None
+                sending-status: Active
+                account-slug: valimail
+                last-report-date: '2021-01-01'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+    post:
+      summary: Creates an domain/subdomain associated with an account
+      tags:
+      - Domains
+      parameters:
+      - name: slug
+        description: Account slug to create a domain.
+        in: path
+        required: true
+        schema:
+          type: string
+        example: valimail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainCreate'
+            example:
+              domain: dmarceverywhere.com
+      responses:
+        '200':
+          description: OK - Domain created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+              example:
+                domain: dmarceverywhere.com
+                is-org-domain: true
+                dmarc-record-type: CNAME
+                enforcement-status: Not At Enforcement
+                dmarc-policy: Quarantine
+                sending-status: Active
+                account-slug: valimail
+                dmarc-record: v=DMARC1; p=quarantine; rua=mailto:dmarc_agg@vali.email
+                dmarc-pcd: Quarantine
+        '400':
+          description: Bad Request - Missing Authorization Token or invalid payload
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DefaultOdinErrorResponse'
+                - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+              examples:
+                missingAuthorizationToken:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: 'missing Authorization: Bearer header'
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '400'
+                missingDomainParameter:
+                  value:
+                    params: '{}'
+                    details:
+                    - field: domain
+                      value: ''
+                      message: can't be blank
+                blankDomainPayload:
+                  value:
+                    params: '{"domain":"   "}'
+                    details:
+                    - field: domain
+                      value: ''
+                      message: can't be blank
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              examples:
+                invalidDomain:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Invalid domain
+                    type: invalid-domain
+                    call: internal
+                parentDomainNotAssociated:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains
+                    message: Parent domain example.org is not associated with this account
+                    type: invalid-domain
+                    call: internal
+                domainAlreadyClaimed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains
+                    message: This domain is already claimed.
+                    type: invalid-domain
+                    call: internal
+                invalidOrganizationalDomain:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains
+                    message: Enter a valid organizational domain name.
+                    type: invalid-domain
+                    call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/domains/{domain}:
+    get:
+      summary: Returns a domain or subdomain's relevant data for a given account slug
+      tags:
+      - Domains
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain to be queried.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      responses:
+        '200':
+          description: Ok - Single domain's relevant data is provided (response fields will appear according to the existing data).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+              example:
+                domain: dmarceverywhere.com
+                is-org-domain: true
+                dmarc-record: CNAME
+                enforcement-status: Not At Enforcement
+                dmarc-policy: Quarantine
+                sending-status: Active
+                account-slug: valimail
+                last-report-date: '2021-01-01'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Domain not found
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ErrorResponse'
+                - $ref: '#/components/schemas/EmptyObjectResponse'
+              examples:
+                domainNotFound:
+                  value: {}
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Updates domain's dmarc-policy and sending-status
+      tags:
+      - Domains
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to update a domain.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain to be updated.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DomainUpdate'
+            example:
+              dmarc-policy: Quarantine
+              sending-status: Active
+      responses:
+        '200':
+          description: Ok - Domain updated (response fields will appear according to the existing data).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+              example:
+                domain: dmarceverywhere.com
+                is-org-domain: true
+                dmarc-record-type: None
+                enforcement-status: Not Configured
+                dmarc-policy: Reject
+                sending-status: Active
+                account-slug: valimail
+                dmarc-record: v=DMARC1; p=reject; sp=quarantine; rua=mailto:dmarc_agg@vali-staging.email
+                dmarc-pcd: Reject
+        '400':
+          description: Bad Request - Missing Authorization Token or invalid payload
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DefaultOdinErrorResponse'
+                - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+              examples:
+                missingAuthorizationToken:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: 'missing Authorization: Bearer header'
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '400'
+                noAttributesProvided:
+                  value:
+                    params: '{}'
+                    details:
+                    - field: base
+                      value: null
+                      message: 'At least one parameter must be provided: sending-status or dmarc-policy.'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              examples:
+                invalidDomain:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Invalid domain
+                    type: invalid-domain
+                    call: internal
+                parentDomainNotAssociated:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domain}}
+                    message: Parent domain is not associated with this account.
+                    type: invalid-domain
+                    call: internal
+                invalidSendingStatus:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domain}}
+                    message: Sending status must be one of Active, Reporting Only, Blocked.
+                    type: invalid-sending-status
+                    call: internal
+                invalidDmarcPolicy:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domain}}
+                    message: DMARC policy must be one of None, Quarantine, Reject.
+                    type: invalid-dmarc-policy
+                    call: internal
+                missingDmarcConfiguration:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domain}}
+                    message: DMARC policy cannot be updated because the domain does not have a DMARC configuration.
+                    type: missing-dmarc-configuration
+                    call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Deletes a domain for a given account slug
+      tags:
+      - Domains
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain to be deleted.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      responses:
+        '200':
+          description: Ok - Domain deleted (response fields will appear according to the existing data).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Domain'
+              example:
+                domain: dmarceverywhere.com
+                is-org-domain: true
+                dmarc-record: CNAME
+                enforcement-status: Not At Enforcement
+                dmarc-policy: Quarantine
+                sending-status: Active
+                account-slug: valimail
+                last-report-date: '2021-01-01'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Domain not found
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/ErrorResponse'
+                - $ref: '#/components/schemas/EmptyObjectResponse'
+              examples:
+                domainNotFound:
+                  value: {}
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    Domain:
+      type: object
+      properties:
+        domain:
+          type: string
+          description: The domain name.
+        is-org-domain:
+          type: boolean
+          description: Whether the domain is an organizational domain.
+        dmarc-record:
+          type: string
+          description: The DMARC record for the domain.
+        enforcement-status:
+          type: string
+          description: The enforcement status of the domain.
+        dmarc-policy:
+          type: string
+          description: The DMARC policy of the domain.
+        sending-status:
+          type: string
+          description: The sending status of the domain.
+        account-slug:
+          type: string
+          description: The unique identifier of the account associated with the domain.
+        last-report-date:
+          type: string
+          description: The date of the last DMARC report.
+        dmarc-pcd:
+          type: string
+          description: The dmarc policy compliance.
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    EmptyObjectResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        request-id:
+          type: string
+    Any: {}
+    DomainUpdate:
+      type: object
+      properties:
+        dmarc-policy:
+          type: string
+        sending-status:
+          type: string
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+          nullable: true
+        message:
+          type: string
+    DomainCreate:
+      type: object
+      properties:
+        domain:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

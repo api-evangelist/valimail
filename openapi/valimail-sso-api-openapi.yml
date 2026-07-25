@@ -1,0 +1,340 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts SSO API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: SSO
+paths:
+  /accounts/{slug}/app/sso:
+    get:
+      summary: Returns the SSO configuration for the account slug provided.
+      tags:
+      - SSO
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      responses:
+        '200':
+          description: Ok - SSO configuration returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SsoConfig'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found - SSO configuration not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Creates an SSO configuration for the account slug provided.
+      tags:
+      - SSO
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to create an SSO configuration.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SsoCreate'
+      responses:
+        '200':
+          description: Ok - SSO configuration created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SsoConfig'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed.
+      tags:
+      - SSO
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to update the SSO configuration.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SsoCreate'
+      responses:
+        '200':
+          description: Ok - SSO configuration updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SsoConfig'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found - SSO configuration not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Deletes the SSO configuration for the account slug provided.
+      tags:
+      - SSO
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to delete the SSO configuration.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      responses:
+        '200':
+          description: Ok - SSO configuration deleted.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SsoConfig'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not Found - SSO configuration not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    SsoConfig:
+      type: object
+      properties:
+        account-slug:
+          type: string
+        cert:
+          type: string
+        idp-entity-id:
+          type: string
+        saml-endpoint:
+          type: string
+        jit-provisioning-enabled:
+          type: boolean
+        provisioning-domains:
+          type: array
+          items:
+            type: string
+        created-at:
+          type: string
+          format: date-time
+        updated-at:
+          type: string
+          format: date-time
+    SsoCreate:
+      type: object
+      properties:
+        cert:
+          type: string
+          description: SAML certificate (manual mode).
+        idp-entity-id:
+          type: string
+          description: Identity provider entity ID (manual mode).
+        saml-endpoint:
+          type: string
+          description: SAML endpoint URL (manual mode).
+        idp-metadata-file:
+          type: string
+          description: IdP metadata file content (metadata mode; mutually exclusive with manual fields).
+        jit-provisioning-enabled:
+          type: boolean
+          description: Enable just-in-time user provisioning.
+        provisioning-domains:
+          type: array
+          items:
+            type: string
+          description: List of domains used for JIT provisioning.
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

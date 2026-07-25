@@ -1,0 +1,674 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts SCIM API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: SCIM
+paths:
+  /accounts/{slug}/scim/v2/Users:
+    get:
+      summary: Returns a list of users in SCIM format according to RFC 7644
+      description: Retrieves all users from the specified account in SCIM format. Supports filtering by various user attributes.
+      tags:
+      - SCIM
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: filter
+        in: query
+        description: 'SCIM filter expression to filter users. Supports the following operators:
+
+          - `eq` (equals): Checks if attribute equals value (e.g., `userName eq "foo@example.com"`)
+
+          - `ne` (not equals): Checks if attribute is not equal to value (e.g., `active ne true`)
+
+          - `co` (contains): Checks if attribute contains substring (e.g., `userName co "example"`)
+
+          - `sw` (starts with): Checks if attribute starts with substring (e.g., `name.givenName sw "J"`)
+
+          - `ew` (ends with): Checks if attribute ends with substring (e.g., `name.familyName ew "son"`)
+
+          - `gt` (greater than): For numeric/date values (e.g., `meta.lastModified gt "2023-01-01T00:00:00Z"`)
+
+          - `lt` (less than): For numeric/date values (e.g., `meta.lastModified lt "2024-01-01T00:00:00Z"`)
+
+          - `ge` (greater or equal): For numeric/date values
+
+          - `le` (less or equal): For numeric/date values
+
+
+          Logical operators: `and`, `or`, `not` can be used to combine conditions.
+
+          '
+        required: false
+        schema:
+          type: string
+        examples:
+          emailFilter:
+            value: userName eq "foo@somedomain.com"
+            summary: Filter by email address
+          memberTypeFilter:
+            value: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User.memberType eq "owner"
+            summary: Filter by member type
+          activeAndNameFilter:
+            value: active eq true and name.givenName co "J"
+            summary: Filter by active status and name
+      responses:
+        '200':
+          description: Ok - List of users in SCIM format
+          content:
+            application/scim+json:
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                  totalResults:
+                    type: integer
+                  Resources:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ScimUser'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:ListResponse
+                totalResults: 2
+                Resources:
+                - schemas:
+                  - urn:ietf:params:scim:schemas:core:2.0:User
+                  - urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User
+                  id: 49c398b12b
+                  userName: foo@somedomain.com
+                  externalId: string
+                  name:
+                    familyName: bar
+                    givenName: foo
+                  active: false
+                  urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:
+                    memberType: owner
+                  meta:
+                    resourceType: User
+                    created: '2026-03-16T14:13:09.867Z'
+                    lastModified: '2026-03-25T13:22:47.26Z'
+                    location: https://api.valimail.com/account/valimail/scim/v2/users/49c398b12b
+                - schemas:
+                  - urn:ietf:params:scim:schemas:core:2.0:User
+                  - urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User
+                  id: 1234c223-7f76-453a-919d-413861904648
+                  userName: bar@somedomain.com
+                  externalId: another-string
+                  name:
+                    familyName: baz
+                    givenName: bar
+                  active: false
+                  urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:
+                    memberType: member
+                  meta:
+                    resourceType: User
+                    created: '2026-03-17T10:00:00.000Z'
+                    lastModified: '2026-03-25T13:22:47.26Z'
+                    location: https://api.valimail.com/account/valimail/scim/v2/users/1234c223-7f76-453a-919d-413861904648
+        '400':
+          description: Bad Request - Invalid input data or filter syntax
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '400'
+                scimType: invalidFilter
+                detail: 'The specified filter syntax was invalid: Unexpected token in filter expression'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '401'
+                scimType: unauthorized
+                detail: Unauthorized
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '403'
+                detail: Not authorized to access this account
+        '500':
+          description: Internal Server Error
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '500'
+                detail: 'An internal error occurred. Please contact support with reference: a1b2c3d4'
+    post:
+      summary: Creates a new user in SCIM format
+      description: Creates a new SCIM user in the specified account (RFC 7643/7644). Requires the core User schema and the ValiMail user extension schema. Supports userName, name.givenName, name.familyName, optional externalId, and extension memberType. Allowed memberType values are 'owner' and 'member'; 'marketer' is accepted only when enabled for the account. Returns 409 when userName already exists and 400 for invalid or missing fields.
+      tags:
+      - SCIM
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to create a user in.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/ScimUserCreate'
+            example:
+              schemas:
+              - urn:ietf:params:scim:schemas:core:2.0:User
+              - urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User
+              userName: foo@somedomain.com
+              externalId: string
+              name:
+                givenName: foo
+                familyName: bar
+              urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:
+                memberType: owner
+      responses:
+        '201':
+          description: Created - User created successfully
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+              example:
+                schemas:
+                - urn:ietf:params:scim:schemas:core:2.0:User
+                - urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User
+                id: 49c398b12b
+                userName: foo@somedomain.com
+                externalId: string
+                name:
+                  givenName: foo
+                  familyName: bar
+                active: true
+                urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:
+                  memberType: owner
+                meta:
+                  resourceType: User
+                  created: '2026-03-16T14:13:09.867Z'
+                  lastModified: '2026-03-16T14:13:09.867Z'
+                  location: https://api.valimail.com/account/valimail/scim/v2/users/49c398b12b
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '400'
+                scimType: invalidValue
+                detail: Request is unparsable, syntactically incorrect, or violates schema
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '401'
+                scimType: unauthorized
+                detail: Unauthorized
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '403'
+                detail: Not authorized to access this account
+        '409':
+          description: Conflict - User already exists
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '409'
+                detail: User with email foo@somedomain.com already exists
+        '500':
+          description: Internal Server Error
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '500'
+                detail: 'An internal error occurred. Please contact support with reference: a1b2c3d4'
+  /accounts/{slug}/scim/v2/Users/{id}:
+    get:
+      summary: Returns a single user in SCIM format
+      description: Retrieves a specific user by ID from the specified account in SCIM format, including all user attributes and ValiMail-specific extensions.
+      tags:
+      - SCIM
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: id
+        in: path
+        description: User ID to retrieve.
+        required: true
+        schema:
+          type: string
+        example: 49c398b12b
+      responses:
+        '200':
+          description: Ok - User found and returned in SCIM format
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+              example:
+                schemas:
+                - urn:ietf:params:scim:schemas:core:2.0:User
+                - urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User
+                id: 2906d4927bf178077519
+                userName: emailscimtest1@somedomain.com
+                externalId: 684f7728-1f8c-44da-aefa-21b27dc602cf
+                name:
+                  familyName: qqqq
+                  givenName: tttttt
+                active: true
+                urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:
+                  memberType: member
+                meta:
+                  resourceType: User
+                  created: '2025-09-11T14:42:59Z'
+                  lastModified: '2025-09-11T14:42:59Z'
+                  location: https://api.valimail.com/account/valimail/scim/v2/users/2906d4927bf178077519
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '400'
+                detail: Invalid input data
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '401'
+                scimType: unauthorized
+                detail: Unauthorized
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '403'
+                detail: Not authorized to access this account
+        '404':
+          description: Not Found - User not found
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '404'
+                detail: User with ID 2906d4927bf9 not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '500'
+                detail: 'An internal error occurred. Please contact support with reference: a1b2c3d4'
+    patch:
+      summary: Updates a user's attributes using SCIM PATCH operation
+      description: "Partially updates an existing SCIM user (RFC 7644 PatchOp).\n\nSupported operations:\n- op: \"replace\" only\n\nSupported paths:\n- active (boolean: true/false)\n- urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User.memberType\n  (owner, member, or marketer when enabled for the account)\n\nRequirements:\n- schemas must include \"urn:ietf:params:scim:api:messages:2.0:PatchOp\"\n\nNotes:\n- PUT is not supported for this endpoint.\n- Unsupported op/path/value returns 400.\n"
+      tags:
+      - SCIM
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug of the user to update.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: id
+        in: path
+        description: User ID to update.
+        required: true
+        schema:
+          type: string
+        example: 49c398b12b
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              $ref: '#/components/schemas/ScimPatchRequest'
+            example:
+              schemas:
+              - urn:ietf:params:scim:api:messages:2.0:PatchOp
+              Operations:
+              - op: replace
+                path: active
+                value: false
+              - op: replace
+                path: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User.memberType
+                value: owner
+      responses:
+        '200':
+          description: Ok - User updated successfully
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+              example:
+                schemas:
+                - urn:ietf:params:scim:schemas:core:2.0:User
+                - urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User
+                id: 49c398b12b
+                userName: foo@somedomain.com
+                externalId: string
+                name:
+                  givenName: Johnny
+                  familyName: bar
+                active: false
+                urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:
+                  memberType: owner
+                meta:
+                  resourceType: User
+                  created: '2026-03-16T14:13:09.867Z'
+                  lastModified: '2026-03-25T13:22:47.26Z'
+                  location: https://api.valimail.com/account/valimail/scim/v2/users/49c398b12b
+        '400':
+          description: Bad Request - Invalid PATCH operation
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '400'
+                detail: 'Invalid PATCH operation: Unsupported operation type'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '403'
+                detail: Not authorized to access this account
+        '404':
+          description: Not Found - User not found
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '404'
+                detail: User with ID 49c398b12b not found
+        '500':
+          description: Internal Server Error
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '500'
+                detail: 'An internal error occurred. Please contact support with reference: a1b2c3d4'
+components:
+  schemas:
+    ScimUserCreate:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+        userName:
+          type: string
+          format: email
+          description: Email address used as the username
+        name:
+          type: object
+          properties:
+            givenName:
+              type: string
+              description: First name
+            familyName:
+              type: string
+              description: Last name
+        active:
+          type: boolean
+          description: Whether the user account is active
+      required:
+      - schemas
+      - userName
+      - name
+      example:
+        schemas:
+        - urn:ietf:params:scim:schemas:core:2.0:User
+        userName: foo@somedomain.com
+        name:
+          givenName: John
+          familyName: Doe
+        active: true
+    ScimPatchRequest:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+        Operations:
+          type: array
+          items:
+            type: object
+            properties:
+              op:
+                type: string
+                enum:
+                - add
+                - replace
+                - remove
+              path:
+                type: string
+                description: JSON path to the attribute to modify
+              value:
+                type: object
+                description: Value to set for the attribute
+      required:
+      - schemas
+      - Operations
+      example:
+        schemas:
+        - urn:ietf:params:scim:api:messages:2.0:PatchOp
+        Operations:
+        - op: replace
+          path: active
+          value: false
+        - op: replace
+          path: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:memberType
+          value: owner
+    ScimError:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:api:messages:2.0:Error
+        status:
+          type: string
+          description: HTTP status code as a string
+        scimType:
+          type: string
+          description: SCIM error type identifier
+        detail:
+          type: string
+          description: Detailed error message
+      example:
+        schemas:
+        - urn:ietf:params:scim:api:messages:2.0:Error
+        status: '400'
+        scimType: invalidFilter
+        detail: The specified filter syntax was invalid
+    ScimUser:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+        id:
+          type: string
+          description: Unique identifier for the user (slug column in the users table)
+        userName:
+          type: string
+          description: Email address used as the username
+        externalId:
+          type: string
+          description: External identifier provided by the identity provider
+        name:
+          type: object
+          properties:
+            givenName:
+              type: string
+              description: First name
+            familyName:
+              type: string
+              description: Last name
+        active:
+          type: boolean
+          description: Whether the user account is active
+        urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:
+          type: object
+          properties:
+            memberType:
+              type: string
+              enum:
+              - owner
+              - member
+              description: Role of the user in the account
+        meta:
+          type: object
+          properties:
+            resourceType:
+              type: string
+              description: Type of resource
+            created:
+              type: string
+              format: date-time
+              description: Timestamp when the user was created
+            lastModified:
+              type: string
+              format: date-time
+              description: Timestamp when the user was last modified
+            location:
+              type: string
+              format: uri
+              description: Full URI to the user resource
+      required:
+      - id
+      - userName
+      - schemas
+      example:
+        schemas:
+        - urn:ietf:params:scim:schemas:core:2.0:User
+        - urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User
+        id: 49c398b12b
+        userName: foo@somedomain.com
+        externalId: string
+        name:
+          givenName: foo
+          familyName: bar
+        active: false
+        urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:
+          memberType: owner
+        meta:
+          resourceType: User
+          created: '2026-03-16T14:13:09.867Z'
+          lastModified: '2026-03-25T13:22:47.26Z'
+          location: https://api.valimail.com/account/valimail/scim/v2/users/49c398b12b
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

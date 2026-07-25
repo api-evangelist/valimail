@@ -1,0 +1,827 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts MTA-STS Policy API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: MTA-STS Policy
+paths:
+  /accounts/{slug}/domains/{domain}/mta_sts_policy:
+    get:
+      summary: Returns MTA-STS policy configuration for a domain
+      tags:
+      - MTA-STS Policy
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain name to be queried.
+        required: true
+        schema:
+          type: string
+        example: example.com
+      responses:
+        '200':
+          description: Ok - MTA-STS policy data is provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MtaStsPolicyResponse'
+              example:
+                data:
+                  domain: example.com
+                  mta-sts-record-text: v=STSv1; id=20240101T120000;
+                  mta-sts-record:
+                    version: STSv1
+                    id: 20240101T120000
+                  mta-sts-policy-text: 'version: STSv1
+
+                    mode: testing
+
+                    max_age: 86400
+
+                    mx: mx1.example.com'
+                  mta-sts-policy:
+                    version: STSv1
+                    policy-mode: testing
+                    mx-hosts:
+                    - mx1.example.com
+                    - mx2.example.com
+                    max-age: 86400
+                  ssl-certificate:
+                    status: success
+                    details: Certificate is valid
+                    expiration-date: '2025-03-01T00:00:00Z'
+                  created-at: '2024-04-30T14:00:00Z'
+                  updated-at: '2024-04-30T14:00:00Z'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain, or policy not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Creates a new MTA-STS policy for a domain
+      tags:
+      - MTA-STS Policy
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to create a policy for.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain name to create a policy for.
+        required: true
+        schema:
+          type: string
+        example: example.com
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MtaStsPolicyRequest'
+            example:
+              policy-mode: testing
+              mx-hosts:
+              - mx1.example.com
+              - mx2.example.com
+              max-age: 86400
+      responses:
+        '200':
+          description: OK - MTA-STS policy created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MtaStsPolicyResponse'
+              example:
+                data:
+                  domain: example.com
+                  mta-sts-record-text: v=STSv1; id=20240101T120000;
+                  mta-sts-record:
+                    version: STSv1
+                    id: 20240101T120000
+                  mta-sts-policy-text: 'version: STSv1
+
+                    mode: testing
+
+                    max_age: 86400
+
+                    mx: mx1.example.com'
+                  mta-sts-policy:
+                    version: STSv1
+                    policy-mode: testing
+                    mx-hosts:
+                    - mx1.example.com
+                    - mx2.example.com
+                    max-age: 86400
+                  ssl-certificate:
+                    status: pending
+                    details: Certificate validation in progress
+                    expiration-date: null
+                  created-at: '2024-04-30T14:00:00Z'
+                  updated-at: '2024-04-30T14:00:00Z'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '422':
+          description: Unprocessable Entity - Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                errors:
+                - message: invalid-policy-mode
+                  details: 'must be in this list: ["none", "testing", "enforce"]'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Updates an existing MTA-STS policy for a domain
+      tags:
+      - MTA-STS Policy
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to update a policy for.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain name to update a policy for.
+        required: true
+        schema:
+          type: string
+        example: example.com
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MtaStsPolicyUpdateRequest'
+            example:
+              policy-mode: enforce
+              mx-hosts:
+              - mx1.example.com
+              - mx2.example.com
+              - mx3.example.com
+              max-age: 604800
+      responses:
+        '200':
+          description: OK - MTA-STS policy updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MtaStsPolicyResponse'
+              example:
+                data:
+                  domain: example.com
+                  mta-sts-record-text: v=STSv1; id=20240101T120000;
+                  mta-sts-record:
+                    version: STSv1
+                    id: 20240101T120000
+                  mta-sts-policy-text: 'version: STSv1
+
+                    mode: enforce
+
+                    max_age: 604800
+
+                    mx: mx1.example.com'
+                  mta-sts-policy:
+                    version: STSv1
+                    policy-mode: enforce
+                    mx-hosts:
+                    - mx1.example.com
+                    - mx2.example.com
+                    - mx3.example.com
+                    max-age: 604800
+                  ssl-certificate:
+                    status: success
+                    details: Certificate is valid
+                    expiration-date: '2025-03-01T00:00:00Z'
+                  created-at: '2024-04-30T14:00:00Z'
+                  updated-at: '2024-04-30T14:00:00Z'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain, or policy not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Invalid data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+              example:
+                errors:
+                - message: invalid-policy-mode
+                  details: 'must be in this list: ["none", "testing", "enforce"]'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/mta_sts_policies:
+    get:
+      summary: Returns a list of all MTA-STS policies for an account
+      tags:
+      - MTA-STS Policy
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      responses:
+        '200':
+          description: Ok - List of MTA-STS policies for the account is provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MtaStsPoliciesListResponse'
+              example:
+                data:
+                - domain: subdomain1.example.org
+                  mta-sts-record-text: v=STSv1; id=20240101T120000;
+                  mta-sts-record:
+                    version: STSv1
+                    id: 20240101T120000
+                  mta-sts-policy-text: 'version: STSv1
+
+                    mode: testing
+
+                    max_age: 86400
+
+                    mx: mx1.example.org'
+                  mta-sts-policy:
+                    version: STSv1
+                    policy-mode: testing
+                    mx-hosts:
+                    - mx1.example.org
+                    max-age: 86400
+                  ssl-certificate:
+                    status: success
+                    details: Certificate is valid
+                    expiration-date: '2025-03-01T00:00:00Z'
+                  created-at: '2025-06-01T12:30:45Z'
+                  updated-at: '2025-06-01T12:30:45Z'
+                - domain: subdomain2.example.org
+                  mta-sts-record-text: v=STSv1; id=20240101T120000;
+                  mta-sts-record:
+                    version: STSv1
+                    id: 20240101T120000
+                  mta-sts-policy-text: 'version: STSv1
+
+                    mode: enforce
+
+                    max_age: 86400
+
+                    mx: mx2.example.org'
+                  mta-sts-policy:
+                    version: STSv1
+                    policy-mode: enforce
+                    mx-hosts:
+                    - mx2.example.org
+                    max-age: 86400
+                  ssl-certificate:
+                    status: failed
+                    details: No SSL certificate data available
+                    expiration-date: null
+                  created-at: '2025-06-01T12:30:45Z'
+                  updated-at: '2025-06-01T12:30:45Z'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    MtaStsPoliciesListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              domain:
+                type: string
+                description: Domain name
+                example: subdomain1.example.org
+              mta-sts-record-text:
+                type: string
+                description: DNS TXT record for MTA-STS
+                example: v=STSv1; id=20240101T120000;
+              mta-sts-record:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    description: MTA-STS version
+                    example: STSv1
+                  id:
+                    type: string
+                    description: Policy identifier
+                    example: 20240101T120000
+              mta-sts-policy-text:
+                type: string
+                description: Policy file content
+                example: 'version: STSv1
+
+                  mode: testing
+
+                  max_age: 86400
+
+                  mx: mx1.example.org'
+              mta-sts-policy:
+                type: object
+                properties:
+                  version:
+                    type: string
+                    description: MTA-STS version
+                    example: STSv1
+                  policy-mode:
+                    type: string
+                    enum:
+                    - none
+                    - testing
+                    - enforce
+                    description: Policy enforcement level
+                    example: testing
+                  mx-hosts:
+                    type: array
+                    items:
+                      type: string
+                    description: List of authorized MX hostnames
+                    example:
+                    - mx1.example.org
+                  max-age:
+                    type: integer
+                    minimum: 0
+                    description: Policy cache duration in seconds
+                    example: 86400
+              ssl-certificate:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Certificate validation status
+                    example: success
+                  details:
+                    type: string
+                    description: Certificate validation details
+                    example: Certificate is valid
+                  expiration-date:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: Certificate expiration date in RFC3339 format
+                    example: '2025-03-01T00:00:00Z'
+              created-at:
+                type: string
+                format: date-time
+                description: Policy creation timestamp in RFC3339 format
+                example: '2025-06-01T12:30:45Z'
+              updated-at:
+                type: string
+                format: date-time
+                description: Policy last update timestamp in RFC3339 format
+                example: '2025-06-01T12:30:45Z'
+    MtaStsPolicyRequest:
+      type: object
+      required:
+      - policy-mode
+      - max-age
+      properties:
+        policy-mode:
+          type: string
+          enum:
+          - none
+          - testing
+          - enforce
+          description: Policy enforcement level
+          example: testing
+        mx-hosts:
+          type: array
+          items:
+            type: string
+          description: List of authorized MX hostnames
+          example:
+          - mx1.example.com
+          - mx2.example.com
+        max-age:
+          type: integer
+          minimum: 0
+          description: Policy cache duration in seconds
+          example: 86400
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    MtaStsPolicyResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            domain:
+              type: string
+              description: Domain name
+              example: example.com
+            mta-sts-record-text:
+              type: string
+              description: DNS TXT record for MTA-STS
+              example: v=STSv1; id=20240101T120000;
+            mta-sts-record:
+              type: object
+              properties:
+                version:
+                  type: string
+                  description: MTA-STS version
+                  example: STSv1
+                id:
+                  type: string
+                  description: Policy identifier
+                  example: 20240101T120000
+            mta-sts-policy-text:
+              type: string
+              description: Policy file content
+              example: 'version: STSv1
+
+                mode: testing
+
+                max_age: 86400
+
+                mx: mx1.example.com'
+            mta-sts-policy:
+              type: object
+              properties:
+                version:
+                  type: string
+                  description: MTA-STS version
+                  example: STSv1
+                policy-mode:
+                  type: string
+                  enum:
+                  - none
+                  - testing
+                  - enforce
+                  description: Policy enforcement level
+                  example: testing
+                mx-hosts:
+                  type: array
+                  items:
+                    type: string
+                  description: List of authorized MX hostnames
+                  example:
+                  - mx1.example.com
+                  - mx2.example.com
+                max-age:
+                  type: integer
+                  minimum: 0
+                  description: Policy cache duration in seconds
+                  example: 86400
+            ssl-certificate:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: Certificate validation status
+                  example: success
+                details:
+                  type: string
+                  description: Certificate validation details
+                  example: Certificate is valid
+                expiration-date:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: Certificate expiration date in RFC3339 format
+                  example: '2025-03-01T00:00:00Z'
+            created-at:
+              type: string
+              format: date-time
+              description: Policy creation timestamp in RFC3339 format
+              example: '2024-04-30T14:00:00Z'
+            updated-at:
+              type: string
+              format: date-time
+              description: Policy last update timestamp in RFC3339 format
+              example: '2024-04-30T14:00:00Z'
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    MtaStsPolicyUpdateRequest:
+      type: object
+      properties:
+        policy-mode:
+          type: string
+          enum:
+          - none
+          - testing
+          - enforce
+          description: Policy enforcement level
+          example: enforce
+        mx-hosts:
+          type: array
+          items:
+            type: string
+          description: List of authorized MX hostnames
+          example:
+          - mx1.example.com
+          - mx2.example.com
+          - mx3.example.com
+        max-age:
+          type: integer
+          minimum: 0
+          description: Policy cache duration in seconds
+          example: 604800
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          $ref: '#/components/schemas/Any'
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    Any: {}
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

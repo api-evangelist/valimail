@@ -1,0 +1,708 @@
+openapi: 3.0.0
+info:
+  title: Account Management Accounts Netblocks API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Netblocks
+paths:
+  /accounts/{slug}/domains/{domain}/netblocks:
+    get:
+      summary: Returns a list of all netblocks of a domain or subdomain
+      tags:
+      - Netblocks
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain to be queried.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      - name: reverse
+        description: Reverse the order of the list to be provided.
+        in: query
+        schema:
+          type: boolean
+        example: false
+      responses:
+        '200':
+          description: Ok - A List of netblocks of the domain is provided ("comment" and "sender-slug" fields will be included if available)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    netblock:
+                      type: string
+                      description: IP address range in CIDR format
+                    spf-record:
+                      type: string
+                      description: SPF record associated with the netblock
+                    comment:
+                      type: string
+                      description: Comment related to the netblock
+                    sender-slug:
+                      type: string
+                      description: Slug identifier for the sender
+                    domain-slug:
+                      type: string
+                      description: Slug identifier for the domain
+                example:
+                - netblock: 127.0.0.1/32
+                  spf-record: v=spf1 ip4:127.0.0.1 -all
+                  comment: This is a comment
+                  sender-slug: sendgrid
+                  domain-slug: dmarceverywhere.com
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account or domain not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/netblocks
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/netblocks
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Creates a new netblock for the domain
+      tags:
+      - Netblocks
+      description: 'Creates a new netblock for the domain or subdomain. The comment and the sender-slug are optional.
+
+        '
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to create a netblock for the domain.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the netblock will be linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                netblock:
+                  type: string
+                comment:
+                  type: string
+                sender-slug:
+                  type: string
+            example:
+              netblock: 127.0.0.1/32
+              comment: This is a comment
+              sender-slug: sendgrid
+      responses:
+        '200':
+          description: Ok - Netblock created (the response will include the "sender-slug" and/or "comment" depending on the input)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Netblock'
+        '400':
+          description: Bad Request - Missing Authorization Token or invalid payload
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DefaultOdinErrorResponse'
+                - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+                - $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              examples:
+                missingAuthorizationToken:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: 'missing Authorization: Bearer header'
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '400'
+                missingNetblockParameter:
+                  value:
+                    params: '{}'
+                    details:
+                    - field: netblock
+                      value: ''
+                      message: can't be blank
+                invalidNetblockFormat:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks
+                    message: Enter your netblock in standard CIDR notation.
+                    type: not-a-netblock
+                    call: internal
+                invalidIpRange:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks
+                    message: Invalid IP address range
+                    type: invalid-ip-range
+                    call: internal
+                internalSendersDisallowedForSingleSenderDomain:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks
+                    message: Select a known sending service for this single sender domain or remove the "Single Sender" option to allow internal senders.
+                    type: internal-senders-disallowed-for-single-sender
+                    call: internal
+                cannotAddAnotherSenderOnSingleSenderDomain:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks
+                    message: This domain does not allow the enabling of another sender.
+                    type: cannot-add-another-sender
+                    call: internal
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain, or sender not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/netblocks
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/netblocks
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                senderNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks
+                    message: Sender not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '409':
+          description: Conflict - Existing netblock for the domain
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks
+                message: has already been taken
+                type: taken
+                request-id: '12345'
+                call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /accounts/{slug}/domains/{domain}/netblocks/{netblock}:
+    get:
+      summary: Returns a single netblock according to IP or CIDR
+      tags:
+      - Netblocks
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the netblock is linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      - name: netblock
+        in: path
+        description: IP or CIDR of the netblock
+        schema:
+          type: string
+        required: true
+        example: 127.0.0.1/32
+      responses:
+        '200':
+          description: Ok - Netblock data is provided  ("comment" and "sender-slug" fields will be included if available)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Netblock'
+        '400':
+          description: Bad Request - Missing Authorization Token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: 'missing Authorization: Bearer header'
+                type: ''
+                request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                call: api
+                status: '400'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain, or netblock not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/netblocks/127.0.0.1%2F32
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/netblocks/127.0.0.1%2F32
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                netblockNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks/203.0.113.0%2F24
+                    message: NetblockConfiguration not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Updates a netblock comment or the sender-slug associated with it
+      tags:
+      - Netblocks
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to update a netblock.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      - name: domain
+        in: path
+        description: Domain which the netblock is linked to.
+        required: true
+        schema:
+          type: string
+        example: dmarceverywhere.com
+      - name: netblock
+        in: path
+        description: IP or CIDR of the netblock
+        schema:
+          type: string
+        required: true
+        example: 127.0.0.1/32
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                sender-slug:
+                  type: string
+                  nullable: true
+              example:
+                comment: This is a comment update
+                sender-slug: sendgrid
+      responses:
+        '200':
+          description: Ok - Netblock updated (the response will include the "comment" and/or the "sender-slug" depending on the data)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Netblock'
+        '400':
+          description: Bad Request - Missing Authorization Token or invalid payload
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/DefaultOdinErrorResponse'
+                - $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              examples:
+                missingAuthorizationToken:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: 'missing Authorization: Bearer header'
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '400'
+                internalSendersDisallowedForSingleSenderDomain:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks/127.0.0.1%2F32
+                    message: Select a known sending service for this single sender domain or remove the "Single Sender" option to allow internal senders.
+                    type: internal-senders-disallowed-for-single-sender
+                    call: internal
+                cannotAddAnotherSenderOnSingleSenderDomain:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks/127.0.0.1%2F32
+                    message: This domain does not allow the enabling of another sender.
+                    type: cannot-add-another-sender
+                    call: internal
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultOdinErrorResponse'
+              examples:
+                authenticationFailed:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: Unauthorized
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+                invalidSlug:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                    message: not authorized for slug valimail
+                    type: ''
+                    request-id: CkmvjqpFKrQzajCScVFHTnokjKKiORRF
+                    call: api
+                    status: '401'
+        '404':
+          description: Not Found - Account, domain, netblock, or sender not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                accountNotFound:
+                  value:
+                    request: /accounts/no-such-account/domains/{{domainSlug}}/netblocks/127.0.0.1%2F32
+                    message: Account not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                domainNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/no-such-domain.example.com/netblocks/127.0.0.1%2F32
+                    message: Domain not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                netblockNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks/203.0.113.0%2F24
+                    message: NetblockConfiguration not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+                senderNotFound:
+                  value:
+                    request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks/127.0.0.1%2F32
+                    message: Sender not found
+                    type: not-found
+                    request-id: '12345'
+                    call: internal
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+              example:
+                request: /accounts/{{the_account_slug}}/domains/{{domainSlug}}/
+                message: Invalid domain
+                type: invalid-domain
+                call: internal
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example: null
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    Netblock:
+      type: object
+      properties:
+        netblock:
+          type: string
+          description: IP address range in CIDR format
+        spf-record:
+          type: string
+          description: SPF record associated with the netblock
+        comment:
+          type: string
+          description: Comment related to the netblock
+        sender-slug:
+          type: string
+          description: Slug identifier for the sender
+        domain-slug:
+          type: string
+          description: Slug identifier for the domain
+      example:
+        netblock: 127.0.0.1/32
+        spf-record: v=spf1 ip4:127.0.0.1 -all
+        comment: This is a comment
+        sender-slug: sendgrid
+        domain-slug: dmarceverywhere.com
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    Any: {}
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+          nullable: true
+        message:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
