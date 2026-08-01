@@ -1,0 +1,36 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Valimail Configuration API
+  version: 1.0.0
+x-generated: '2026-07-21'
+x-method: generated
+extends: openapi/valimail-config-openapi-original.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist:
+        provider: valimail
+        harvested: '2026-07-21'
+        source: https://api.valimail.com/docs/config.yml
+        docs: https://api.valimail.com/docs/config.html
+      contact:
+        name: Valimail Product Support
+        email: support@valimail.com
+        url: https://support.valimail.com/en/collections/12071845-introduction-to-the-valimail-apis
+  - target: $.info
+    update:
+      description: >-
+        Valimail Configuration API — manage domains/subdomains, DMARC policy
+        rollout, sender integrations, DKIM keys, netblocks for SPF alignment,
+        hosted MTA-STS and TLS-RPT policies, SCIM 2.0 user provisioning, and
+        webhook signature keys. Authenticate via POST /auth (client-id +
+        app-id) to obtain a bearer token.
+  - target: $.paths['/auth'].post
+    update:
+      x-improvement-note: >-
+        Spec declares no operationIds; suggested id authenticate. Adding unique
+        operationIds across all 39 operations would enable SDK generation,
+        Arazzo workflows, and MCP tool derivation.
+  - target: $.servers[2]
+    remove: true
+    description: Remove the localhost development server from the public contract.

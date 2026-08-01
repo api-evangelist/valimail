@@ -1,0 +1,42 @@
+{
+  "provider": "valimail",
+  "sources": [
+    "valimail-accounts-api-openapi.yml",
+    "valimail-authentication-api-openapi.yml",
+    "valimail-dkims-by-domain-api-openapi.yml",
+    "valimail-dkims-by-sender-api-openapi.yml",
+    "valimail-domains-api-openapi.yml",
+    "valimail-mta-sts-policy-api-openapi.yml",
+    "valimail-mta-sts-policy-reports-api-openapi.yml",
+    "valimail-netblocks-api-openapi.yml",
+    "valimail-portfolios-api-openapi.yml",
+    "valimail-scim-api-openapi.yml",
+    "valimail-senders-api-openapi.yml",
+    "valimail-sso-api-openapi.yml",
+    "valimail-tls-configuration-api-openapi.yml",
+    "valimail-users-api-openapi.yml",
+    "valimail-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "valimail-accounts-api-openapi.yml",
+    "valimail-authentication-api-openapi.yml",
+    "valimail-dkims-by-domain-api-openapi.yml",
+    "valimail-dkims-by-sender-api-openapi.yml",
+    "valimail-domains-api-openapi.yml",
+    "valimail-mta-sts-policy-api-openapi.yml",
+    "valimail-mta-sts-policy-reports-api-openapi.yml",
+    "valimail-netblocks-api-openapi.yml",
+    "valimail-portfolios-api-openapi.yml",
+    "valimail-scim-api-openapi.yml",
+    "valimail-senders-api-openapi.yml",
+    "valimail-sso-api-openapi.yml",
+    "valimail-tls-configuration-api-openapi.yml",
+    "valimail-users-api-openapi.yml",
+    "valimail-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

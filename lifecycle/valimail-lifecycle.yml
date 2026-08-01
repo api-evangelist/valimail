@@ -1,0 +1,24 @@
+generated: '2026-07-21'
+method: searched
+source: https://status.valimail.com, openapi/valimail-config-openapi-original.yml
+status_page: https://status.valimail.com
+versioning:
+  scheme: spec-version
+  notes: >-
+    The published OpenAPI documents carry their own versions (Configuration API
+    1.1.0, Account Management API 1.0.0). Paths are mostly unversioned; newer
+    destructive account operations are namespaced under /v2 segments
+    (DELETE /accounts/{slug}/v2, DELETE /accounts/{slug}/v2/users/{user-slug}).
+  current:
+    - api: Configuration API
+      version: 1.1.0
+    - api: Account Management API
+      version: 1.0.0
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No public deprecation policy or RFC 8594 Sunset-header support found (searched 2026-07-21).
+sla:
+  url: https://valimail.com/legal/valimail-support/
+  notes: Ticket priority and support packages page; no public uptime-target SLA found.
+deprecated_operations: []

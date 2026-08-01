@@ -1,0 +1,1926 @@
+openapi: 3.0.0
+info:
+  title: Account Management API
+  description: ValiMail Integration API
+  version: 1.0.0
+
+servers:
+  - url: https://api.valimail.com
+    description: API services
+  - url: https://api.valimail-staging.com
+    description: Stage test server
+  - url: http://localhost:7001
+    description: Local development server
+
+
+paths:
+    /auth:
+      post:
+        tags:
+          - Authentication
+        summary: Authenticates the API user with the credentials (client-id and app-id)
+        description: When the authentication is successful, the response will include a bearer token and a timestamp of when the token expires.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyRequest'
+              example:
+                client-id: "34acfc47-e910-4dcc-bb22-e2816f7e1e4c"
+                app-id: "358e2665-dfb9-4a9f-b8db-c0404b7bf087"
+        responses:
+          '200':
+            description: Ok - Authenticated successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/KeyResponse'
+                example:
+                  token: "M2I2ZjU1NWUtN2E0Mi00NTkyLWEyNWYtNjIwNGNlNTI3NzVh"
+                  expires-at: "2029-10-31T18:26:50.597068836Z"
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+    /accounts/packages:
+      get:
+        summary: Returns a list of packages available for a partner account.
+        description: "This endpoint returns a list of packages available for a partner account. The response will include the package slug and package name. (Packages are listed according to the authenticated credential)"
+        tags:
+        - Accounts
+        responses:
+          '200':
+            description: OK - Packages slugs are provided
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      package-slug:
+                        type: string
+                      package-name:
+                        type: string
+                  example:
+                    - package-slug: "package-slug-1"
+                      package-name: "package-name-1"
+                    - package-slug: "package-slug-2"
+                      package-name: "package-name-2"
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+    /accounts:
+      get:
+        summary: Returns accounts and subsidiaries that are linked to the partner account. (If no query parameters are provided, all accounts and subsidiaries linked to the partner account will be returned.)
+        tags:
+        - Accounts
+        parameters:
+          - name: domains
+            in: query
+            description: "Filter by List of Organizational Domain Names (org domains)."
+            required: false
+            schema:
+              type: array
+              items:
+                type: string
+              example:
+                - "dmarceverywhere.com"
+                - "heytest.com"
+          - name: name
+            in: query
+            description: "Filter by List of Account Names"
+            required: false
+            schema:
+              type: array
+              items:
+                type: string
+              example:
+                - "Valimail"
+                - "MyCompanyName"
+          - name: slug
+            in: query
+            description: "Filter by List of Account Slugs"
+            required: false
+            schema:
+              type: array
+              items:
+                type: string
+              example:
+                - "valimail"
+                - "mycompanyslug"
+          - name: parent-slug
+            in: query
+            description: "Filter by List of Parent Account Slugs (Only valid for admin accounts)"
+            schema:
+              type: array
+              items:
+                type: string
+              example:
+                - "valimail"
+                - "mycompanyslug"
+          - name: reverse
+            in: query
+            description: "Reverse the order of the list to be provided."
+            schema:
+              type: boolean
+            example: false
+          - name: sort-key
+            in: query
+            description: "Sorts the given list by a key. Allowed values: slug, name, parent_slug, enabled_org_domains_limit, blocked_org_domains_limit, sending_sub_domains_limit, approved_senders_limit."
+            schema:
+              type: string
+            example: name
+          - name: page
+            in: query
+            description: Page to be accessed according to the division of items provided
+              in conjunction with the 'per-page' parameter.
+            schema:
+              type: integer
+            example: 1
+          - name: per-page
+            in: query
+            description: Number of accounts per page on the provided list.
+            schema:
+              type: integer
+            example: 100
+        responses:
+          '200':
+            description: OK - Accounts and subsidiaries linked to the partner account are provided. Response fields are omitted when the value is empty or null.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/AccountListItem'
+                  example:
+                    - name: "Valimail"
+                      org-domain-name:
+                        - "dmarceverywhere.com"
+                        - "heytest.com"
+                      parent-slug: "valimail"
+                      slug: "valimail"
+                      enabled-org-domains-limit: "100"
+                      blocked-org-domains-limit: "100"
+                      sending-sub-domains-limit: "100"
+                      approved-senders-limit: "100"
+                    - name: "MyCompanyName"
+                      org-domain-name:
+                        - "dmarceverywhere.com"
+                        - "heytest.com"
+                      parent-slug: "valimail"
+                      slug: "mycompanyslug"
+                      enabled-org-domains-limit: "100"
+                      blocked-org-domains-limit: "100"
+                      sending-sub-domains-limit: "100"
+                      approved-senders-limit: "100"
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+                example:
+                  params: "slug=invalid-account"
+                  detail:
+                    - field: "slug"
+                      value: "invalid-account"
+                      message: "invalid slug provided"
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      post:
+        summary: Creates a new account with the partner account as the parent account and also creates all domains provided in the request body as enabled domains linked to the account that was created.
+        description: "<b>Optional:</b> <br>
+                      - org-domain-name (the list of the domains that will be associated with the account) <br>
+                      - enabled-org-domains-limit (the limit of enabled domains) <br>
+                      - blocked-org-domains-limit (the limit of blocked domains) <br>
+                      - sending-sub-domains-limit (the limit of domains with sender services) <br>
+                      - approved-senders-limit (the limit of approved senders) <br>
+                      - package-slug (if it is not provided, the account will be created with the default package Valimail Core, subject to partner package permissions. To get the package-slug, please use [GET]/accounts/packages endpoint) <br>
+                      <b>Required:</b> <br>
+                      - name (the name of the account. It also is the base for the account slug to be created) <br><br>
+                      <b>Response notes:</b> <br>
+                      - empty or null fields are omitted from the response payload <br>
+                      - numeric limit fields are serialized as strings in the response payload"
+        tags:
+        - Accounts
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: "Name of the account."
+                  org-domain-name:
+                    type: array
+                    items:
+                      type: string
+                    description: "List of domains associated with the account."
+                  enabled-org-domains-limit:
+                    type: integer
+                    description: "Limit of enabled domains."
+                  blocked-org-domains-limit:
+                    type: integer
+                    description: "Limit of blocked domains."
+                  sending-sub-domains-limit:
+                    type: integer
+                    description: "Limit of domains with sender services."
+                  approved-senders-limit:
+                    type: integer
+                    description: "Limit of approved senders."
+                  package-slug:
+                    type: string
+                    description: "Package slug (optional) for the account creation"
+              example:
+                name: "valimail"
+                org-domain-name:
+                  - "dmarceverywhere.com"
+                  - "heytest.com"
+                enabled-org-domains-limit: 100
+                blocked-org-domains-limit: 100
+                sending-sub-domains-limit: 100
+                approved-senders-limit: 100
+                package-slug: "custom-package"
+        responses:
+          '200':
+            description: OK - Account created. Response fields are omitted when the value is empty or null, and numeric limit fields are returned as strings.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Account'
+                  example:
+                    name: "valimail"
+                    org-domain-name:
+                      - "dmarceverywhere.com"
+                      - "heytest.com"
+                    parent-slug: "valimail"
+                    slug: "valimail"
+                    package-slug: "custom-package"
+                    enabled-org-domains-limit: "100"
+                    blocked-org-domains-limit: "100"
+                    sending-sub-domains-limit: "100"
+                    approved-senders-limit: "100"
+          '400':
+            description: Bad Request - Invalid request payload, invalid app-id, or package not available for the partner
+            content:
+              application/json:
+                schema:
+                  oneOf:
+                    - $ref: '#/components/schemas/DelegatedAPIValidationErrorResponse'
+                    - $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+                examples:
+                  missing-name:
+                    value:
+                      params: "{\"org-domain-name\":[\"alpha-example.com\",\"beta-example.com\"],\"enabled-org-domains-limit\":100,\"blocked-org-domains-limit\":200,\"sending-sub-domains-limit\":300,\"approved-senders-limit\":400,\"package-slug\":\"custom-package\"}"
+                      details:
+                        - field: "name"
+                          value: ""
+                          message: "can't be blank"
+                  invalid-package:
+                    value:
+                      request: "/accounts"
+                      message: "package not specified or not available"
+                      type: "invalid-package-error"
+                      call: "internal"
+                  invalid-app-id:
+                    value:
+                      request: "/accounts"
+                      message: "invalid app-id provided"
+                      type: "invalid-app-id"
+                      call: "internal"
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Domain creation failed or one of the requested domains is invalid
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+                example:
+                  request: "/accounts"
+                  message: "Enter a valid organizational domain name."
+                  type: "invalid-domain"
+                  call: "internal"
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Internal API lookup failed or another unclassified server error occurred
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+                example:
+                  request: "/accounts"
+                  message: "Error response from Internal API"
+                  type: "internal-api-error"
+                  call: "internal"
+    /accounts/{slug}:
+      get:
+        summary: Returns a single account that are linked to the partner account according to the account slug provided.
+        tags:
+        - Accounts
+        parameters:
+          - name: slug
+            in: path
+            description: "Account slug to be queried."
+            required: true
+            schema:
+              type: string
+            example: "valimail"
+        responses:
+          '200':
+            description: Ok - Account is provided. Response fields are omitted when the value is empty or null.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AccountListItem'
+                example:
+                  name: "Valimail"
+                  org-domain-name:
+                    - "dmarceverywhere.com"
+                    - "heytest.com"
+                  parent-slug: "valimail"
+                  slug: "valimail"
+                  enabled-org-domains-limit: "100"
+                  blocked-org-domains-limit: "100"
+                  sending-sub-domains-limit: "100"
+                  approved-senders-limit: "100"
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+                example:
+                  params: "slug=invalid+slug"
+                  detail:
+                    - field: "account-slug"
+                      value: "invalid slug"
+                      message: "only allowed alphanumerics, underscore and hyphen"
+          '404':
+            description: Not Found - Account slug does not exist or is not authorized for the authenticated partner.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                example:
+                  request: "/accounts/missing-account"
+                  message: "account not found"
+                  type: "not-found"
+                  call: "api"
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      put:
+        summary: Updates name, limits, and package of authorized accounts according to the slug provided in the path.
+        description: Empty string values are treated as not provided. Numeric 0 values are treated as not provided. If approved-senders-limit is -1, the account stores a null approved sender limit and reads it back as -1. If package-slug is omitted, the existing package is preserved.
+        tags:
+        - Accounts
+        parameters:
+          - name: slug
+            in: path
+            description: "Account slug to be updated."
+            required: true
+            schema:
+              type: string
+            example: "valimail"
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateAccount'
+              example:
+                name: valimail
+                enabled-org-domains-limit: 100
+                blocked-org-domains-limit: 100
+                sending-sub-domains-limit: 100
+                approved-senders-limit: 100
+                package-slug: custom-package
+        responses:
+          '200':
+            description: Ok - Account updated. Response fields are omitted when the value is empty or null, and numeric limit fields are returned as strings.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Account'
+                example:
+                  name: "valimail"
+                  org-domain-name:
+                    - "dmarceverywhere.com"
+                    - "heytest.com"
+                  parent-slug: "valimail"
+                  slug: "valimail"
+                  package-slug: "custom-package"
+                  enabled-org-domains-limit: "100"
+                  blocked-org-domains-limit: "100"
+                  sending-sub-domains-limit: "100"
+                  approved-senders-limit: "100"
+          '400':
+            description: Bad Request - Invalid app-id or package-slug
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                example:
+                  request: /accounts/valimail
+                  message: package not specified or not available
+                  type: invalid-package-error
+                  call: internal
+          '404':
+            description: Not Found - Account slug is invalid or not authorized for the authenticated partner
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+                example:
+                  request: /accounts/valimail
+                  message: account not found
+                  type: not-found
+                  call: internal
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/users:
+      get:
+        summary: Returns users linked to the account slug provided.
+        tags:
+        - Users
+        parameters:
+        - name: slug
+          in: path
+          description: Filter by Account slug.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        - name: email
+          in: query
+          description: Filter by List of emails.
+          schema:
+            type: array
+            items:
+              type: string
+          example:
+          - test@email.com
+          - anothertest@email.com
+        - name: first-name
+          in: query
+          description: Filter by List of First Names.
+          schema:
+            type: array
+            items:
+              type: string
+          example:
+          - John
+          - Jane
+        - name: last-name
+          in: query
+          description: Filter by List of Last Names.
+          schema:
+            type: array
+            items:
+              type: string
+          example:
+          - Doe
+          - Smith
+        - name: user-slug
+          in: query
+          description: Filter by List of User slugs.
+          schema:
+            type: array
+            items:
+              type: string
+          example:
+          - john-doe
+          - jane-smith
+        - name: has-accepted-invitation
+          in: query
+          description: Boolean flag. Use true to return users whose invitation has already been accepted, and false to return users whose invitation has not been accepted.
+          schema:
+            type: boolean
+          example: true
+        - name: user-type
+          in: query
+          description: Filter by List of user types.
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+              - member
+              - owner
+              - marketer
+          example:
+          - owner
+          - marketer
+        - name: reverse
+          in: query
+          description: Reverse the order of the list to be provided.
+          schema:
+            type: boolean
+          example: false
+        - name: sort-key
+          in: query
+          description: 'Sorts the given list by a key. Allowed values: slug, email, first_name, last_name, account_slug, last_active_at, user_type.'
+          schema:
+            type: string
+          example: email
+        - name: page
+          in: query
+          description: Page to be accessed according to the division of items provided
+            in conjunction with the 'per-page' parameter.
+          schema:
+            type: integer
+          example: 1
+        - name: per-page
+          in: query
+          description: Number of users per page on the provided list.
+          schema:
+            type: integer
+          example: 100
+        responses:
+          '200':
+            description: OK - List of the Users linked to the account slug are provided
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/User'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      post:
+        summary: Creates a new user linked to the account slug provided and sends an invitation email.
+        tags:
+        - Users
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to create an user.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUser'
+        responses:
+          '200':
+            description: Ok - New user created and invitation generated. The response
+              includes the activation link that was generated for the invitation.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InvitedUser'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+    /accounts/{slug}/users/{user-slug}/invitation:
+      post:
+        summary: Sends a new invitation email for the existing user and returns the latest activation link.
+        description: If the user has already accepted the invitation, the response
+          returns invitation-accepted-at and an empty activation-link.
+        tags:
+        - Users
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to find the user.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        - name: user-slug
+          in: path
+          description: User slug to receive a new invitation.
+          required: true
+          schema:
+            type: string
+          example: john-doe
+        responses:
+          '200':
+            description: Ok - Invitation email processed. The response includes the
+              latest activation link, or invitation-accepted-at with an empty activation-link
+              when the invitation has already been accepted.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/InvitedUser'
+                examples:
+                  success-invitation-resend:
+                    summary: Invitation resent successfully
+                    value:
+                      email: test@234.com
+                      first-name: John
+                      last-name: Doe
+                      slug: john-doe
+                      account-slug: valimail
+                      last-active-at: '2026-02-24T12:30:00Z'
+                      user-type: owner
+                      activation-link: 'https://app.valimail.com/users/invitation/accept?invitation_token=example-token'
+                  invitation-already-accepted:
+                    summary: User already accepted the invitation
+                    value:
+                      email: test@234.com
+                      first-name: John
+                      last-name: Doe
+                      slug: john-doe
+                      account-slug: valimail
+                      last-active-at: '2026-02-24T12:30:00Z'
+                      invitation-accepted-at: '2026-04-07T09:15:00Z'
+                      user-type: owner
+                      activation-link: ''
+
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - Account or user not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DefaultDelegatedAPIErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+    /accounts/{slug}/users/{user-slug}:
+      get:
+        summary: Returns account user data by account slug and user slug.
+        tags:
+        - Users
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        - name: user-slug
+          in: path
+          description: User slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: john-doe
+        responses:
+          '200':
+            description: Ok - Single User is provided (response fields will appear according
+              to the existing data)
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - Account or user not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      put:
+        summary: Updates user data by account slug and user slug.
+        tags:
+        - Users
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to update an user.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        - name: user-slug
+          in: path
+          description: User slug to be updated.
+          required: true
+          schema:
+            type: string
+          example: john-doe
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+        responses:
+          '200':
+            description: Ok - User Updated (response fields will appear according to
+              the existing data)
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - Account or user not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/v2:
+      delete:
+        summary: Deletes the account according to the account slug provided. Depending
+          on the account's domains, either destroys the account or revokes it by
+          removing its users and domains.
+        tags:
+        - Accounts
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to be deleted.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        responses:
+          '200':
+            description: Ok - Account deleted.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Account'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/v2/users/{user-slug}:
+      delete:
+        summary: Inactivates a user according to the account slug and user slug provided.
+        tags:
+        - Users
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        - name: user-slug
+          in: path
+          description: User slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: john-doe
+        responses:
+          '200':
+            description: deleted user
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UserDelete'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/app/sso:
+      get:
+        summary: Returns the SSO configuration for the account slug provided.
+        tags:
+        - SSO
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        responses:
+          '200':
+            description: Ok - SSO configuration returned.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SsoConfig'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - SSO configuration not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      post:
+        summary: Creates an SSO configuration for the account slug provided.
+        tags:
+        - SSO
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to create an SSO configuration.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SsoCreate'
+        responses:
+          '200':
+            description: Ok - SSO configuration created.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SsoConfig'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      put:
+        summary: Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed.
+        tags:
+        - SSO
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to update the SSO configuration.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SsoCreate'
+        responses:
+          '200':
+            description: Ok - SSO configuration updated.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SsoConfig'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - SSO configuration not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      delete:
+        summary: Deletes the SSO configuration for the account slug provided.
+        tags:
+        - SSO
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to delete the SSO configuration.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        responses:
+          '200':
+            description: Ok - SSO configuration deleted.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SsoConfig'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - SSO configuration not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/portfolios:
+      get:
+        summary: Returns domains connected to portfolios of all linked accounts
+        tags:
+        - Portfolios
+        parameters:
+          - name: slug
+            in: path
+            description: "Account slug to be queried."
+            required: true
+            schema:
+              type: string
+            example: "valimail"
+        responses:
+          '200':
+            description: Ok - A list of all account's portfolios that have domains connected to it.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PortfolioSets'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/domains:
+      $ref: './config.yml#/paths/~1accounts~1{slug}~1domains'
+
+    /accounts/{slug}/domains/{domain}:
+      $ref: './config.yml#/paths/~1accounts~1{slug}~1domains~1{domain}'
+
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    KeyRequest:
+      type: object
+      properties:
+        client-id:
+          type: string
+        app-id:
+          type: string
+    KeyResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        expires-at:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+
+    PortfolioSets:
+      type: array
+      items:
+        properties:
+          portfolio-name:
+            type: string
+          account-name:
+            type: string
+          domain-name:
+            type: string
+          org-domain-name:
+            type: string
+      example:
+        - portfolio-name: "Valimail"
+          account-name: "Valimail"
+          domain-name: "dmarceverywhere.com"
+          org-domain-name: "dmarceverywhere.com"
+        - portfolio-name: "Valimail"
+          account-name: "Valimail"
+          domain-name: "heytest.com"
+          org-domain-name: "heytest.com"
+
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        first-name:
+          type: string
+        last-name:
+          type: string
+        slug:
+          type: string
+        account-slug:
+          type: string
+        last-active-at:
+          type: string
+          format: date-time
+        invitation-accepted-at:
+          type: string
+          format: date-time
+          description: Present when the invitation has already been accepted.
+        user-type:
+          type: string
+          enum:
+            - "member"
+            - "owner"
+            - "marketer"
+      example:
+        email: "test@234.com"
+        first-name: "John"
+        last-name: "Doe"
+        slug: "john-doe"
+        account-slug: "valimail"
+        last-active-at: "2026-02-24T12:30:00Z"
+        invitation-accepted-at: "2026-04-07T09:15:00Z"
+        user-type: "owner"
+
+    InvitedUser:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          activation-link:
+            type: string
+            description: Invitation activation URL. Returned as an empty string when
+              the invitation has already been accepted and invitation-accepted-at
+              is present in the response.
+      example:
+        email: test@234.com
+        first-name: John
+        last-name: Doe
+        slug: john-doe
+        account-slug: valimail
+        last-active-at: '2026-02-24T12:30:00Z'
+        user-type: owner
+        activation-link: 'https://app.valimail.com/users/invitation/accept?invitation_token=example-token'
+
+    CreateUser:
+      type: object
+      properties:
+        email:
+          description: "Email of the user."
+          type: string
+        first-name:
+          description: "First name of the user."
+          type: string
+        last-name:
+          description: "Last name of the user."
+          type: string
+        user-type:
+          description: 'Optional: User type in the account. Defaults to owner. Marketer
+            is only valid when the account supports that role.'
+          type: string
+          enum:
+            - "member"
+            - "owner"
+            - "marketer"
+
+    UserUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+        first-name:
+          type: string
+        last-name:
+          type: string
+        user-type:
+          type: string
+          enum:
+            - "member"
+            - "owner"
+            - "marketer"
+
+    UserDelete:
+      type: object
+      properties:
+        slug:
+          type: string
+        account-slug:
+          type: string
+
+    SsoCreate:
+      type: object
+      properties:
+        cert:
+          type: string
+          description: SAML certificate (manual mode).
+        idp-entity-id:
+          type: string
+          description: Identity provider entity ID (manual mode).
+        saml-endpoint:
+          type: string
+          description: SAML endpoint URL (manual mode).
+        idp-metadata-file:
+          type: string
+          description: IdP metadata file content (metadata mode; mutually exclusive with manual fields).
+        jit-provisioning-enabled:
+          type: boolean
+          description: Enable just-in-time user provisioning.
+        provisioning-domains:
+          type: array
+          items:
+            type: string
+          description: List of domains used for JIT provisioning.
+    SsoConfig:
+      type: object
+      properties:
+        account-slug:
+          type: string
+        cert:
+          type: string
+        idp-entity-id:
+          type: string
+        saml-endpoint:
+          type: string
+        jit-provisioning-enabled:
+          type: boolean
+        provisioning-domains:
+          type: array
+          items:
+            type: string
+        created-at:
+          type: string
+          format: date-time
+        updated-at:
+          type: string
+          format: date-time
+
+    Domain:
+      $ref: './config.yml#/components/schemas/Domain'
+    DomainUpdate:
+      $ref: './config.yml#/components/schemas/DomainUpdate'
+    DomainCreate:
+      $ref: './config.yml#/components/schemas/DomainCreate'
+
+
+    AccountListItem:
+      type: object
+      description: "Account read response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings."
+      properties:
+        name:
+          type: string
+          description: "Required: Name of the account."
+        org-domain-name:
+          type: array
+          items:
+            type: string
+          description: "Optional: List of domains associated with the account."
+        parent-slug:
+          type: string
+          description: "Optional: Partner account slug of the child account"
+        slug:
+          type: string
+          description: "Optional: Account identifier."
+        enabled-org-domains-limit:
+          type: string
+          description: "Optional: Limit of enabled domains, serialized as a string in responses."
+        blocked-org-domains-limit:
+          type: string
+          description: "Optional: Limit of blocked domains, serialized as a string in responses."
+        sending-sub-domains-limit:
+          type: string
+          description: "Optional: Limit of domains with sender services, serialized as a string in responses."
+        approved-senders-limit:
+          type: string
+          description: "Optional: Limit of approved senders, serialized as a string in responses."
+
+
+    Account:
+      type: object
+      description: "Account response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings."
+      properties:
+        name:
+          type: string
+          description: "Required: Name of the account."
+        org-domain-name:
+          type: array
+          items:
+            type: string
+          description: "Optional: List of domains associated with the account."
+        parent-slug:
+          type: string
+          description: "Optional: Partner account slug of the child account"
+        slug:
+          type: string
+          description: "Optional: Account identifier."
+        enabled-org-domains-limit:
+          type: string
+          description: "Optional: Limit of enabled domains, serialized as a string in responses."
+        blocked-org-domains-limit:
+          type: string
+          description: "Optional: Limit of blocked domains, serialized as a string in responses."
+        sending-sub-domains-limit:
+          type: string
+          description: "Optional: Limit of domains with sender services, serialized as a string in responses."
+        approved-senders-limit:
+          type: string
+          description: "Optional: Limit of approved senders, serialized as a string in responses."
+        package-slug:
+          type: string
+          description: "Optional: Slug of the package assigned to the account."
+
+
+    UpdateAccount:
+      type: object
+      properties:
+        name:
+          type: string
+          description: "Name of the account. Empty strings are treated as not provided."
+        enabled-org-domains-limit:
+          type: integer
+          description: "Limit of enabled domains. A value of 0 is treated as not provided."
+        blocked-org-domains-limit:
+          type: integer
+          description: "Limit of blocked domains. A value of 0 is treated as not provided."
+        sending-sub-domains-limit:
+          type: integer
+          description: "Limit of domains with sender services. A value of 0 is treated as not provided."
+        approved-senders-limit:
+          type: integer
+          description: "Limit of approved senders. A value of 0 is treated as not provided. A value of -1 clears the stored limit and reads back as -1."
+        package-slug:
+          type: string
+          description: "Package slug to assign to the account. When omitted, the existing package remains unchanged."
+
+    Senders:
+      type: array
+      items:
+        type: object
+        properties:
+          service_name:
+            type: string
+            description: "Name of the service"
+            example: "SendGrid"
+          service_status:
+            type: string
+            description: "Current status of the service"
+            example: "active"
+          total_messages_count:
+            type: integer
+            description: "Total number of messages"
+            example: 1500
+          passing_percentage:
+            type: number
+            format: float
+            description: "Percentage of passing messages"
+            example: 95.5
+          dmarc_passing_count:
+            type: integer
+            description: "Number of messages passing DMARC"
+            example: 1400
+          dmarc_failing_count:
+            type: integer
+            description: "Number of messages failing DMARC"
+            example: 100
+          allowed_through_no_enforcement_count:
+            type: integer
+            description: "Messages allowed through without enforcement"
+            example: 50
+          allowed_through_with_enforcement_count:
+            type: integer
+            description: "Messages allowed through with enforcement"
+            example: 20
+          aligned_spf_count:
+            type: integer
+            description: "Number of SPF aligned messages"
+            example: 1300
+          failing_or_unaligned_spf_count:
+            type: integer
+            description: "Number of messages failing or unaligned with SPF"
+            example: 200
+          dmarc_overridden_count:
+            type: integer
+            description: "Number of DMARC overridden messages"
+            example: 30
+          quarantined_count:
+            type: integer
+            description: "Number of messages quarantined"
+            example: 10
+          rejected_count:
+            type: integer
+            description: "Number of messages rejected"
+            example: 5
+
+
+
+    Any: {}
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+
+    ValidationResponse:
+       type: object
+       properties:
+         params:
+           type: string
+         detail:
+           type: array
+           items:
+             $ref: '#/components/schemas/ValidationDetail'
+
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+          nullable: true
+        message:
+          type: string
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+
+    EmptyObjectResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        request-id:
+          type: string

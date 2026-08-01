@@ -1,0 +1,32 @@
+generated: '2026-07-21'
+method: searched
+probe: true
+source: https://security.valimail.com/
+url: https://security.valimail.com/
+platform: SafeBase
+certifications:
+- SOC 2 Type II
+- SOC 3
+- FedRAMP LI-SaaS
+fedramp_marketplace: https://marketplace.fedramp.gov/products/FR1817874315
+documents:
+- Security Whitepaper
+- SOC 2 Type 2 report
+- SOC 3 report
+- Application Penetration Testing
+- Cyber Insurance
+- Data Processing Agreement
+programs:
+- Audit logging, SSO support, role-based access control
+- Incident response (designated personnel, StatusPage)
+- BC/DR (disaster recovery plan, backups, tabletop exercises)
+- Encryption at rest, access monitoring
+- AI risk management / AI governance / third-party AI diligence
+evidence:
+- source: https://security.valimail.com/
+  keywords:
+  - soc 2
+  - soc 3
+  - fedramp
+  - trust center
+  - responsible disclosure

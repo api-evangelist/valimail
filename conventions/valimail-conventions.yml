@@ -1,0 +1,49 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/valimail-config-openapi-original.yml, openapi/valimail-account-openapi-original.yml, https://support.valimail.com/en/articles/10911168-api-authentication-and-authorization
+authentication:
+  style: bearer-token
+  detail: >-
+    Exchange API credentials (client-id + app-id, created via API Key
+    Self-Service in the Enforce app) for a bearer JWT via POST /auth; send
+    "Authorization: Bearer <token>" on all subsequent requests. Tokens carry
+    an expires-at timestamp. GET /healthcheck verifies service availability.
+  cross_link: authentication/valimail-authentication.yml
+idempotency:
+  supported: false
+  notes: >-
+    No Idempotency-Key header or idempotency contract is documented in either
+    published spec or the API docs. Create endpoints return 409 Conflict on
+    duplicates (existing sender link, DKIM selector, netblock, user), which
+    provides natural replay-safety for most creates.
+pagination:
+  style: page-offset
+  params: [limit, page, sort, sort-key, reverse]
+  notes: >-
+    Present on list/reporting endpoints (e.g. TLS reporting); many collection
+    endpoints (domains, senders, dkims, netblocks) return unpaginated lists.
+field_expansion:
+  supported: false
+filtering:
+  params: [filter, start-date, end-date, domain-names, policy-mode, policy-type, policy-mx-host, org-domain-only, dmarc-policy, enforcement-status, sending-status]
+  notes: SCIM endpoints accept RFC 7644 filter syntax; reporting endpoints filter by date-range and domain.
+request_tracing:
+  response_field: request-id
+  notes: Error envelope carries a request-id plus a call field identifying the failing layer.
+versioning:
+  scheme: spec-version
+  notes: Spec-level versions (Config 1.1.0, Account 1.0.0); destructive account deletes namespaced under /v2 path segments.
+  cross_link: lifecycle/valimail-lifecycle.yml
+error_envelope:
+  shape: '{request, message, type, request-id, call, status}'
+  content_type: application/json
+  cross_link: errors/valimail-problem-types.yml
+rate_limits:
+  signaling: 429 status ("Over Rate - Rate limit exceeded") documented on most operations; no documented rate-limit headers.
+webhooks:
+  signing: Ed25519 signatures; public keys published at GET /webhooks/keys (map of key ID to base64 key).
+  cross_link: asyncapi/valimail-webhooks.yml
+environments:
+  production: https://api.valimail.com
+  staging: https://api.valimail-staging.com
+  cross_link: sandbox/valimail-sandbox.yml

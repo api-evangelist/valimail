@@ -1,0 +1,88 @@
+generated: '2026-07-21'
+method: derived
+status: candidate
+source: openapi/valimail-config-openapi-original.yml, openapi/valimail-account-openapi-original.yml
+notes: >-
+  No official Valimail MCP server was found (official MCP registry, npm, docs
+  searched 2026-07-21). This is a candidate tool list derived from the published
+  Configuration and Account Management OpenAPI documents. The specs declare no
+  operationIds, so tools reference method + path.
+server:
+  name: valimail
+  transport: http
+tools:
+  - name: authenticate
+    description: Authenticate with client-id and app-id to obtain a bearer token
+    source_operation: openapi/valimail-config-openapi-original.yml#POST /auth
+  - name: list_domains
+    description: List domains and subdomains for an account
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /accounts/{slug}/domains
+  - name: create_domain
+    description: Add a domain or subdomain to an account
+    source_operation: openapi/valimail-config-openapi-original.yml#POST /accounts/{slug}/domains
+  - name: get_domain
+    description: Get a domain or subdomain's configuration
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /accounts/{slug}/domains/{domain}
+  - name: update_domain_policy
+    description: Update a domain's dmarc-policy and sending-status
+    source_operation: openapi/valimail-config-openapi-original.yml#PUT /accounts/{slug}/domains/{domain}
+  - name: delete_domain
+    description: Delete a domain from an account
+    source_operation: openapi/valimail-config-openapi-original.yml#DELETE /accounts/{slug}/domains/{domain}
+  - name: list_domain_senders
+    description: List sender integrations linked to a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /accounts/{slug}/domains/{domain}/senders
+  - name: link_sender
+    description: Link a sender service (e.g. SendGrid, Mailgun) to a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#POST /accounts/{slug}/domains/{domain}/senders
+  - name: list_available_senders
+    description: List the catalog of sender services available to connect
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /resource/senders
+  - name: list_domain_dkims
+    description: List DKIM keys for a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /accounts/{slug}/domains/{domain}/dkims
+  - name: create_dkim
+    description: Create a DKIM key for a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#POST /accounts/{slug}/domains/{domain}/dkims
+  - name: list_netblocks
+    description: List netblocks (SPF sources) for a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /accounts/{slug}/domains/{domain}/netblocks
+  - name: create_netblock
+    description: Add a netblock (IP/CIDR) for a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#POST /accounts/{slug}/domains/{domain}/netblocks
+  - name: get_mta_sts_policy
+    description: Get the MTA-STS policy for a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /accounts/{slug}/domains/{domain}/mta_sts_policy
+  - name: create_mta_sts_policy
+    description: Create an MTA-STS policy for a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#POST /accounts/{slug}/domains/{domain}/mta_sts_policy
+  - name: create_tls_rpt_policy
+    description: Create a TLS-RPT (SMTP TLS reporting) policy for a domain
+    source_operation: openapi/valimail-config-openapi-original.yml#POST /accounts/{slug}/domains/{domain}/smtp_tls_policy
+  - name: get_tls_summary
+    description: Get TLS reporting summary for an account
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /accounts/{slug}/mta-sts/tls/summary
+  - name: scim_list_users
+    description: List users in SCIM 2.0 format (RFC 7644)
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /accounts/{slug}/scim/v2/Users
+  - name: scim_create_user
+    description: Create a user via SCIM 2.0
+    source_operation: openapi/valimail-config-openapi-original.yml#POST /accounts/{slug}/scim/v2/Users
+  - name: get_webhook_keys
+    description: Get the public keys used to verify webhook signatures
+    source_operation: openapi/valimail-config-openapi-original.yml#GET /webhooks/keys
+  - name: list_accounts
+    description: List accounts and subsidiaries linked to the partner account
+    source_operation: openapi/valimail-account-openapi-original.yml#GET /accounts
+  - name: create_account
+    description: Create a new customer account under the partner account
+    source_operation: openapi/valimail-account-openapi-original.yml#POST /accounts
+  - name: list_packages
+    description: List packages available for a partner account
+    source_operation: openapi/valimail-account-openapi-original.yml#GET /accounts/packages
+  - name: create_account_user
+    description: Create a user on a customer account
+    source_operation: openapi/valimail-account-openapi-original.yml#POST /accounts/{slug}/users
+  - name: configure_sso
+    description: Create an SSO configuration for an account
+    source_operation: openapi/valimail-account-openapi-original.yml#POST /accounts/{slug}/app/sso

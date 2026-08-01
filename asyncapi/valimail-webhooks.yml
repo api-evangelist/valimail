@@ -1,0 +1,35 @@
+generated: '2026-07-21'
+method: derived
+type: Webhooks
+source: openapi/valimail-config-openapi-original.yml#GET /webhooks/keys, https://support.valimail.com/en/articles/12167189-smart-alerts
+spec_type: none
+notes: >-
+  Valimail publishes no AsyncAPI document (searched docs, GitHub org, and
+  /asyncapi.yaml paths 2026-07-21). It does operate an event/notification
+  surface, captured here without fabricating channel schemas.
+webhooks:
+  signature_verification:
+    algorithm: Ed25519
+    keys_endpoint: https://api.valimail.com/webhooks/keys
+    keys_format: JSON map of key ID to base64-encoded Ed25519 public key
+    source: openapi/valimail-config-openapi-original.yml
+  events:
+    documented_catalog: null
+    notes: >-
+      The Configuration API publishes webhook signature keys, but Valimail does
+      not publish a public catalog of webhook event types; webhook delivery is
+      configured with Valimail per account.
+email_notifications:
+  smart_alerts:
+    docs: https://support.valimail.com/en/articles/12167189-smart-alerts
+    description: Automated email notifications to account Owners on high-impact actions.
+    triggers:
+      - MFA personal-level updates
+      - MFA account-level updates
+      - SSO updates
+      - Domain added
+      - Domain deleted
+      - Possible internal sender detected
+  configurable_alerts:
+    docs: https://support.valimail.com/en/collections/15127959-alerts
+    description: Configurable email alerts in Enforce, Monitor, and Align.

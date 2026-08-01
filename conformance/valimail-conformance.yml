@@ -1,0 +1,52 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/valimail-config-openapi-original.yml, support.valimail.com API docs, marketplace.fedramp.gov
+standards:
+  - id: scim-2.0
+    conforms: true
+    evidence: >-
+      Configuration API exposes /accounts/{slug}/scim/v2/Users endpoints
+      "in SCIM format according to RFC 7644" (GET/POST/PATCH), used for
+      SCIM-based user and group provisioning from IdPs (Okta, Azure AD).
+  - id: oauth2
+    conforms: false
+    evidence: >-
+      No OAuth2 flows; auth is a proprietary credential exchange (POST /auth
+      with client-id + app-id) returning a bearer JWT (http bearer securityScheme).
+  - id: oidc
+    conforms: false
+    evidence: No /.well-known/openid-configuration on any probed host (404, probed 2026-07-21).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: Errors use a custom JSON envelope (ErrorResponse), not application/problem+json.
+  - id: rate-limiting
+    conforms: true
+    evidence: 429 "Over Rate - Rate limit exceeded" documented on 31 of 39 Configuration API operations.
+  - id: pagination
+    conforms: partial
+    evidence: limit/page/sort/reverse query parameters on list endpoints (e.g. TLS reporting endpoints); not uniform across all collections.
+  - id: mta-sts-rfc8461
+    conforms: true
+    evidence: Hosted MTA-STS policy management (mta_sts_policy endpoints) and Valimail-hosted policy/discovery CNAMEs per RFC 8461.
+  - id: tls-rpt-rfc8460
+    conforms: true
+    evidence: TLS-RPT (smtp_tls_policy) endpoints and TLS summary/failure-details reporting per RFC 8460.
+  - id: dmarc-rfc7489
+    conforms: true
+    evidence: Core product manages DMARC policies (RFC 7489) — dmarc-policy fields, enforcement status, reporting.
+  - id: spf-rfc7208
+    conforms: true
+    evidence: Netblock/SPF alignment management endpoints; Valimail maintains the coppertone SPF toolkit.
+  - id: dkim-rfc6376
+    conforms: true
+    evidence: DKIM key management endpoints (dkims/selectors) across domains and senders.
+  - id: webhook-signatures-ed25519
+    conforms: true
+    evidence: GET /webhooks/keys returns key IDs mapped to base64 Ed25519 public keys for webhook signature verification.
+  - id: fedramp
+    conforms: true
+    evidence: >-
+      Valimail Enforce is listed on the FedRAMP Marketplace
+      (https://marketplace.fedramp.gov/products/FR1817874315).
+compliance_program:
+  fedramp: https://marketplace.fedramp.gov/products/FR1817874315

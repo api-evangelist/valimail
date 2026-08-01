@@ -1,22 +1,276 @@
 aid: valimail
-name: ValiMail
-description: ValiMail is a company surfaced as a portfolio company of bloomberg-beta, insight-partners
-  and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the
-  enrichment pipeline.
+name: Valimail
+description: >-
+  Valimail is an email authentication platform that automates DMARC enforcement
+  to stop phishing, spoofing, and brand impersonation. Its Monitor, Enforce,
+  Amplify, and Align products give organizations visibility into every service
+  sending on their domains and manage SPF, DKIM, DMARC, BIMI, MTA-STS, and
+  TLS-RPT at scale. Valimail publishes REST APIs — a DMARC Configuration API,
+  a partner Account Management API, and a Reporting Data API — secured with
+  bearer tokens, plus SCIM 2.0 user provisioning and Ed25519-signed webhooks.
+  The platform is FedRAMP LI-SaaS authorized and SOC 2 Type II certified.
 url: https://raw.githubusercontent.com/api-evangelist/valimail/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - bloomberg-beta
 - insight-partners
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profile
+x-tier-reason: enriched-from-portfolio-lead
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-21'
+image: https://api.valimail.com/images/sites/valimail/favicon_64.png
 tags:
-- Company
-apis: []
+- Email Authentication
+- DMARC
+- Email Security
+- SPF
+- DKIM
+- BIMI
+- MTA-STS
+- Anti-Phishing
+- Deliverability
+- Cybersecurity
+apis:
+- name: Valimail Reporting Data API
+  description: >-
+    Retrieve email authentication metrics, sender reports, and unidentified sender reports for compliance
+    dashboards and security insights. Documented for customers in the Valimail help center; credentials
+    are issued per API key with Reporting API access. No public machine-readable spec is published.
+  humanURL: https://support.valimail.com/en/articles/10911206-api-overview
+  baseURL: https://api.valimail.com
+  tags:
+  - Reporting
+  - DMARC
+  - Analytics
+  properties:
+  - type: Documentation
+    url: >-
+      https://support.valimail.com/en/articles/10582146-generating-reports-or-dashboards-via-api
+- aid: valimail:valimail-accounts-api
+  name: Valimail Accounts API
+  description: The Accounts API from Valimail — 4 operation(s) for accounts.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-accounts-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-authentication-api
+  name: Valimail Authentication API
+  description: The Authentication API from Valimail — 1 operation(s) for authentication.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-authentication-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-dkims-by-domain-api
+  name: Valimail DKIMs by Domain API
+  description: The DKIMs by Domain API from Valimail — 2 operation(s) for dkims by domain.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - DKIMs by Domain
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-dkims-by-domain-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-dkims-by-sender-api
+  name: Valimail DKIMs by Sender API
+  description: The DKIMs by Sender API from Valimail — 2 operation(s) for dkims by sender.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - DKIMs by Sender
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-dkims-by-sender-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-domains-api
+  name: Valimail Domains API
+  description: The Domains API from Valimail — 2 operation(s) for domains.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Domains
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-domains-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-mta-sts-policy-api
+  name: Valimail MTA-STS Policy API
+  description: The MTA-STS Policy API from Valimail — 2 operation(s) for mta-sts policy.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - MTA-STS Policy
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-mta-sts-policy-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-mta-sts-policy-reports-api
+  name: Valimail MTA-STS Policy Reports API
+  description: >-
+    The MTA-STS Policy Reports API from Valimail — 3 operation(s) for mta-sts policy reports.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - MTA-STS Policy Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-mta-sts-policy-reports-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-netblocks-api
+  name: Valimail Netblocks API
+  description: The Netblocks API from Valimail — 2 operation(s) for netblocks.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Netblocks
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-netblocks-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-portfolios-api
+  name: Valimail Portfolios API
+  description: The Portfolios API from Valimail — 1 operation(s) for portfolios.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Portfolios
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-portfolios-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-scim-api
+  name: Valimail SCIM API
+  description: The SCIM API from Valimail — 2 operation(s) for scim.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-scim-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-senders-api
+  name: Valimail Senders API
+  description: The Senders API from Valimail — 3 operation(s) for senders.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Senders
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-senders-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-sso-api
+  name: Valimail SSO API
+  description: The SSO API from Valimail — 1 operation(s) for sso.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - SSO
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-sso-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-tls-configuration-api
+  name: Valimail TLS Configuration API
+  description: The TLS Configuration API from Valimail — 2 operation(s) for tls configuration.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - TLS Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-tls-configuration-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-users-api
+  name: Valimail Users API
+  description: The Users API from Valimail — 4 operation(s) for users.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-users-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-webhooks-api
+  name: Valimail Webhooks API
+  description: The Webhooks API from Valimail — 1 operation(s) for webhooks.
+  humanURL: https://api.valimail.com/docs/config.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-webhooks-api-openapi.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/config.html
+  - type: APIReference
+    url: https://api.valimail.com/docs/account.html
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -24,4 +278,75 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: http://www.valimail.com/
+  url: https://www.valimail.com/
+- type: Portal
+  url: https://app.valimail.com
+- type: Documentation
+  url: https://support.valimail.com/en/collections/6449843-learn-more-about-our-apis
+- type: APIReference
+  url: https://api.valimail.com/docs/config.html
+- type: GettingStarted
+  url: https://support.valimail.com/en/articles/10580387-requesting-api-access
+- type: Support
+  url: https://support.valimail.com/en/
+- type: Blog
+  url: https://www.valimail.com/blog/
+- type: GitHubOrganization
+  url: https://github.com/ValiMail
+- type: Pricing
+  url: https://www.valimail.com/pricing/
+- type: Login
+  url: https://app.valimail.com/auth/users/sign_in
+- type: TermsOfService
+  url: https://www.valimail.com/legal/terms-conditions/
+- type: PrivacyPolicy
+  url: https://www.valimail.com/legal/privacy/
+- type: StatusPage
+  url: https://status.valimail.com
+- type: ChangeLog
+  url: changelog/valimail-changelog.yml
+- type: Lifecycle
+  url: lifecycle/valimail-lifecycle.yml
+- type: Authentication
+  url: authentication/valimail-authentication.yml
+- type: Security
+  url: https://security.valimail.com/
+- type: VulnerabilityDisclosure
+  url: security/valimail-vulnerability-disclosure.yml
+- type: TrustCenter
+  url: security/valimail-trust-center.yml
+- type: Compliance
+  url: https://security.valimail.com/
+- type: DomainSecurity
+  url: security/valimail-domain-security.yml
+- type: Conformance
+  url: conformance/valimail-conformance.yml
+- type: ErrorCatalog
+  url: errors/valimail-problem-types.yml
+- type: Conventions
+  url: conventions/valimail-conventions.yml
+- type: Sandbox
+  url: sandbox/valimail-sandbox.yml
+- type: Packages
+  url: packages/valimail-packages.yml
+- type: MCPServer
+  url: mcp/valimail-mcp.yml
+- type: LLMsTxt
+  url: llms/valimail-llms.txt
+- type: WellKnown
+  url: well-known/valimail-well-known.yml
+- type: Webhooks
+  url: asyncapi/valimail-webhooks.yml
+- type: DataModel
+  url: data-model/valimail-data-model.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: AgenticAccess
+  url: agentic-access/valimail-agentic-access.yml
+- type: APITermsOfUse
+  url: https://www.valimail.com/api-terms-of-use/
+x-enrichment:
+  date: '2026-07-21'
+  status: enriched
+  artifacts_added: 25
+  pass: local-v1

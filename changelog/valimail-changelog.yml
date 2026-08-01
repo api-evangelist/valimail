@@ -1,0 +1,19 @@
+generated: '2026-07-21'
+method: searched
+source: https://support.valimail.com/en/articles/8466364-news-page
+docs: https://support.valimail.com/en/articles/8466364-news-page
+scheme: in-app-news-feed
+notes: >-
+  Valimail publishes product release news through the in-app News page in
+  Enforce (left menu, below Help): recently released features, upcoming
+  features in the pipeline, and recent bug fixes, across New Features /
+  Industry News / Partner News tabs. The feed is only visible to logged-in
+  customers, so no public dated entries can be captured here. The published
+  API specs carry their own versions (Configuration API 1.1.0, Account
+  Management API 1.0.0).
+current_versions:
+  - api: Configuration API
+    version: 1.1.0
+  - api: Account Management API
+    version: 1.0.0
+entries: []

@@ -1,0 +1,52 @@
+generated: '2026-07-21'
+method: searched
+source: npm, PyPI, RubyGems registry searches + github.com/ValiMail
+notes: >-
+  Valimail publishes no first-party client SDK for its hosted APIs (Configuration,
+  Reporting, Account Management) — API access is via REST with bearer tokens.
+  The packages below are Valimail's first-party open-source email-authentication
+  libraries published from the ValiMail GitHub org.
+packages:
+  - language: python
+    registry: pypi
+    name: authheaders
+    url: https://pypi.org/project/authheaders/
+    install: pip install authheaders
+    official: true
+    repository: https://github.com/ValiMail/authentication-headers
+    description: Library wrapping email authentication header verification and generation (DKIM/SPF/DMARC/ARC).
+    version: 0.16.3
+  - language: python
+    registry: pypi
+    name: dane-discovery
+    url: https://pypi.org/project/dane-discovery/
+    install: pip install dane-discovery
+    official: true
+    repository: https://github.com/valimail/dane_discovery
+    description: Certificate/public key discovery with DANE.
+    version: '0.22'
+  - language: ruby
+    registry: rubygems
+    name: coppertone
+    url: https://rubygems.org/gems/coppertone
+    install: gem install coppertone
+    official: true
+    repository: https://github.com/ValiMail/coppertone
+    description: Sender Policy Framework (SPF) toolkit for Ruby.
+    version: 0.0.13
+  - language: ruby
+    registry: rubygems
+    name: dns_adapter
+    url: https://rubygems.org/gems/dns_adapter
+    install: gem install dns_adapter
+    official: true
+    repository: https://github.com/ValiMail/dns_adapter
+    description: An adapter layer for DNS queries.
+    version: 0.1.0
+  - language: javascript
+    registry: npm
+    name: '@valimail/dmarc-subject-parser'
+    url: https://www.npmjs.com/package/@valimail/dmarc-subject-parser
+    install: npm install @valimail/dmarc-subject-parser
+    official: true
+    description: DMARC report subject parser published under the @valimail npm scope.

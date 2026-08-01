@@ -1,0 +1,30 @@
+generated: '2026-07-21'
+method: searched
+source: https://support.valimail.com/en/articles/10911168-api-authentication-and-authorization
+docs: https://support.valimail.com/en/articles/10911168-api-authentication-and-authorization
+notes: >-
+  Valimail does not publish magic test values or test API keys. Its documented
+  testing pattern is a sandbox DOMAIN: customers configure a test domain or
+  subdomain via the DMARC Configuration API to explore endpoints and validate
+  policy changes before applying them to production domains. The published
+  Configuration API OpenAPI also declares a staging server host.
+modes:
+  - name: sandbox-domain
+    description: >-
+      Use the DMARC Configuration API against a test domain/subdomain to
+      explore available endpoints, test configuration changes before applying
+      them to production, and ensure policy updates function as expected.
+      Once validated, load production domains through the API.
+    docs: https://support.valimail.com/en/articles/10911168-api-authentication-and-authorization
+  - name: staging-server
+    description: Stage test server declared in the published Configuration API OpenAPI servers[].
+    base_url: https://api.valimail-staging.com
+    source: openapi/valimail-config-openapi-original.yml
+  - name: mta-sts-testing-mode
+    description: >-
+      MTA-STS policies are created with policy-mode "testing" first; Valimail's
+      guide instructs to verify delivery in testing mode and only then switch
+      the policy to enforce.
+    docs: https://support.valimail.com/en/articles/12385962-implement-mta-sts-hosting-tls-reporting-with-valimail-api-guide
+test_credentials: none-published
+test_values: none-published

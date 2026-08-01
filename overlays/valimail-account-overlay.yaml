@@ -1,0 +1,31 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Valimail Account Management API
+  version: 1.0.0
+x-generated: '2026-07-21'
+x-method: generated
+extends: openapi/valimail-account-openapi-original.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist:
+        provider: valimail
+        harvested: '2026-07-21'
+        source: https://api.valimail.com/docs/account.yml
+        docs: https://api.valimail.com/docs/account.html
+      contact:
+        name: Valimail Product Support
+        email: support@valimail.com
+        url: https://support.valimail.com/en/articles/10582162-create-and-manage-customer-configuration-via-the-account-management-api
+  - target: $.info
+    update:
+      description: >-
+        Valimail Account Management API (partners only) — create and manage
+        customer accounts, subsidiaries, users and invitations, SSO
+        configuration, subscription packages and limits, and portfolios of
+        domains across linked accounts.
+  - target: $.paths['/accounts'].post
+    update:
+      x-improvement-note: >-
+        Spec declares no operationIds; suggested id createAccount. Adding
+        unique operationIds would enable SDK generation and workflow tooling.

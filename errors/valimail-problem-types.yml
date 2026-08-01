@@ -1,0 +1,54 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/valimail-config-openapi-original.yml, openapi/valimail-account-openapi-original.yml
+format: custom-envelope
+envelope:
+  content_type: application/json
+  fields:
+    - name: request
+      description: The request path that produced the error
+    - name: message
+      description: Human-readable error message
+    - name: type
+      description: Machine-readable error type (e.g. service-unavailable, internal-error)
+    - name: request-id
+      description: Unique request identifier for tracing/support
+    - name: call
+      description: Which layer produced the error (e.g. api, internal)
+    - name: status
+      description: Status string (DefaultOdinErrorResponse variant)
+  schemas: [ErrorResponse, DefaultOdinErrorResponse]
+notes: >-
+  Valimail does not use RFC 9457 application/problem+json; both published specs
+  share a JSON error envelope (ErrorResponse / DefaultOdinErrorResponse).
+problems:
+  - status: 400
+    title: Bad Request
+    detail: Invalid request parameters, invalid payload, invalid filter syntax, or missing Authorization Bearer header.
+    example_message: 'missing Authorization: Bearer header'
+  - status: 401
+    title: Unauthorized
+    detail: Authentication failed — bearer token missing, invalid, or expired. Re-authenticate via POST /auth.
+  - status: 403
+    title: Forbidden
+    detail: Authorization failed for the account/API key, or an account quota was exceeded (e.g. approved sender quota).
+  - status: 404
+    title: Not Found
+    detail: Account, domain, sender, DKIM selector, netblock, or report not found for the given identifiers.
+  - status: 409
+    title: Conflict
+    detail: Resource already exists — existing sender/domain link, existing DKIM selector, existing netblock, or user already exists.
+  - status: 422
+    title: Unprocessable Entity
+    detail: Invalid data; the request parsed but failed validation or normalization.
+  - status: 429
+    title: Over Rate
+    detail: Rate limit exceeded. Back off and retry.
+  - status: 500
+    title: Internal Server Error
+    detail: Service, database, or unclassified error.
+    example_message: internal server error
+  - status: 503
+    title: Service Unavailable
+    detail: Dependent capability not configured/available (e.g. webhook public keys not configured).
+    example_type: service-unavailable

@@ -1,0 +1,32 @@
+generated: '2026-07-21'
+method: searched
+source: openapi/valimail-account-openapi-original.yml, openapi/valimail-config-openapi-original.yml
+docs: https://support.valimail.com/en/articles/10911168-api-authentication-and-authorization
+summary:
+  types:
+  - http
+  flow: credential-exchange-to-bearer
+schemes:
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  sources:
+  - openapi/valimail-account-openapi-original.yml
+  - openapi/valimail-config-openapi-original.yml
+credential_exchange:
+  endpoint: POST https://api.valimail.com/auth
+  request: '{"client-id": "...", "app-id": "..."}'
+  response: '{"token": "...", "expires-at": "ISO-8601 timestamp"}'
+  usage: 'Authorization: Bearer <token> on all subsequent requests'
+  healthcheck: GET /healthcheck confirms API availability
+key_management:
+  self_service: https://support.valimail.com/en/articles/11322142-api-key-self-service
+  notes: >-
+    API keys (Client ID + App ID) are created in the Enforce app under Account
+    Settings -> API KEYS by Owner-type users; SSO or MFA must be enabled on the
+    account before keys can be created. Key access is scoped per API
+    (Configuration API, Reporting API, or both). Account Management API access
+    is granted to partners by Product Support. API access is included with
+    Enforce Enterprise and a paid add-on on Starter/Premium plans.
+  access_request: https://support.valimail.com/en/articles/10580387-requesting-api-access

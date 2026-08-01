@@ -1,0 +1,96 @@
+generated: '2026-07-21'
+method: derived
+source: openapi/valimail-config-openapi-original.yml, openapi/valimail-account-openapi-original.yml
+notes: >-
+  Entity graph derived from the resource paths and schemas of the published
+  Configuration and Account Management APIs. Identifiers are human-readable
+  slugs (account slug, sender-slug, user-slug), domain names, DKIM selectors,
+  and IP/CIDR netblocks rather than opaque prefixed ids.
+entities:
+  - name: Account
+    id: slug
+    description: Customer or partner account; partners manage child accounts and subsidiaries.
+  - name: Package
+    id: package
+    description: Subscription package available to a partner account.
+  - name: User
+    id: user-slug
+    description: Account user; also exposed in SCIM 2.0 format under /scim/v2/Users.
+  - name: SSOConfiguration
+    description: Single Sign-On configuration for an account.
+  - name: Domain
+    id: domain
+    description: Domain or subdomain under management, with dmarc-policy and sending-status.
+  - name: Sender
+    id: sender-slug
+    description: Third-party sending service (e.g. SendGrid, Mailgun) linked to a domain; global catalog at /resource/senders.
+  - name: DKIMKey
+    id: selector
+    description: DKIM key, attached to a domain directly or to a sender within a domain.
+  - name: Netblock
+    id: netblock (IP or CIDR)
+    description: IP range representing an SPF-legitimate mail source for a domain.
+  - name: MTASTSPolicy
+    description: Hosted MTA-STS policy for a domain (policy-mode, mx-hosts, max-age).
+  - name: SMTPTLSPolicy
+    description: TLS-RPT policy for a domain (rua-uris report destinations).
+  - name: TLSReport
+    description: Aggregated TLS reporting data (summary, failure details) per account.
+  - name: Portfolio
+    description: Grouping of domains across linked accounts (Account Management API).
+  - name: WebhookPublicKey
+    id: key id
+    description: Ed25519 public key used to verify webhook signatures.
+relationships:
+  - from: Account
+    to: Account
+    kind: has_many
+    via: /accounts (partner parent -> child accounts/subsidiaries)
+  - from: Account
+    to: Package
+    kind: has_one
+    via: package (PUT /accounts/{slug})
+  - from: Account
+    to: User
+    kind: has_many
+    via: /accounts/{slug}/users
+  - from: Account
+    to: SSOConfiguration
+    kind: has_one
+    via: /accounts/{slug}/app/sso
+  - from: Account
+    to: Domain
+    kind: has_many
+    via: /accounts/{slug}/domains
+  - from: Account
+    to: Portfolio
+    kind: has_many
+    via: /accounts/{slug}/portfolios
+  - from: Domain
+    to: Sender
+    kind: has_many
+    via: /accounts/{slug}/domains/{domain}/senders
+  - from: Domain
+    to: DKIMKey
+    kind: has_many
+    via: /accounts/{slug}/domains/{domain}/dkims
+  - from: Sender
+    to: DKIMKey
+    kind: has_many
+    via: /accounts/{slug}/domains/{domain}/senders/{sender-slug}/dkims
+  - from: Domain
+    to: Netblock
+    kind: has_many
+    via: /accounts/{slug}/domains/{domain}/netblocks
+  - from: Domain
+    to: MTASTSPolicy
+    kind: has_one
+    via: /accounts/{slug}/domains/{domain}/mta_sts_policy
+  - from: Domain
+    to: SMTPTLSPolicy
+    kind: has_one
+    via: /accounts/{slug}/domains/{domain}/smtp_tls_policy
+  - from: Account
+    to: TLSReport
+    kind: has_many
+    via: /accounts/{slug}/mta-sts/tls
