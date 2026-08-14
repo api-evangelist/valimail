@@ -31,7 +31,7 @@ accessModel:
   method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-21'
+modified: '2026-08-14'
 image: https://api.valimail.com/images/sites/valimail/favicon_64.png
 tags:
 - Email Authentication
@@ -271,6 +271,38 @@ apis:
     url: https://api.valimail.com/docs/config.html
   - type: APIReference
     url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-partner-api
+  name: Valimail Partner API
+  description: >-
+    The Valimail Partner API is the reseller/MSP surface for managing customer
+    accounts under a partner account — account lifecycle (create, read, update,
+    delete, and hard-delete under /v2), user lifecycle and invitations, full SSO
+    configuration CRUD, subscription packages, portfolios, and an account senders
+    report. OpenAPI 3.0.0, 12 paths, 21 operations, bearer-JWT secured via the
+    shared POST /auth credential exchange. Overlaps the Account Management API
+    but adds GET /accounts/{slug}/reports/senders and the GET/PUT/DELETE SSO
+    operations. Discovered 2026-08-14 at https://api.valimail.com/docs/partner.yml;
+    it is served from Valimail's own API host, its servers[] are
+    api.valimail.com / api.valimail-staging.com, and info.title is "Partner API"
+    with description "ValiMail Integration API" — but nothing in the Valimail
+    help center links to it.
+  humanURL: https://api.valimail.com/docs/partner.html
+  baseURL: https://api.valimail.com
+  tags:
+  - Partner
+  - Accounts
+  - Users
+  - SSO
+  - Portfolios
+  properties:
+  - type: OpenAPI
+    url: openapi/_original/valimail-partner-openapi-original.yml
+  - type: APIReference
+    url: https://api.valimail.com/docs/partner.html
+  - type: Overlay
+    url: overlays/valimail-partner-overlay.yaml
+  - type: Documentation
+    url: https://support.valimail.com/en/collections/12071845-introduction-to-the-valimail-apis
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -279,6 +311,10 @@ maintainers:
 common:
 - type: Overlay
   url: overlays/valimail-account-overlay.yaml
+- type: Overlay
+  url: overlays/valimail-config-overlay.yaml
+- type: Overlay
+  url: overlays/valimail-partner-overlay.yaml
 - type: Website
   url: https://www.valimail.com/
 - type: Portal
@@ -299,6 +335,10 @@ common:
   url: https://www.valimail.com/pricing/
 - type: Login
   url: https://app.valimail.com/auth/users/sign_in
+- type: SignUp
+  url: https://www.valimail.com/try-monitor-free/
+- type: DeveloperPortal
+  url: https://support.valimail.com/en/collections/12071845-introduction-to-the-valimail-apis
 - type: TermsOfService
   url: https://www.valimail.com/legal/terms-conditions/
 - type: PrivacyPolicy
@@ -335,8 +375,10 @@ common:
   url: mcp/valimail-mcp.yml
 - type: LLMsTxt
   url: llms/valimail-llms.txt
-- type: WellKnown
-  url: well-known/valimail-well-known.yml
+- type: Plans
+  url: plans/valimail-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/valimail-rate-limits.yml
 - type: Webhooks
   url: asyncapi/valimail-webhooks.yml
 - type: DataModel
@@ -348,7 +390,7 @@ common:
 - type: APITermsOfUse
   url: https://www.valimail.com/api-terms-of-use/
 x-enrichment:
-  date: '2026-07-21'
+  date: '2026-08-14'
   status: enriched
-  artifacts_added: 25
+  artifacts_added: 4
   pass: local-v1
