@@ -1,0 +1,2684 @@
+{
+  "item": [
+    {
+      "id": "3b8798b0-b598-4890-92db-09140751b33a",
+      "name": "Senders",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3062f29b-a2a4-417c-a6ae-a61e0c6e9cd0",
+          "name": "Returns the list of senders for the given domain/subdomain and account slug",
+          "request": {
+            "name": "Returns the list of senders for the given domain/subdomain and account slug",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain",
+                "senders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain to be queried."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c50ecedf-8a81-4e38-852f-3e1e3468d019",
+              "name": "Ok - List of Senders linked to the domain are provided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"slug\": \"sender-slug-1\",\n    \"name\": \"Sender 1\",\n    \"status\": \"pending_approval\",\n    \"domainSlug\": \"dmarceverywhere.com\",\n    \"accountSlug\": \"valimail\"\n  },\n  {\n    \"slug\": \"sender-slug-2\",\n    \"name\": \"Sender 2\",\n    \"status\": \"approved\",\n    \"domainSlug\": \"dmarceverywhere.com\",\n    \"accountSlug\": \"valimail\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "182e40d6-3d56-4679-86ba-9c7bde50c07b",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea7cc375-329b-46ed-a1b4-a777c47d7c1f",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b134b2bf-1b7c-430d-8fb4-5d404cedb3c4",
+              "name": "Not Found - Senders not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders\",\n  \"message\": \"Account not found\",\n  \"type\": \"not-found\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "06b28738-2c1d-46fe-af10-6634ce118f1f",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8bbab7bc-8dcc-4621-af18-ae4c76dcd39b",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f0dd83d6-38ea-4801-80d5-3db79d6b5455",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9053300c-f0cc-487e-b7d9-aea7ae48a907",
+          "name": "Creates a new sender link with a domain/subdomain (to list the senders available to be connected to the domain/subdomain, use /resource/senders)",
+          "request": {
+            "name": "Creates a new sender link with a domain/subdomain (to list the senders available to be connected to the domain/subdomain, use /resource/senders)",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain",
+                "senders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to create a sender link with a domain."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain which the sender will be linked to."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Slug\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f914f3ad-1b31-405b-9d35-22e561d7123b",
+              "name": "Ok - New sender linked to the domain",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"slug\": \"sendgrid\",\n  \"name\": \"SendGrid\",\n  \"status\": \"pending_approval\",\n  \"domainSlug\": \"dmarceverywhere.com\",\n  \"accountSlug\": \"valimail\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d34f93bd-5fff-4b4f-9aa8-7a11debcbdea",
+              "name": "Bad Request - Missing Authorization Token or invalid payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "85ba12bd-0473-469b-a521-3880a94e37f7",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ea3fb96-1bbf-4cd6-a8a5-7c10d13aa7c1",
+              "name": "Forbidden - Approved sender quota exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders\",\n  \"message\": \"Approved sender quota exceeded\",\n  \"type\": \"forbidden\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "74d35c50-1a93-479a-ad10-4f2d40b2b2ca",
+              "name": "Not Found - Account or domain not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/no-such-account/domains/{{domainSlug}}/senders\",\n  \"message\": \"Account not found\",\n  \"type\": \"not-found\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "624f2a98-c0f9-4a06-a063-757f19c6f8fa",
+              "name": "Conflict - Existing link between sender and domain",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/senders\",\n  \"message\": \"Email service provider has already been taken\",\n  \"type\": \"conflict\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4d46048b-ba78-4c5e-b378-3871c2d1bf17",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4189107e-b67f-4b37-851b-01d6ba8f19ed",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4b1a0b2f-778a-4371-8904-b1c4740cf998",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a sender link with a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b07e25b2-2fa2-4082-be12-c4277b8060b8",
+          "name": "Retuns a single sender according to the sender slug",
+          "request": {
+            "name": "Retuns a single sender according to the sender slug",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain",
+                "senders",
+                ":sender-slug"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug which the sender is linked to the domain."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain which the sender is linked to."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sender-slug",
+                  "description": "(Required) Sender slug which the sender is linked to the domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2adb0888-fc18-4307-a903-622f0a78e8c1",
+              "name": "Ok - Sender linked to the domain is provided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug which the sender is linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug which the sender is linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"slug\": \"sendgrid\",\n  \"name\": \"SendGrid\",\n  \"status\": \"approved\",\n  \"domainSlug\": \"dmarceverywhere.com\",\n  \"accountSlug\": \"valimail\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42e13251-b5b7-4a2b-980a-39b2acd21df1",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug which the sender is linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug which the sender is linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9390749b-8d8a-49fe-83ed-2b50e219da67",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug which the sender is linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug which the sender is linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9cc18aba-dcb3-4da7-a58c-d15d3da355a1",
+              "name": "Not Found - Sender not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug which the sender is linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug which the sender is linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/no-such-account/domains/{{domainSlug}}/senders/sendgrid\",\n  \"message\": \"Account not found\",\n  \"type\": \"not-found\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "36704004-2168-4c45-8b39-8263affe1f4a",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug which the sender is linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug which the sender is linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0cd0a054-6f7c-4b1e-bc8c-84c1266a1bea",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug which the sender is linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug which the sender is linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fb224213-fc48-44ff-8937-0e54159ce9e4",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug which the sender is linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug which the sender is linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07dc202b-3f5a-4625-b68a-a01588ba2933",
+          "name": "Updates the status of a sender linked to the domain/subdomain to \"approved\", \"denied\" or \"pending_approval\".",
+          "request": {
+            "name": "Updates the status of a sender linked to the domain/subdomain to \"approved\", \"denied\" or \"pending_approval\".",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain",
+                "senders",
+                ":sender-slug"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to update a sender linked to the domain."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain which the sender is linked to."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "sender-slug",
+                  "description": "(Required) Sender slug linked to the domain"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ddb09864-fde8-40ca-bf5e-4101b656a8d1",
+              "name": "Ok - Sender status updated",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a sender linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Status\": \"approved\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"slug\": \"sendgrid\",\n  \"name\": \"SendGrid\",\n  \"status\": \"pending_approval\",\n  \"domainSlug\": \"dmarceverywhere.com\",\n  \"accountSlug\": \"valimail\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6fc1a487-99ca-4d61-a8cf-f9044aa397d4",
+              "name": "Bad Request - Missing Authorization Token or invalid payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a sender linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Status\": \"approved\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cbd997e9-face-4a74-bb5a-b6d926be6483",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a sender linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Status\": \"approved\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c687f227-302d-457b-87de-5e0fd8fff09d",
+              "name": "Not Found - Account, domain, or sender not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a sender linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Status\": \"approved\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/no-such-account/domains/{{domainSlug}}/senders/sendgrid\",\n  \"message\": \"Account not found\",\n  \"type\": \"not-found\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "28467e93-8913-46bc-974d-beb1829388b2",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a sender linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Status\": \"approved\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2352eec3-8cd7-4a45-8915-908c662550dc",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a sender linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Status\": \"approved\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1fc5eaa5-902a-4a6b-8557-d8162cc506ed",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "senders",
+                    ":sender-slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a sender linked to the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the sender is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "sender-slug",
+                      "description": "(Required) Sender slug linked to the domain"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Status\": \"approved\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "036a8c12-445f-4299-a86f-44df2c0222c1",
+          "name": "Returns the list of senders available to be connected to the domain (the slug can be used on [POST]\"/accounts/{slug}/domains/{domain}/senders\")",
+          "request": {
+            "name": "Returns the list of senders available to be connected to the domain (the slug can be used on [POST]\"/accounts/{slug}/domains/{domain}/senders\")",
+            "description": {},
+            "url": {
+              "path": [
+                "resource",
+                "senders"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ebb81ae9-a4f9-4be4-8ee1-90e9358de442",
+              "name": "Ok - List of senders available to be connected to the domain is provided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "resource",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"slug\": \"sendgrid\",\n    \"name\": \"SendGrid\"\n  },\n  {\n    \"slug\": \"mailgun\",\n    \"name\": \"Mailgun\"\n  },\n  {\n    \"slug\": \"sparkpost\",\n    \"name\": \"SparkPost\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8819ab61-d282-486a-8171-f1a4240bec16",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "resource",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4a4c85a-a3d1-4019-bcfa-5d7adc45d78c",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "resource",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7974ad25-0e08-4952-9d27-5f84116885a1",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "resource",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6d1a66e-3076-4af8-8580-6bbdf94840c7",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "resource",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "167bd6d7-e955-4e7d-b0a4-f43a5cd4e994",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "resource",
+                    "senders"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.valimail.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "edf89b8e-3368-4b09-8b78-19bcb0458322",
+    "name": "Account Management Accounts Senders API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ValiMail Integration API",
+      "type": "text/plain"
+    }
+  }
+}

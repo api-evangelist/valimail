@@ -1,0 +1,1925 @@
+{
+  "item": [
+    {
+      "id": "c63ae266-9c5e-472a-8174-f08ad5758bfc",
+      "name": "SSO",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fcb33a60-9889-46f1-967b-11d07bfcfa7f",
+          "name": "Returns the SSO configuration for the account slug provided.",
+          "request": {
+            "name": "Returns the SSO configuration for the account slug provided.",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "app",
+                "sso"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5beb5faf-4f18-4a4c-aff0-e74f5a6bd7b0",
+              "name": "Ok - SSO configuration returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account-slug\": \"string\",\n  \"cert\": \"string\",\n  \"idp-entity-id\": \"string\",\n  \"saml-endpoint\": \"string\",\n  \"jit-provisioning-enabled\": true,\n  \"provisioning-domains\": [\n    \"string\",\n    \"string\"\n  ],\n  \"created-at\": \"1969-04-24T17:52:14.221Z\",\n  \"updated-at\": \"1951-03-23T14:38:47.076Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9e9b0156-46f6-45c9-bacb-940d5d2b7287",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1feb03b3-86ae-4728-8fd7-4524389d7672",
+              "name": "Forbidden - Authorization failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58df4c8e-3c24-4edc-acd6-15aed431ec03",
+              "name": "Not Found - SSO configuration not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "129e34b2-27e6-4644-9d08-0a43dbfe23ec",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "65173cd7-8a4d-4623-8805-1709b20aab65",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa63268d-0e3b-4cbb-92ca-06465612f74d",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3dd0a90e-d782-47c8-9da5-e5ef645495ab",
+          "name": "Creates an SSO configuration for the account slug provided.",
+          "request": {
+            "name": "Creates an SSO configuration for the account slug provided.",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "app",
+                "sso"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to create an SSO configuration."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "254f81dd-4164-4f80-9340-00bf5ca35975",
+              "name": "Ok - SSO configuration created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create an SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account-slug\": \"string\",\n  \"cert\": \"string\",\n  \"idp-entity-id\": \"string\",\n  \"saml-endpoint\": \"string\",\n  \"jit-provisioning-enabled\": true,\n  \"provisioning-domains\": [\n    \"string\",\n    \"string\"\n  ],\n  \"created-at\": \"2003-01-11T23:36:08.477Z\",\n  \"updated-at\": \"1993-09-26T18:29:22.682Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9630a5dd-a5c9-47ef-a2dd-0c5475dc1e96",
+              "name": "Bad Request - Invalid input data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create an SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"params\": \"string\",\n  \"detail\": [\n    {\n      \"field\": \"string\",\n      \"value\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"field\": \"string\",\n      \"value\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b40edb4-2e46-4830-82f5-823b112d5431",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create an SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c3944604-024c-4b0c-bde4-7dc5d01fb0f1",
+              "name": "Forbidden - Authorization failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create an SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a5549eb5-64ef-42d0-b4ae-d94e42e83ea3",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create an SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "de7cbca7-23df-4bca-b79b-b570bd89ea8e",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create an SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "573eda60-61da-4499-9b2c-816d0dedc23b",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create an SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "70dba847-a5a0-4b52-aa35-3f359dacdd5b",
+          "name": "Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed.",
+          "request": {
+            "name": "Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed.",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "app",
+                "sso"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to update the SSO configuration."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4d7ad440-768c-4476-9e92-d09becd6a7ca",
+              "name": "Ok - SSO configuration updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account-slug\": \"string\",\n  \"cert\": \"string\",\n  \"idp-entity-id\": \"string\",\n  \"saml-endpoint\": \"string\",\n  \"jit-provisioning-enabled\": true,\n  \"provisioning-domains\": [\n    \"string\",\n    \"string\"\n  ],\n  \"created-at\": \"2003-01-11T23:36:08.477Z\",\n  \"updated-at\": \"1993-09-26T18:29:22.682Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4c6e8ac0-2abc-43b1-92b2-33ae330c26cb",
+              "name": "Bad Request - Invalid input data",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"params\": \"string\",\n  \"detail\": [\n    {\n      \"field\": \"string\",\n      \"value\": \"string\",\n      \"message\": \"string\"\n    },\n    {\n      \"field\": \"string\",\n      \"value\": \"string\",\n      \"message\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bd6f29d3-3abb-4f51-9a55-41c90ca88421",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7fcbb4ba-67a7-4ea7-be8a-8106adc9cc60",
+              "name": "Forbidden - Authorization failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "19c26bab-5f9a-495a-8d99-99d09f712b5b",
+              "name": "Not Found - SSO configuration not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1a790d9e-d551-4f7a-a1f2-f5c80648edac",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4ccfe6ca-3a82-474e-a46d-de01f043922c",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "21e85376-1b07-4a0c-893f-044e51a2470a",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"cert\": \"<string>\",\n  \"idp-entity-id\": \"<string>\",\n  \"saml-endpoint\": \"<string>\",\n  \"idp-metadata-file\": \"<string>\",\n  \"jit-provisioning-enabled\": \"<boolean>\",\n  \"provisioning-domains\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8e0fe15a-285c-40ce-a642-d84026833313",
+          "name": "Deletes the SSO configuration for the account slug provided.",
+          "request": {
+            "name": "Deletes the SSO configuration for the account slug provided.",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "app",
+                "sso"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to delete the SSO configuration."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7992a418-d2bd-484d-a3ba-30cbf1362c66",
+              "name": "Ok - SSO configuration deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to delete the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"account-slug\": \"string\",\n  \"cert\": \"string\",\n  \"idp-entity-id\": \"string\",\n  \"saml-endpoint\": \"string\",\n  \"jit-provisioning-enabled\": true,\n  \"provisioning-domains\": [\n    \"string\",\n    \"string\"\n  ],\n  \"created-at\": \"2003-01-11T23:36:08.477Z\",\n  \"updated-at\": \"1993-09-26T18:29:22.682Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bee58b53-faef-4dcf-8cce-480f6455b7fe",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to delete the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "43c285b0-0c94-4b74-a61b-21ffa7444e13",
+              "name": "Forbidden - Authorization failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to delete the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "77c14630-0b74-4183-9a5a-fd2c73f29898",
+              "name": "Not Found - SSO configuration not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to delete the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "100b612d-776d-467f-82f3-43dfb5e5c865",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to delete the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fed8d1ac-25d3-4b1a-9ad6-e63923fafe77",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to delete the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5230958d-96a6-440c-9879-aea4924498e9",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "app",
+                    "sso"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to delete the SSO configuration."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.valimail.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d4b3b8d7-4974-40ee-92c8-ca9f986e8fa3",
+    "name": "Account Management Accounts SSO API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ValiMail Integration API",
+      "type": "text/plain"
+    }
+  }
+}

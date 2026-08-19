@@ -1,0 +1,1501 @@
+{
+  "item": [
+    {
+      "id": "11a20968-22a4-4930-853c-3da0653422bc",
+      "name": "MTA-STS Policy Reports",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2c8c1672-733d-4e00-a675-6903e0c8c00b",
+          "name": "The MTA-STS Policy Reports - TLS endpoint responds with the data available within MTA-STS policy report files.",
+          "request": {
+            "name": "The MTA-STS Policy Reports - TLS endpoint responds with the data available within MTA-STS policy report files.",
+            "description": {
+              "content": "The MTA-STS Policy Reports - TLS endpoint responds with the data available within MTA-STS policy report files.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "mta-sts",
+                "tls"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "start-date",
+                  "value": "<date>",
+                  "description": "(Required) Start date of the report (ISO 8601 format) -  The date value should be formatted as YYYY-MM-DD. This is the starting date of the time range you wish to retrieve the report for"
+                },
+                {
+                  "disabled": false,
+                  "key": "end-date",
+                  "value": "<date>",
+                  "description": "(Required) End date of the report (ISO 8601 format) - The date value should be formatted as YYYY-MM-DD. This is the end date of the time range you wish to retrieve the report for"
+                },
+                {
+                  "disabled": false,
+                  "key": "domain-names",
+                  "value": "<string>",
+                  "description": "Array of domain names to filter the report data. If not provided, the report will return data for all existing domains on the account."
+                },
+                {
+                  "disabled": false,
+                  "key": "domain-names",
+                  "value": "<string>",
+                  "description": "Array of domain names to filter the report data. If not provided, the report will return data for all existing domains on the account."
+                },
+                {
+                  "disabled": false,
+                  "key": "policy-mx-host",
+                  "value": "<string>",
+                  "description": "policy-mx-host to filter the report data. "
+                },
+                {
+                  "disabled": false,
+                  "key": "policy-mode",
+                  "value": "<string>",
+                  "description": "policy-mode to filter the report data. "
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "<integer>",
+                  "description": "Limit the number of records returned. Default is 20."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "Page number for pagination. Default is 1."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort",
+                  "value": "<string>",
+                  "description": "Sort the results by a specific field. The '-' prefix indicates descending order."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "06ee42a1-490c-441a-ae19-b71d1e671586",
+              "name": "Ok - Returns TLS reporting data with pagination information. The response includes: Count (total number of records), Next/Previous (URLs for pagination), and Results array containing TLS report entries. Each result entry contains: domain (domain name), report-id (unique identifier), version (policy version), policy-mode (enforcement mode), policy-mx-host (MX hostname), and max-age (policy cache duration in seconds).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "domain, -policy-mx-host"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"Count\": 100,\n  \"Next\": \"/reports/tls?start-date=2025-01-01&end-date=2025-03-19&limit=20&page=2\",\n  \"Previous\": \"/reports/tls?start-date=2025-01-01&end-date=2025-03-19&limit=20&page=1\",\n  \"Results\": [\n    {\n      \"domain\": \"example.com\",\n      \"report-id\": \"1234567890abcdef\",\n      \"version\": \"STSv1\",\n      \"policy-mode\": \"testing\",\n      \"policy-mx-host\": \"mx1.example.com\",\n      \"max-age\": 86400\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0cfc345d-89ed-4e38-9bff-f96aac96fb06",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "domain, -policy-mx-host"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d9c888ef-edb6-4e2f-ac94-01ff7bed8dbf",
+              "name": "Not Found - No data available for the parameters informed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "domain, -policy-mx-host"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"no report available for the parameters informed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5946f61f-b630-4aeb-8cd0-6f7bf94ab865",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "domain, -policy-mx-host"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Failed to normalize or parse the request\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d5b60b87-e474-46c4-ba6b-46027e8e409d",
+              "name": "Internal server error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "30"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "sort",
+                      "value": "domain, -policy-mx-host"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "78c84472-2b05-4232-941f-cad54638f520",
+          "name": "The MTA-STS Policy Reports - TLS summary endpoint responds with aggregated success and failure counts, plus a daily message count series.",
+          "request": {
+            "name": "The MTA-STS Policy Reports - TLS summary endpoint responds with aggregated success and failure counts, plus a daily message count series.",
+            "description": {
+              "content": "The MTA-STS Policy Reports - TLS summary endpoint responds with aggregated success and failure counts, plus a daily message count series.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "mta-sts",
+                "tls",
+                "summary"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "start-date",
+                  "value": "<date>",
+                  "description": "(Required) Start date of the report. The date value should be formatted as YYYY-MM-DD."
+                },
+                {
+                  "disabled": false,
+                  "key": "end-date",
+                  "value": "<date>",
+                  "description": "(Required) End date of the report. The date value should be formatted as YYYY-MM-DD."
+                },
+                {
+                  "disabled": false,
+                  "key": "domain-names",
+                  "value": "<string>",
+                  "description": "Array of domain names to filter the report data. If not provided, the report will return data for all existing domains on the account."
+                },
+                {
+                  "disabled": false,
+                  "key": "domain-names",
+                  "value": "<string>",
+                  "description": "Array of domain names to filter the report data. If not provided, the report will return data for all existing domains on the account."
+                },
+                {
+                  "disabled": false,
+                  "key": "policy-mx-host",
+                  "value": "<string>",
+                  "description": "The MX host value present in the TLS reports."
+                },
+                {
+                  "disabled": false,
+                  "key": "policy-mode",
+                  "value": "<string>",
+                  "description": "The policy mode value present in the TLS reports."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d9ea841c-2ae5-415c-871b-e699b0a14dfa",
+              "name": "Ok - Returns TLS summary data including success count, failure count, and message count series.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success-count\": 120,\n  \"failure-count\": 15,\n  \"message-count-series\": [\n    {\n      \"date-received\": \"2025-01-01\",\n      \"success-count\": 40,\n      \"failure-count\": 5,\n      \"total-count\": 45\n    },\n    {\n      \"date-received\": \"2025-01-01\",\n      \"success-count\": 40,\n      \"failure-count\": 5,\n      \"total-count\": 45\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58b32ac1-a4eb-4298-80e6-ed147c4e6dc7",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\",\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99199030-d974-4509-9e01-dffeb2b2c9b4",
+              "name": "Not Found - No data available for the parameters informed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d5a0ce48-8c07-4082-bd7c-58d66db18669",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3475d674-fa66-4288-90ba-adb651fe9b9d",
+              "name": "Internal server error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "summary"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "start-date",
+                      "value": "2025-01-01"
+                    },
+                    {
+                      "key": "end-date",
+                      "value": "2025-03-19"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "domain-names",
+                      "value": "example.org"
+                    },
+                    {
+                      "key": "policy-mx-host",
+                      "value": "mx1.example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "3e7563a2-5c73-4a50-a271-a9cf7e30c287",
+          "name": "The MTA-STS Policy Reports - Failure Details endpoint responds with the details of the failure messages present in the MTA-STS policy reports received.",
+          "request": {
+            "name": "The MTA-STS Policy Reports - Failure Details endpoint responds with the details of the failure messages present in the MTA-STS policy reports received.",
+            "description": {
+              "content": "The MTA-STS Policy Reports - Failure Details endpoint responds with the details of the failure messages present in the MTA-STS policy reports received.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "mta-sts",
+                "tls",
+                "failure-details"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "report-id",
+                  "value": "<string>",
+                  "description": "(Required) Report Identifier - The report ID is a unique identifier for the TLS report. It is typically a string of alphanumeric characters that is generated by the reporting system. This ID is used to reference and retrieve specific reports files."
+                },
+                {
+                  "disabled": false,
+                  "key": "domain-name",
+                  "value": "<string>",
+                  "description": "(Required) Domain Name - The domain name is the name of the domain for which the TLS report is generated. It is typically in the format of \"example.com\". This parameter is used to filter the results to a specific domain."
+                },
+                {
+                  "disabled": false,
+                  "key": "policy-mode",
+                  "value": "<string>",
+                  "description": "policy-mode to filter the report data. "
+                },
+                {
+                  "disabled": false,
+                  "key": "policy-type",
+                  "value": "<string>",
+                  "description": "policy-type to filter the report data. "
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "36411460-837d-4a8a-ac8f-ff337b8cf760",
+              "name": "Ok - An array of failure details data available",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "failure-details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "report-id",
+                      "value": "2a41076e-942e-4b5c-a38e-8ea5f1c77a95"
+                    },
+                    {
+                      "key": "domain-name",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "policy-type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"domain_name\": \"example.com\",\n    \"report_id\": \"2a41076e-942e-4b5c-a38e-8ea5f1c77a95\",\n    \"sending_mta_ip\": \"127.0.0.1\",\n    \"start_date\": \"2025-01-01\",\n    \"end_date\": \"2025-01-02\",\n    \"receiving_ip\": \"127.0.0.2\",\n    \"receiving_mx_host_name\": \"mx1.example.com\",\n    \"success_count\": 150,\n    \"failure_count\": 10\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4b874828-4ddb-409b-808b-13d987670733",
+              "name": "Bad Request - Invalid request parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "failure-details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "report-id",
+                      "value": "2a41076e-942e-4b5c-a38e-8ea5f1c77a95"
+                    },
+                    {
+                      "key": "domain-name",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "policy-type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"no report available for the parameters informed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fee77f3-3343-4542-9af2-e230da3ac8fc",
+              "name": "Not Found - No data available for the parameters informed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "failure-details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "report-id",
+                      "value": "2a41076e-942e-4b5c-a38e-8ea5f1c77a95"
+                    },
+                    {
+                      "key": "domain-name",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "policy-type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"no report available for the parameters informed\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "615ceb5d-f2b3-4c80-bcaa-dd22ba7be84f",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "failure-details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "report-id",
+                      "value": "2a41076e-942e-4b5c-a38e-8ea5f1c77a95"
+                    },
+                    {
+                      "key": "domain-name",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "policy-type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e195c0fb-8fb1-41d9-948a-22123d176d29",
+              "name": "Internal server error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "mta-sts",
+                    "tls",
+                    "failure-details"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "report-id",
+                      "value": "2a41076e-942e-4b5c-a38e-8ea5f1c77a95"
+                    },
+                    {
+                      "key": "domain-name",
+                      "value": "example.com"
+                    },
+                    {
+                      "key": "policy-mode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "policy-type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Internal server error\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.valimail.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f5e0ff99-45eb-4021-bc94-48ef31ae175d",
+    "name": "Account Management Accounts MTA-STS Policy Reports API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ValiMail Integration API",
+      "type": "text/plain"
+    }
+  }
+}

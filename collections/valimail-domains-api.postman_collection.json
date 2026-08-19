@@ -1,0 +1,2794 @@
+{
+  "item": [
+    {
+      "id": "62ff02c6-59bd-4200-a51e-d640f5e053c6",
+      "name": "Domains",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ce52d166-9b54-4d63-bef3-7e5bf3c92f2a",
+          "name": "Returns a list of domains and/or subdomains with relevant data for a given account",
+          "request": {
+            "name": "Returns a list of domains and/or subdomains with relevant data for a given account",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "domain",
+                  "value": "<string>",
+                  "description": "Filter by List of Domains."
+                },
+                {
+                  "disabled": false,
+                  "key": "domain",
+                  "value": "<string>",
+                  "description": "Filter by List of Domains."
+                },
+                {
+                  "disabled": false,
+                  "key": "dmarc-record",
+                  "value": "<string>",
+                  "description": "Filter by List of DMARC record types."
+                },
+                {
+                  "disabled": false,
+                  "key": "dmarc-record",
+                  "value": "<string>",
+                  "description": "Filter by List of DMARC record types."
+                },
+                {
+                  "disabled": false,
+                  "key": "enforcement-status",
+                  "value": "<string>",
+                  "description": "Filter by List of Enforcement statuses."
+                },
+                {
+                  "disabled": false,
+                  "key": "enforcement-status",
+                  "value": "<string>",
+                  "description": "Filter by List of Enforcement statuses."
+                },
+                {
+                  "disabled": false,
+                  "key": "dmarc-policy",
+                  "value": "<string>",
+                  "description": "Filter by List of DMARC policies."
+                },
+                {
+                  "disabled": false,
+                  "key": "dmarc-policy",
+                  "value": "<string>",
+                  "description": "Filter by List of DMARC policies."
+                },
+                {
+                  "disabled": false,
+                  "key": "sending-status",
+                  "value": "<string>",
+                  "description": "Filter by List of Sending statuses."
+                },
+                {
+                  "disabled": false,
+                  "key": "sending-status",
+                  "value": "<string>",
+                  "description": "Filter by List of Sending statuses."
+                },
+                {
+                  "disabled": false,
+                  "key": "org-domain-only",
+                  "value": "<boolean>",
+                  "description": "Filter to return only organizational domains when true."
+                },
+                {
+                  "disabled": false,
+                  "key": "reverse",
+                  "value": "<boolean>",
+                  "description": "Reverse the order of the list to be provided."
+                },
+                {
+                  "disabled": false,
+                  "key": "sort-key",
+                  "value": "<string>",
+                  "description": "Sorts the given list by a key. (e.g., domain_name, dmarc_record_type, enforcement_status, dmarc_policy, sending_status, last_report_date)"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2556fbbe-26d0-42dd-9221-70fef0fee9a7",
+              "name": "Ok - List of Domains linked to the account slug are provided",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domain",
+                      "value": "dmarceverywhere.com"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "heytest.com"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "NS"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "CNAME"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "TXT"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not Configured"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not At Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Sending With Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Quarantine"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Reject"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Reporting Only"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "org-domain-only",
+                      "value": "false"
+                    },
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sort-key",
+                      "value": "domain_name"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"domain\": \"dmarceverywhere.com\",\n    \"is-org-domain\": true,\n    \"dmarc-record\": \"CNAME\",\n    \"enforcement-status\": \"Not At Enforcement\",\n    \"dmarc-policy\": \"Quarantine\",\n    \"sending-status\": \"Active\",\n    \"account-slug\": \"valimail\",\n    \"dmarc-pcd\": \"Quarantine\",\n    \"last-report-date\": \"2021-01-01\"\n  },\n  {\n    \"domain\": \"heytest.com\",\n    \"is-org-domain\": true,\n    \"dmarc-record\": \"TXT\",\n    \"enforcement-status\": \"Not At Enforcement\",\n    \"dmarc-policy\": \"None\",\n    \"sending-status\": \"Active\",\n    \"account-slug\": \"valimail\",\n    \"last-report-date\": \"2021-01-01\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7ab39403-a9fc-40e2-ab7b-bb648688a731",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domain",
+                      "value": "dmarceverywhere.com"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "heytest.com"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "NS"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "CNAME"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "TXT"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not Configured"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not At Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Sending With Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Quarantine"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Reject"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Reporting Only"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "org-domain-only",
+                      "value": "false"
+                    },
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sort-key",
+                      "value": "domain_name"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "04bbf4ec-3bae-4cd2-9435-7fab996017df",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domain",
+                      "value": "dmarceverywhere.com"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "heytest.com"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "NS"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "CNAME"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "TXT"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not Configured"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not At Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Sending With Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Quarantine"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Reject"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Reporting Only"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "org-domain-only",
+                      "value": "false"
+                    },
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sort-key",
+                      "value": "domain_name"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3b306670-7ddc-49d4-b32a-951f8d63847e",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domain",
+                      "value": "dmarceverywhere.com"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "heytest.com"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "NS"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "CNAME"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "TXT"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not Configured"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not At Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Sending With Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Quarantine"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Reject"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Reporting Only"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "org-domain-only",
+                      "value": "false"
+                    },
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sort-key",
+                      "value": "domain_name"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "581aeaee-d78f-41f2-aec8-4aa7ffa725e6",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domain",
+                      "value": "dmarceverywhere.com"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "heytest.com"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "NS"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "CNAME"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "TXT"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not Configured"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not At Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Sending With Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Quarantine"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Reject"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Reporting Only"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "org-domain-only",
+                      "value": "false"
+                    },
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sort-key",
+                      "value": "domain_name"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\",\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "1e71d653-7d41-4c46-b4a6-741ba083087d",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "domain",
+                      "value": "dmarceverywhere.com"
+                    },
+                    {
+                      "key": "domain",
+                      "value": "heytest.com"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "NS"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "CNAME"
+                    },
+                    {
+                      "key": "dmarc-record",
+                      "value": "TXT"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not Configured"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Not At Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Sending With Enforcement"
+                    },
+                    {
+                      "key": "enforcement-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "None"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Quarantine"
+                    },
+                    {
+                      "key": "dmarc-policy",
+                      "value": "Reject"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Active"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Reporting Only"
+                    },
+                    {
+                      "key": "sending-status",
+                      "value": "Blocked"
+                    },
+                    {
+                      "key": "org-domain-only",
+                      "value": "false"
+                    },
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    },
+                    {
+                      "key": "sort-key",
+                      "value": "domain_name"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"string\",\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\",\n  \"status\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb337593-d2a9-4c84-85b7-43d32628b687",
+          "name": "Creates an domain/subdomain associated with an account",
+          "request": {
+            "name": "Creates an domain/subdomain associated with an account",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to create a domain."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7758faf3-a53b-4446-b065-b6d524d691ad",
+              "name": "OK - Domain created",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a domain."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"dmarceverywhere.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"domain\": \"dmarceverywhere.com\",\n  \"is-org-domain\": true,\n  \"dmarc-record-type\": \"CNAME\",\n  \"enforcement-status\": \"Not At Enforcement\",\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\",\n  \"account-slug\": \"valimail\",\n  \"dmarc-record\": \"v=DMARC1; p=quarantine; rua=mailto:dmarc_agg@vali.email\",\n  \"dmarc-pcd\": \"Quarantine\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e4cad44-648d-46d1-9f06-80ee05daa01a",
+              "name": "Bad Request - Missing Authorization Token or invalid payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a domain."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"dmarceverywhere.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "27c29137-37e6-41ee-8fa3-8f7baf308ffa",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a domain."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"dmarceverywhere.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c2e9b584-29ec-4b42-b8e6-ee822fb79d0e",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a domain."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"dmarceverywhere.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23bd31e9-87a4-40b8-8381-f1a9a667be16",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a domain."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"dmarceverywhere.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1fecefe-77a2-4a11-81aa-5ee32d59adcf",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a domain."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"dmarceverywhere.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "33d606f0-0ebc-4ca9-a289-acb253edae23",
+          "name": "Returns a domain or subdomain's relevant data for a given account slug",
+          "request": {
+            "name": "Returns a domain or subdomain's relevant data for a given account slug",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain to be queried."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1ad10beb-9c2a-49c8-a9ec-9adce2407b86",
+              "name": "Ok - Single domain's relevant data is provided (response fields will appear according to the existing data).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"domain\": \"dmarceverywhere.com\",\n  \"is-org-domain\": true,\n  \"dmarc-record\": \"CNAME\",\n  \"enforcement-status\": \"Not At Enforcement\",\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\",\n  \"account-slug\": \"valimail\",\n  \"last-report-date\": \"2021-01-01\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02904377-67d8-4724-a9e0-8b98d8d35deb",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d7db47f4-a075-4f3b-bf3b-498d936007ad",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0f629e9c-4837-4da4-bb1d-fd34bcf3e453",
+              "name": "Not Found - Domain not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a30dad16-bfd6-42f1-9ac0-a1598f24c537",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "11937b70-810e-4128-9dcd-951094b85458",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c23650dc-1893-49a1-81e9-2862c76f5fbc",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d57d5c54-a3e1-4d15-b4c9-e7f2be32b1b2",
+          "name": "Updates domain's dmarc-policy and sending-status",
+          "request": {
+            "name": "Updates domain's dmarc-policy and sending-status",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to update a domain."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain to be updated."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dmarc-policy\": \"<string>\",\n  \"sending-status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9ed5d41e-f968-4ed0-b0d1-f9ed547f0368",
+              "name": "Ok - Domain updated (response fields will appear according to the existing data).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"domain\": \"dmarceverywhere.com\",\n  \"is-org-domain\": true,\n  \"dmarc-record-type\": \"None\",\n  \"enforcement-status\": \"Not Configured\",\n  \"dmarc-policy\": \"Reject\",\n  \"sending-status\": \"Active\",\n  \"account-slug\": \"valimail\",\n  \"dmarc-record\": \"v=DMARC1; p=reject; sp=quarantine; rua=mailto:dmarc_agg@vali-staging.email\",\n  \"dmarc-pcd\": \"Reject\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cdf078aa-0315-4d81-a4d7-6f6f310c2bc7",
+              "name": "Bad Request - Missing Authorization Token or invalid payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "935517a7-980c-4e6c-bdee-c6d45bbd4ce8",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "86493af7-edd8-48b8-9e64-7b119f05971c",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f10363fd-4a8c-4026-8c52-0121b941ecb3",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ba8636c5-f25a-4788-958b-93b0c91c97a5",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be updated."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "793869ec-2ba8-4967-86ad-1015dab933ca",
+          "name": "Deletes a domain for a given account slug",
+          "request": {
+            "name": "Deletes a domain for a given account slug",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain to be deleted."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9f76e81c-7539-4d9c-b15d-3b4ba293793a",
+              "name": "Ok - Domain deleted (response fields will appear according to the existing data).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be deleted."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"domain\": \"dmarceverywhere.com\",\n  \"is-org-domain\": true,\n  \"dmarc-record\": \"CNAME\",\n  \"enforcement-status\": \"Not At Enforcement\",\n  \"dmarc-policy\": \"Quarantine\",\n  \"sending-status\": \"Active\",\n  \"account-slug\": \"valimail\",\n  \"last-report-date\": \"2021-01-01\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fc3a7d37-b97a-48b5-829b-90a96cd92c01",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be deleted."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38f62e58-ec1b-4344-a999-edc044e6551c",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be deleted."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c637e76f-2ae8-4ec6-a535-5f2275dd5be9",
+              "name": "Not Found - Domain not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be deleted."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "01ffeca9-6603-47ad-be28-986a144c8576",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be deleted."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bed3a762-e3e1-409c-85a8-258461439542",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be deleted."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a4ff29a6-50a1-4498-a0e0-e83992d29b64",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be deleted."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.valimail.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "66d18934-4b51-4b01-99e3-8ad9a5c91be2",
+    "name": "Account Management Accounts Domains API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ValiMail Integration API",
+      "type": "text/plain"
+    }
+  }
+}

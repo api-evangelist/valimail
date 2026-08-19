@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts Authentication API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Authenticates the API user with the credentials (client-id and app-id)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/auth",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "When the authentication is successful, the response will include a bearer token and a timestamp of when the token expires."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

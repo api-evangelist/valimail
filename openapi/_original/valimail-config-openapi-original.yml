@@ -133,61 +133,58 @@ paths:
           example: "valimail"
         - name: domain
           in: query
-          description: "Filter by List of Domains."
+          description: "Filter by List of Domains. (e.g., dmarceverywhere.com, heytest.com). Leave empty to not filter by domain."
           required: false
           schema:
             type: array
             items:
               type: string
-            example:
-              - "dmarceverywhere.com"
-              - "heytest.com"
         - name: dmarc-record
-          description: "Filter by List of DMARC record types."
+          description: "Filter by List of DMARC record types. Leave empty to not filter by record type."
           in: query
           schema:
             type: array
             items:
               type: string
-          example:
-            - "None"
-            - "NS"
-            - "CNAME"
-            - "TXT"
+              enum:
+                - "None"
+                - "NS"
+                - "CNAME"
+                - "TXT"
         - name: enforcement-status
-          description: "Filter by List of Enforcement statuses."
+          description: "Filter by List of Enforcement statuses. Leave empty to not filter by enforcement status."
           in: query
           schema:
             type: array
             items:
               type: string
-          example:
-            - "Not Configured"
-            - "Not At Enforcement"
-            - "Sending With Enforcement"
-            - "Blocked"
+              enum:
+                - "Not Configured"
+                - "Not At Enforcement"
+                - "Sending With Enforcement"
+                - "Blocked"
         - name: dmarc-policy
-          description: "Filter by List of DMARC policies."
+          description: "Filter by List of DMARC policies. Leave empty to not filter by DMARC policy."
           in: query
           schema:
             type: array
             items:
               type: string
-          example:
-            - "None"
-            - "Quarantine"
-            - "Reject"
+              enum:
+                - "None"
+                - "Quarantine"
+                - "Reject"
         - name: sending-status
-          description: "Filter by List of Sending statuses."
+          description: "Filter by List of Sending statuses. Leave empty to not filter by sending status."
           in: query
           schema:
             type: array
             items:
               type: string
-          example:
-            - "Active"
-            - "Reporting Only"
-            - "Blocked"
+              enum:
+                - "Active"
+                - "Reporting Only"
+                - "Blocked"
         - name: org-domain-only
           description: "Filter to return only organizational domains when true."
           in: query
@@ -218,21 +215,23 @@ paths:
               example:
                 - domain: "dmarceverywhere.com"
                   is-org-domain: true
-                  dmarc-record: "CNAME"
+                  dmarc-record-type: "CNAME"
                   enforcement-status: "Not At Enforcement"
                   dmarc-policy: "Quarantine"
                   sending-status: "Active"
                   account-slug: "valimail"
+                  dmarc-record: "v=DMARC1; p=quarantine; rua=mailto:dmarc_agg@vali.email"
                   dmarc-pcd: "Quarantine"
-                  last-report-date: "2021-01-01"
+                  last-report-date: "2021-01-01T00:00:00Z"
                 - domain: "heytest.com"
                   is-org-domain: true
-                  dmarc-record: "TXT"
+                  dmarc-record-type: "TXT"
                   enforcement-status: "Not At Enforcement"
                   dmarc-policy: "None"
                   sending-status: "Active"
                   account-slug: "valimail"
-                  last-report-date: "2021-01-01"
+                  dmarc-record: "v=DMARC1; p=none; rua=mailto:dmarc_agg@vali.email"
+                  last-report-date: "2021-01-01T00:00:00Z"
         '400':
           description: Bad Request - Missing Authorization Token
           content:
@@ -459,12 +458,14 @@ paths:
               example:
                 domain: "dmarceverywhere.com"
                 is-org-domain: true
-                dmarc-record: "CNAME"
+                dmarc-record-type: "CNAME"
                 enforcement-status: "Not At Enforcement"
                 dmarc-policy: "Quarantine"
                 sending-status: "Active"
                 account-slug: "valimail"
-                last-report-date: "2021-01-01"
+                dmarc-record: "v=DMARC1; p=quarantine; rua=mailto:dmarc_agg@vali.email"
+                dmarc-pcd: "Quarantine"
+                last-report-date: "2021-01-01T00:00:00Z"
         '400':
           description: Bad Request - Missing Authorization Token
           content:
@@ -5063,6 +5064,9 @@ components:
         is-org-domain:
           type: boolean
           description: Whether the domain is an organizational domain.
+        dmarc-record-type:
+          type: string
+          description: The DMARC record type for the domain (None, NS, CNAME or TXT).
         dmarc-record:
           type: string
           description: The DMARC record for the domain.

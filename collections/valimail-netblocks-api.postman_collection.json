@@ -1,0 +1,2362 @@
+{
+  "item": [
+    {
+      "id": "3f1286a7-dae1-4960-91b9-36f2abc806bd",
+      "name": "Netblocks",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fc3122b2-2a49-472c-b9b4-3fe8f5f99242",
+          "name": "Returns a list of all netblocks of a domain or subdomain",
+          "request": {
+            "name": "Returns a list of all netblocks of a domain or subdomain",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain",
+                "netblocks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "reverse",
+                  "value": "<boolean>",
+                  "description": "Reverse the order of the list to be provided."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain to be queried."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d044aa31-94f9-46f4-8ffd-0823c6eec36a",
+              "name": "Ok - A List of netblocks of the domain is provided (\"comment\" and \"sender-slug\" fields will be included if available)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"netblock\": \"127.0.0.1/32\",\n    \"spf-record\": \"v=spf1 ip4:127.0.0.1 -all\",\n    \"comment\": \"This is a comment\",\n    \"sender-slug\": \"sendgrid\",\n    \"domain-slug\": \"dmarceverywhere.com\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8b9c2c31-da60-4caa-9791-780fd7988657",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aca72261-a797-4541-9b0e-72326a3b521e",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e1486518-c2b0-4756-b418-1261b80331ee",
+              "name": "Not Found - Account or domain not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/no-such-account/domains/{{domainSlug}}/netblocks\",\n  \"message\": \"Account not found\",\n  \"type\": \"not-found\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "295f2068-6757-4fdb-9c8b-b636a617284d",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "69998971-de31-45b0-92f4-39e8dd4fcfdd",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2f9a2deb-fb60-4d5f-9183-ee139a083722",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "reverse",
+                      "value": "false"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain to be queried."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "242291b8-8682-492c-865f-5021ef82fb12",
+          "name": "Creates a new netblock for the domain",
+          "request": {
+            "name": "Creates a new netblock for the domain",
+            "description": {
+              "content": "Creates a new netblock for the domain or subdomain. The comment and the sender-slug are optional.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain",
+                "netblocks"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to create a netblock for the domain."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain which the netblock will be linked to."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"netblock\": \"<string>\",\n  \"comment\": \"<string>\",\n  \"sender-slug\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "188c3162-050b-4082-bf07-671c558cb8a1",
+              "name": "Ok - Netblock created (the response will include the \"sender-slug\" and/or \"comment\" depending on the input)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a netblock for the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"spf-record\": \"v=spf1 ip4:127.0.0.1 -all\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\",\n  \"domain-slug\": \"dmarceverywhere.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2d627b9e-bdbd-4d97-885c-a68354acef86",
+              "name": "Bad Request - Missing Authorization Token or invalid payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a netblock for the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b0507a01-aae6-4004-88fb-55dd62ad41bf",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a netblock for the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b28c5591-0d60-4090-b5cf-841068e67cec",
+              "name": "Not Found - Account, domain, or sender not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a netblock for the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/no-such-account/domains/{{domainSlug}}/netblocks\",\n  \"message\": \"Account not found\",\n  \"type\": \"not-found\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71d2dfd5-cfae-44c4-bdd0-ed0052ed8a72",
+              "name": "Conflict - Existing netblock for the domain",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a netblock for the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/netblocks\",\n  \"message\": \"has already been taken\",\n  \"type\": \"taken\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8af8be96-b117-4000-a488-f14a63f5539f",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a netblock for the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "00429844-52ee-46c0-8c02-42e668786beb",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a netblock for the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0d88077f-7048-4d04-b127-95ff6edc8ea3",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to create a netblock for the domain."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock will be linked to."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "872c3b06-d456-4b66-ae40-1b9e170081f8",
+          "name": "Returns a single netblock according to IP or CIDR",
+          "request": {
+            "name": "Returns a single netblock according to IP or CIDR",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain",
+                "netblocks",
+                ":netblock"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to be queried."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain which the netblock is linked to."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "netblock",
+                  "description": "(Required) IP or CIDR of the netblock"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "24e344ed-cfcf-4fc9-8e24-f840de958bba",
+              "name": "Ok - Netblock data is provided  (\"comment\" and \"sender-slug\" fields will be included if available)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"spf-record\": \"v=spf1 ip4:127.0.0.1 -all\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\",\n  \"domain-slug\": \"dmarceverywhere.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf56fabe-a616-456f-ac4b-e2e45c3210c9",
+              "name": "Bad Request - Missing Authorization Token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0fb71f2b-732d-4a8d-8135-dbdb08306d54",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3ed20e24-a0c0-4e09-b0d8-da7d5be0854c",
+              "name": "Not Found - Account, domain, or netblock not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/no-such-account/domains/{{domainSlug}}/netblocks/127.0.0.1%2F32\",\n  \"message\": \"Account not found\",\n  \"type\": \"not-found\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cf39ebbf-3da2-47ed-9280-45cb90793fd2",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "17de71b5-59fe-4ca3-b0c2-8a39459d7fe1",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6c841668-a480-49aa-b377-b8d37334038b",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to be queried."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cf039888-7a21-423d-87e5-50e35bcd78ae",
+          "name": "Updates a netblock comment or the sender-slug associated with it",
+          "request": {
+            "name": "Updates a netblock comment or the sender-slug associated with it",
+            "description": {},
+            "url": {
+              "path": [
+                "accounts",
+                ":slug",
+                "domains",
+                ":domain",
+                "netblocks",
+                ":netblock"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "slug",
+                  "description": "(Required) Account slug to update a netblock."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "domain",
+                  "description": "(Required) Domain which the netblock is linked to."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "netblock",
+                  "description": "(Required) IP or CIDR of the netblock"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"comment\": \"<string>\",\n  \"sender-slug\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "16afd9cf-78c7-4ebe-8a80-8fcee6d8f3d7",
+              "name": "Ok - Netblock updated (the response will include the \"comment\" and/or the \"sender-slug\" depending on the data)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a netblock."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"This is a comment update\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"netblock\": \"127.0.0.1/32\",\n  \"spf-record\": \"v=spf1 ip4:127.0.0.1 -all\",\n  \"comment\": \"This is a comment\",\n  \"sender-slug\": \"sendgrid\",\n  \"domain-slug\": \"dmarceverywhere.com\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5011790f-b8df-4632-9ca7-1c4e884023e4",
+              "name": "Bad Request - Missing Authorization Token or invalid payload",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a netblock."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"This is a comment update\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"missing Authorization: Bearer header\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"400\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "72a9d68c-dc13-4dec-9795-d57d905c9117",
+              "name": "Unauthorized - Authentication failed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a netblock."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"This is a comment update\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Unauthorized\",\n  \"type\": \"\",\n  \"request-id\": \"CkmvjqpFKrQzajCScVFHTnokjKKiORRF\",\n  \"call\": \"api\",\n  \"status\": \"401\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "982b8fef-474a-4d15-85b5-d365b8900920",
+              "name": "Not Found - Account, domain, netblock, or sender not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a netblock."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"This is a comment update\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/no-such-account/domains/{{domainSlug}}/netblocks/127.0.0.1%2F32\",\n  \"message\": \"Account not found\",\n  \"type\": \"not-found\",\n  \"request-id\": \"12345\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f6f51aea-9906-43ab-a5f0-4cde11905e0c",
+              "name": "Unprocessable Entity - Failed to normalize or parse",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a netblock."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"This is a comment update\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": \"/accounts/{{the_account_slug}}/domains/{{domainSlug}}/\",\n  \"message\": \"Invalid domain\",\n  \"type\": \"invalid-domain\",\n  \"call\": \"internal\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37b12b38-8693-4f32-aa79-a184c8c3a2cb",
+              "name": "Over Rate - Rate limit exceeded",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a netblock."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"This is a comment update\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "75503f6f-d42d-411c-a657-26eb482b6cec",
+              "name": "Internal Server Error - Service, database, or unclassified error",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "accounts",
+                    ":slug",
+                    "domains",
+                    ":domain",
+                    "netblocks",
+                    ":netblock"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "slug",
+                      "description": "(Required) Account slug to update a netblock."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "domain",
+                      "description": "(Required) Domain which the netblock is linked to."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "netblock",
+                      "description": "(Required) IP or CIDR of the netblock"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"comment\": \"This is a comment update\",\n  \"sender-slug\": \"sendgrid\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Internal Server Error",
+              "code": 500,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"request\": {},\n  \"message\": \"string\",\n  \"type\": \"string\",\n  \"request-id\": \"string\",\n  \"call\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.valimail.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "0c7b908d-766b-4d1e-b746-00168a8fe5f5",
+    "name": "Account Management Accounts Netblocks API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ValiMail Integration API",
+      "type": "text/plain"
+    }
+  }
+}

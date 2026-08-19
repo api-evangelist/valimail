@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts SCIM API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SCIM",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of users in SCIM format according to RFC 7644",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/scim/v2/Users",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "SCIM filter expression to filter users. Supports the following operators:\n- `eq` (equals): Checks if attribute equals value (e.g., `userName eq \"foo@example.com\"`)\n- `ne` (not equals): Checks if attribute is not equal to value (e.g., `active ne true`)\n- `co` (contains): Checks if attribute contains substring (e.g., `userName co \"example\"`)\n- `sw` (starts with): Checks if attribute starts with substring (e.g., `name.givenName sw \"J\"`)\n- `ew` (ends with): Checks if attribute ends with substring (e.g., `name.familyName ew \"son\"`)\n- `gt` (greater than): For numeric/date values (e.g., `meta.lastModified gt \"2023-01-01T00:00:00Z\"`)\n- `lt` (less than): For numeric/date values (e.g., `meta.lastModified lt \"2024-01-01T00:00:00Z\"`)\n- `ge` (greater or equal): For numeric/date values\n- `le` (less or equal): For numeric/date values\n\nLogical operators: `and`, `or`, `not` can be used to combine conditions.\n"
+              }
+            ]
+          },
+          "docs": "Retrieves all users from the specified account in SCIM format. Supports filtering by various user attributes."
+        },
+        {
+          "info": {
+            "name": "Creates a new user in SCIM format",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/scim/v2/Users",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to create a user in."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new SCIM user in the specified account (RFC 7643/7644). Requires the core User schema and the ValiMail user extension schema. Supports userName, name.givenName, name.familyName, optional externalId, and extension memberType. Allowed memberType values are 'owner' and 'member'; 'marketer' is accepted only when enabled for the account. Returns 409 when userName already exists and 400 for invalid or missing fields."
+        },
+        {
+          "info": {
+            "name": "Returns a single user in SCIM format",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/scim/v2/Users/:id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "id",
+                "value": "49c398b12b",
+                "type": "path",
+                "description": "User ID to retrieve."
+              }
+            ]
+          },
+          "docs": "Retrieves a specific user by ID from the specified account in SCIM format, including all user attributes and ValiMail-specific extensions."
+        },
+        {
+          "info": {
+            "name": "Updates a user's attributes using SCIM PATCH operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.valimail.com/accounts/:slug/scim/v2/Users/:id",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug of the user to update."
+              },
+              {
+                "name": "id",
+                "value": "49c398b12b",
+                "type": "path",
+                "description": "User ID to update."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Partially updates an existing SCIM user (RFC 7644 PatchOp).\n\nSupported operations:\n- op: \"replace\" only\n\nSupported paths:\n- active (boolean: true/false)\n- urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User.memberType\n  (owner, member, or marketer when enabled for the account)\n\nRequirements:\n- schemas must include \"urn:ietf:params:scim:api:messages:2.0:PatchOp\"\n\nNotes:\n- PUT is not supported for this endpoint.\n- Unsupported op/path/value returns 400.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

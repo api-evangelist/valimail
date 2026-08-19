@@ -1,52 +1,86 @@
-generated: '2026-07-21'
+generated: '2026-08-14'
 method: searched
-source: npm, PyPI, RubyGems registry searches + github.com/ValiMail
+source: >-
+  registry.npmjs.org, pypi.org/pypi/<pkg>/json, rubygems.org/api/v1/gems/<pkg>.json,
+  github.com/ValiMail (org repo listing), support.valimail.com API docs
 notes: >-
-  Valimail publishes no first-party client SDK for its hosted APIs (Configuration,
-  Reporting, Account Management) — API access is via REST with bearer tokens.
-  The packages below are Valimail's first-party open-source email-authentication
-  libraries published from the ValiMail GitHub org.
+  Valimail publishes NO first-party client SDK for its hosted APIs
+  (Configuration, Account Management, Partner, Reporting) — integration is raw
+  REST with a bearer token obtained from POST /auth. The packages below are
+  Valimail's first-party open-source email-authentication libraries published
+  from the ValiMail GitHub org; they implement protocol primitives
+  (SPF/DKIM/DMARC/ARC/DANE), not the Valimail API. Registry currency was read
+  from each registry's metadata endpoint on 2026-08-14 and is a decay signal:
+  every one of these libraries last shipped between 2017 and 2024, and the npm
+  package has not published since 2018 — none of them tracks the APIs Valimail
+  ships today.
+sdk_for_api: false
 packages:
-  - language: python
-    registry: pypi
-    name: authheaders
-    url: https://pypi.org/project/authheaders/
-    install: pip install authheaders
-    official: true
-    repository: https://github.com/ValiMail/authentication-headers
-    description: Library wrapping email authentication header verification and generation (DKIM/SPF/DMARC/ARC).
-    version: 0.16.3
-  - language: python
-    registry: pypi
-    name: dane-discovery
-    url: https://pypi.org/project/dane-discovery/
-    install: pip install dane-discovery
-    official: true
-    repository: https://github.com/valimail/dane_discovery
-    description: Certificate/public key discovery with DANE.
-    version: '0.22'
-  - language: ruby
-    registry: rubygems
-    name: coppertone
-    url: https://rubygems.org/gems/coppertone
-    install: gem install coppertone
-    official: true
-    repository: https://github.com/ValiMail/coppertone
-    description: Sender Policy Framework (SPF) toolkit for Ruby.
-    version: 0.0.13
-  - language: ruby
-    registry: rubygems
-    name: dns_adapter
-    url: https://rubygems.org/gems/dns_adapter
-    install: gem install dns_adapter
-    official: true
-    repository: https://github.com/ValiMail/dns_adapter
-    description: An adapter layer for DNS queries.
-    version: 0.1.0
-  - language: javascript
-    registry: npm
-    name: '@valimail/dmarc-subject-parser'
-    url: https://www.npmjs.com/package/@valimail/dmarc-subject-parser
-    install: npm install @valimail/dmarc-subject-parser
-    official: true
-    description: DMARC report subject parser published under the @valimail npm scope.
+- language: python
+  registry: pypi
+  name: authheaders
+  url: https://pypi.org/project/authheaders/
+  install: pip install authheaders
+  official: true
+  repository: https://github.com/ValiMail/authentication-headers
+  description: Library wrapping email authentication header verification and generation (DKIM/SPF/DMARC/ARC).
+  version: 0.16.3
+  published: '2024-06-24'
+- language: python
+  registry: pypi
+  name: dane-discovery
+  url: https://pypi.org/project/dane-discovery/
+  install: pip install dane-discovery
+  official: true
+  repository: https://github.com/valimail/dane_discovery
+  description: Certificate/public key discovery with DANE.
+  version: '0.22'
+  published: '2022-01-20'
+- language: python
+  registry: pypi
+  name: dane-jwe-jws
+  url: https://pypi.org/project/dane-jwe-jws/
+  install: pip install dane-jwe-jws
+  official: true
+  repository: https://github.com/ValiMail/dane-jwe-jws
+  description: Use DANE for public key discovery, for JWE encryption and JWS message authentication.
+  version: '0.12'
+  published: '2022-01-05'
+- language: ruby
+  registry: rubygems
+  name: coppertone
+  url: https://rubygems.org/gems/coppertone
+  install: gem install coppertone
+  official: true
+  repository: https://github.com/ValiMail/coppertone
+  description: Sender Policy Framework (SPF) toolkit for Ruby.
+  version: 0.0.13
+  published: '2021-03-12'
+- language: ruby
+  registry: rubygems
+  name: dns_adapter
+  url: https://rubygems.org/gems/dns_adapter
+  install: gem install dns_adapter
+  official: true
+  repository: https://github.com/ValiMail/dns_adapter
+  description: An adapter layer for DNS queries.
+  version: 0.1.0
+  published: '2017-07-25'
+- language: javascript
+  registry: npm
+  name: '@valimail/dmarc-subject-parser'
+  url: https://www.npmjs.com/package/@valimail/dmarc-subject-parser
+  install: npm install @valimail/dmarc-subject-parser
+  official: true
+  description: DMARC report subject parser published under the @valimail npm scope.
+  version: 1.5.3
+  published: '2018-11-05'
+currency:
+  checked: '2026-08-14'
+  newest_release: '2024-06-24'
+  oldest_release: '2017-07-25'
+  finding: >-
+    No package in the first-party set has shipped a release since June 2024,
+    and the only JavaScript package has been dormant since November 2018. The
+    Configuration API (v1.1.0) and Partner API this repo captures postdate every
+    one of them, so no published library wraps the current API surface.

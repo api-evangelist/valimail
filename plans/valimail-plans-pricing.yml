@@ -1,0 +1,101 @@
+generated: '2026-08-14'
+method: searched
+source: https://www.valimail.com/pricing/
+docs: https://www.valimail.com/pricing/
+currency: USD
+billing_period: annual
+plan_count: 5
+notes: >-
+  Valimail publishes a public pricing page with a named tier ladder, but only
+  the free Monitor tier and the Enforce Starter entry price carry a number;
+  Premium, Enterprise and Amplify are quoted by sales. API access is NOT part
+  of the base plan on the lower tiers: it is a paid add-on on Enforce Premium
+  and is only included outright ("Full API access") on Enforce Enterprise —
+  which is the practical gate on this provider's API surface. Recorded verbatim
+  from the pricing page; no quota numbers beyond user/SPF-lookup caps are
+  published.
+plans:
+- name: Monitor
+  price: 0
+  price_display: Free
+  currency: USD
+  billing_period: null
+  api_access: false
+  limits:
+    users: 5
+    spf_lookups: 10
+    automated_dmarc: limited
+  included:
+  - Precision sender intelligence
+  - Account and domain dashboards
+  - Notification center
+  - Role-based access control
+  - Knowledgebase access
+- name: Enforce Starter
+  price: 5000
+  price_display: Starting at $5,000/year
+  currency: USD
+  billing_period: annual
+  api_access: false
+  limits:
+    users: unlimited
+    spf_lookups: unlimited
+  included:
+  - All Monitor features
+  - Automated DMARC (full)
+  - Downloadable reports
+  - Executive reports
+  - Configurable alerts
+  - Onboarding assistance
+  - Dedicated account manager
+- name: Enforce Premium
+  price: null
+  price_display: Contact us for custom pricing
+  currency: USD
+  billing_period: custom
+  api_access: add-on
+  included:
+  - All Starter features
+  - Subdomain management and reporting
+  - Automated DKIM
+  - Comprehensive dashboard
+  - Custom metadata
+  - Subdomain configuration
+  - Smart alerts
+  - Forced MFA
+  add_ons:
+  - API access
+  - Valicare
+  - Technical account manager
+- name: Enforce Enterprise
+  price: null
+  price_display: Contact us for custom pricing
+  currency: USD
+  billing_period: custom
+  api_access: true
+  included:
+  - All Premium features
+  - Full API access
+  - Source IP data visibility
+  - Privacy-safe RUF+
+  - DKIM Continuous Protection Report
+  - Senders Continuous Protection Report
+  - SAML/SSO and JIT provisioning
+  - FedRAMP deployment option
+  - Portfolios with dynamic options
+- name: Amplify
+  price: null
+  price_display: Contact Us for Pricing
+  currency: USD
+  billing_period: custom
+  api_access: null
+  included:
+  - BIMI implementation and management
+  - Brand logo display in inboxes
+api_access_gate:
+  summary: >-
+    API access is an entitlement, not a self-serve toggle. Keys (Client ID +
+    App ID) are created in the Enforce app by Owner-type users once the account
+    is entitled, and SSO or MFA must be enabled on the account first.
+  docs: https://support.valimail.com/en/articles/10580387-requesting-api-access
+  cross_link: authentication/valimail-authentication.yml

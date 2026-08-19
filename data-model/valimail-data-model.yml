@@ -1,6 +1,7 @@
-generated: '2026-07-21'
+generated: '2026-08-14'
 method: derived
-source: openapi/valimail-config-openapi-original.yml, openapi/valimail-account-openapi-original.yml
+source: openapi/_original/valimail-config-openapi-original.yml, openapi/_original/valimail-account-openapi-original.yml,
+  openapi/_original/valimail-partner-openapi-original.yml
 notes: >-
   Entity graph derived from the resource paths and schemas of the published
   Configuration and Account Management APIs. Identifiers are human-readable

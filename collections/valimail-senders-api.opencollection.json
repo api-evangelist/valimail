@@ -1,0 +1,155 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts Senders API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Senders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns the list of senders for the given domain/subdomain and account slug",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/senders",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain to be queried."
+              }
+            ]
+          },
+          "docs": "Returns the list of senders for the given domain/subdomain and account slug"
+        },
+        {
+          "info": {
+            "name": "Creates a new sender link with a domain/subdomain (to list the senders available to be connected to the domain/subdomain, use /resource/senders)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/senders",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to create a sender link with a domain."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the sender will be linked to."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new sender link with a domain/subdomain (to list the senders available to be connected to the domain/subdomain, use /resource/senders)"
+        },
+        {
+          "info": {
+            "name": "Retuns a single sender according to the sender slug",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/senders/:sender-slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug which the sender is linked to the domain."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the sender is linked to."
+              },
+              {
+                "name": "sender-slug",
+                "value": "sendgrid",
+                "type": "path",
+                "description": "Sender slug which the sender is linked to the domain"
+              }
+            ]
+          },
+          "docs": "Retuns a single sender according to the sender slug"
+        },
+        {
+          "info": {
+            "name": "Updates the status of a sender linked to the domain/subdomain to \"approved\", \"denied\" or \"pending_approval\".",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/senders/:sender-slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to update a sender linked to the domain."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the sender is linked to."
+              },
+              {
+                "name": "sender-slug",
+                "value": "sendgrid",
+                "type": "path",
+                "description": "Sender slug linked to the domain"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the status of a sender linked to the domain/subdomain to \"approved\", \"denied\" or \"pending_approval\"."
+        },
+        {
+          "info": {
+            "name": "Returns the list of senders available to be connected to the domain (the slug can be used on [POST]\"/accounts/{slug}/domains/{domain}/senders\")",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/resource/senders"
+          },
+          "docs": "Returns the list of senders available to be connected to the domain (the slug can be used on [POST]\"/accounts/{slug}/domains/{domain}/senders\")"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

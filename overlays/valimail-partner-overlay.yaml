@@ -1,0 +1,58 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the Valimail Partner API
+  version: 1.0.0
+x-generated: '2026-08-14'
+x-method: generated
+extends: openapi/_original/valimail-partner-openapi-original.yml
+actions:
+  - target: $.info
+    update:
+      x-apievangelist:
+        provider: valimail
+        harvested: '2026-08-14'
+        source: https://api.valimail.com/docs/partner.yml
+        docs: https://api.valimail.com/docs/partner.html
+        discovery-note: >-
+          Found on the 2026-08-14 enrichment pass by probing the API host's
+          docs directory alongside the already-known config.yml and account.yml.
+          Nothing in the Valimail help center links to it; it is only reachable
+          by guessing the filename next to the two documented specs.
+      contact:
+        name: Valimail Product Support
+        email: support@valimail.com
+        url: https://support.valimail.com/en/collections/12071845-introduction-to-the-valimail-apis
+  - target: $.info
+    update:
+      description: >-
+        Valimail Partner API — the reseller/MSP surface for managing customer
+        accounts under a partner account: account lifecycle (create, update,
+        delete, hard-delete under /v2), user lifecycle and invitations, SSO
+        configuration, subscription packages, portfolios, and a sender report.
+        Overlaps heavily with the Account Management API but adds the
+        GET /accounts/{slug}/reports/senders sender report and a full SSO CRUD
+        surface.
+  - target: $.paths['/accounts'].post
+    update:
+      x-improvement-note: >-
+        Spec declares no operationIds anywhere in the document; suggested id
+        createPartnerAccount. Unique operationIds would enable SDK generation,
+        Arazzo workflows, and MCP tool binding.
+  - target: $.paths['/accounts/{slug}/reports/senders'].get
+    update:
+      x-improvement-note: >-
+        The only reporting operation exposed outside the customer-only Reporting
+        Data API; suggested id getAccountSendersReport.
+  - target: $.paths['/accounts/{slug}/v2'].delete
+    update:
+      x-improvement-note: >-
+        Versioned path segment (/v2) is used to namespace a destructive variant
+        rather than a whole API version. Documenting the /v2 semantics — and a
+        deprecation path for the unversioned DELETE — would remove real
+        ambiguity for an automated caller.
+  - target: $.components.securitySchemes.bearerAuth
+    update:
+      x-token-source: >-
+        Token is obtained from POST /auth with client-id + app-id and carries an
+        expires-at timestamp; Partner API access is granted to partners by
+        Valimail Product Support, not self-serve.

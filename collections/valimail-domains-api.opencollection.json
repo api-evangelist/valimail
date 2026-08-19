@@ -1,0 +1,193 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts Domains API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Domains",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of domains and/or subdomains with relevant data for a given account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "",
+                "type": "query",
+                "description": "Filter by List of Domains."
+              },
+              {
+                "name": "dmarc-record",
+                "value": "None,NS,CNAME,TXT",
+                "type": "query",
+                "description": "Filter by List of DMARC record types."
+              },
+              {
+                "name": "enforcement-status",
+                "value": "Not Configured,Not At Enforcement,Sending With Enforcement,Blocked",
+                "type": "query",
+                "description": "Filter by List of Enforcement statuses."
+              },
+              {
+                "name": "dmarc-policy",
+                "value": "None,Quarantine,Reject",
+                "type": "query",
+                "description": "Filter by List of DMARC policies."
+              },
+              {
+                "name": "sending-status",
+                "value": "Active,Reporting Only,Blocked",
+                "type": "query",
+                "description": "Filter by List of Sending statuses."
+              },
+              {
+                "name": "org-domain-only",
+                "value": "false",
+                "type": "query",
+                "description": "Filter to return only organizational domains when true."
+              },
+              {
+                "name": "reverse",
+                "value": "false",
+                "type": "query",
+                "description": "Reverse the order of the list to be provided."
+              },
+              {
+                "name": "sort-key",
+                "value": "domain_name",
+                "type": "query",
+                "description": "Sorts the given list by a key. (e.g., domain_name, dmarc_record_type, enforcement_status, dmarc_policy, sending_status, last_report_date)"
+              }
+            ]
+          },
+          "docs": "Returns a list of domains and/or subdomains with relevant data for a given account"
+        },
+        {
+          "info": {
+            "name": "Creates an domain/subdomain associated with an account",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/domains",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to create a domain."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an domain/subdomain associated with an account"
+        },
+        {
+          "info": {
+            "name": "Returns a domain or subdomain's relevant data for a given account slug",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain to be queried."
+              }
+            ]
+          },
+          "docs": "Returns a domain or subdomain's relevant data for a given account slug"
+        },
+        {
+          "info": {
+            "name": "Updates domain's dmarc-policy and sending-status",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to update a domain."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain to be updated."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates domain's dmarc-policy and sending-status"
+        },
+        {
+          "info": {
+            "name": "Deletes a domain for a given account slug",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain to be deleted."
+              }
+            ]
+          },
+          "docs": "Deletes a domain for a given account slug"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

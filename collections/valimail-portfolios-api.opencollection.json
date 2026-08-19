@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts Portfolios API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Portfolios",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns domains connected to portfolios of all linked accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/portfolios",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              }
+            ]
+          },
+          "docs": "Returns domains connected to portfolios of all linked accounts"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

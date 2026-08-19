@@ -1,0 +1,64 @@
+generated: '2026-08-14'
+method: derived
+source: >-
+  openapi/_original/valimail-config-openapi-original.yml,
+  openapi/_original/valimail-account-openapi-original.yml,
+  openapi/_original/valimail-partner-openapi-original.yml
+docs_searched:
+- url: https://support.valimail.com/en/articles/10911206-api-overview
+  status: 200
+  finding: no rate limits, quotas, or throttling headers documented
+- url: https://support.valimail.com/en/articles/10911168-api-authentication-and-authorization
+  status: 200
+  finding: no rate limits documented
+limit_count: 0
+notes: >-
+  Valimail documents that rate limiting EXISTS but never publishes a number.
+  All three published OpenAPI documents declare a 429 "Over Rate - Rate limit
+  exceeded" response on nearly every operation (31 of 39 Configuration API
+  operations, 26 of 26 Account Management operations, 21 of 21 Partner API
+  operations), so an integrator knows the failure mode but cannot know the
+  budget. No rate-limit response headers (X-RateLimit-*, RateLimit-*,
+  Retry-After) are declared in any spec or in the help-center API articles,
+  and there is no public quota table — the API onboarding guide that may carry
+  them is issued privately by an account manager. limit_count: 0 is an honest
+  zero: the signal is present, the values are not.
+limits: []
+exhaustion:
+  status_code: 429
+  reason_phrase: Over Rate - Rate limit exceeded
+  response_schema: ErrorResponse
+  envelope: '{request, message, type, request-id, call, status}'
+  cross_link: errors/valimail-problem-types.yml
+headers:
+  documented: []
+  retry_after: false
+  notes: >-
+    No rate-limit headers are declared in any securityScheme, response header
+    block, or docs page. An agent cannot pre-empt exhaustion; it can only react
+    to a 429 and back off blindly.
+coverage_by_spec:
+- spec: openapi/_original/valimail-config-openapi-original.yml
+  api: Configuration API
+  operations: 39
+  operations_declaring_429: 31
+- spec: openapi/_original/valimail-account-openapi-original.yml
+  api: Account Management API
+  operations: 26
+  operations_declaring_429: 26
+- spec: openapi/_original/valimail-partner-openapi-original.yml
+  api: Partner API
+  operations: 21
+  operations_declaring_429: 21
+related_quotas:
+- scope: approved-senders
+  signal: 403 "Forbidden - Approved sender quota exceeded"
+  source: openapi/_original/valimail-config-openapi-original.yml
+  notes: >-
+    A plan-entitlement quota rather than a request-rate limit; surfaced as 403,
+    not 429, on the sender-linking operation.
+- scope: spf-lookups
+  limit: 10
+  applies_to: Monitor (free) plan
+  source: https://www.valimail.com/pricing/
+  cross_link: plans/valimail-plans-pricing.yml

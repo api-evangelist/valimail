@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts DKIMs by Domain API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DKIMs by Domain",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of all DKIMs linked to the domain or subdomain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/dkims",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain to be queried."
+              },
+              {
+                "name": "reverse",
+                "value": "false",
+                "type": "query",
+                "description": "A boolean value indicating if the results should be returned in reverse order"
+              }
+            ]
+          },
+          "docs": "Returns a list of all DKIMs linked to the domain or subdomain"
+        },
+        {
+          "info": {
+            "name": "Creates a new DKIM for the domain or subdomain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/dkims",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to create a DKIM for the domain."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the Sender is linked to."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new DKIM for the domain. The DKIM can be create either with a public key or with a CNAME target, but not both.\n"
+        },
+        {
+          "info": {
+            "name": "Returns a single DKIM according to the selector",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/dkims/:selector",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the Sender is linked to."
+              },
+              {
+                "name": "selector",
+                "value": "selector1",
+                "type": "path",
+                "description": "DKIM selector to be queried."
+              }
+            ]
+          },
+          "docs": "Returns a single DKIM according to the selector"
+        },
+        {
+          "info": {
+            "name": "Updates DKIM comment, sender owner, and domain owner, and optionally sender slug associated with it",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/dkims/:selector",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to update a DKIM."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the Sender is linked to."
+              },
+              {
+                "name": "selector",
+                "value": "selector1",
+                "type": "path",
+                "description": "DKIM selector"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a specific DKIM comment, sender owner, and domain owner by selector. When the \"new-sender-slug\" is part of the request, the DKIM will updated the link to the new sender slug."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

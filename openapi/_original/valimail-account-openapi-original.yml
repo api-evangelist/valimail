@@ -595,6 +595,250 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
 
+    /accounts/{slug}/app/sso:
+      get:
+        summary: Returns the SSO configuration for the account slug provided.
+        tags:
+        - SSO
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        responses:
+          '200':
+            description: Ok - SSO configuration returned.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SsoConfig'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - SSO configuration not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      post:
+        summary: Creates an SSO configuration for the account slug provided.
+        tags:
+        - SSO
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to create an SSO configuration.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SsoCreate'
+        responses:
+          '200':
+            description: Ok - SSO configuration created.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SsoConfig'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      put:
+        summary: Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed.
+        tags:
+        - SSO
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to update the SSO configuration.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SsoCreate'
+        responses:
+          '200':
+            description: Ok - SSO configuration updated.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SsoConfig'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - SSO configuration not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      delete:
+        summary: Deletes the SSO configuration for the account slug provided.
+        tags:
+        - SSO
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to delete the SSO configuration.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        responses:
+          '200':
+            description: Ok - SSO configuration deleted.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/SsoConfig'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - SSO configuration not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
     /accounts/{slug}/users:
       get:
         summary: Returns users linked to the account slug provided.
@@ -1174,11 +1418,11 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
 
-    /accounts/{slug}/app/sso:
+    /accounts/{slug}/teams:
       get:
-        summary: Returns the SSO configuration for the account slug provided.
+        summary: Returns teams linked to the account slug provided.
         tags:
-        - SSO
+        - Teams
         parameters:
         - name: slug
           in: path
@@ -1189,11 +1433,19 @@ paths:
           example: valimail
         responses:
           '200':
-            description: Ok - SSO configuration returned.
+            description: OK - List of the Teams linked to the account slug are provided
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/SsoConfig'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Team'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
           '401':
             description: Unauthorized - Authentication failed
             content:
@@ -1202,12 +1454,6 @@ paths:
                   $ref: '#/components/schemas/ErrorResponse'
           '403':
             description: Forbidden - Authorization failed
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
-          '404':
-            description: Not Found - SSO configuration not found
             content:
               application/json:
                 schema:
@@ -1232,13 +1478,13 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
       post:
-        summary: Creates an SSO configuration for the account slug provided.
+        summary: Creates a new team linked to the account slug provided.
         tags:
-        - SSO
+        - Teams
         parameters:
         - name: slug
           in: path
-          description: Account slug to create an SSO configuration.
+          description: Account slug to create a team.
           required: true
           schema:
             type: string
@@ -1248,14 +1494,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SsoCreate'
+                $ref: '#/components/schemas/TeamCreate'
         responses:
           '200':
-            description: Ok - SSO configuration created.
+            description: Ok - New team created.
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/SsoConfig'
+                  $ref: '#/components/schemas/Team'
           '400':
             description: Bad Request - Invalid input data
             content:
@@ -1270,6 +1516,77 @@ paths:
                   $ref: '#/components/schemas/ErrorResponse'
           '403':
             description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/teams/{team-slug}:
+      get:
+        summary: Returns team data by account slug and team slug.
+        tags:
+        - Teams
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        - name: team-slug
+          in: path
+          description: Team slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: engineering
+        responses:
+          '200':
+            description: Ok - Single Team is provided
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Team'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - Account or team not found
             content:
               application/json:
                 schema:
@@ -1294,30 +1611,37 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
       put:
-        summary: Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed.
+        summary: Updates team data by account slug and team slug.
         tags:
-        - SSO
+        - Teams
         parameters:
         - name: slug
           in: path
-          description: Account slug to update the SSO configuration.
+          description: Account slug to update a team.
           required: true
           schema:
             type: string
           example: valimail
+        - name: team-slug
+          in: path
+          description: Team slug to be updated.
+          required: true
+          schema:
+            type: string
+          example: engineering
         requestBody:
           required: true
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SsoCreate'
+                $ref: '#/components/schemas/TeamCreate'
         responses:
           '200':
-            description: Ok - SSO configuration updated.
+            description: Ok - Team updated.
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/SsoConfig'
+                  $ref: '#/components/schemas/Team'
           '400':
             description: Bad Request - Invalid input data
             content:
@@ -1337,63 +1661,7 @@ paths:
                 schema:
                   $ref: '#/components/schemas/ErrorResponse'
           '404':
-            description: Not Found - SSO configuration not found
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
-          '422':
-            description: Unprocessable Entity - Failed to normalize or parse
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
-          '429':
-            description: Over Rate - Rate limit exceeded
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
-          '500':
-            description: Internal Server Error - Service, database, or unclassified
-              error
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
-      delete:
-        summary: Deletes the SSO configuration for the account slug provided.
-        tags:
-        - SSO
-        parameters:
-        - name: slug
-          in: path
-          description: Account slug to delete the SSO configuration.
-          required: true
-          schema:
-            type: string
-          example: valimail
-        responses:
-          '200':
-            description: Ok - SSO configuration deleted.
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/SsoConfig'
-          '401':
-            description: Unauthorized - Authentication failed
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
-          '403':
-            description: Forbidden - Authorization failed
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErrorResponse'
-          '404':
-            description: Not Found - SSO configuration not found
+            description: Not Found - Account or team not found
             content:
               application/json:
                 schema:
@@ -1470,6 +1738,275 @@ paths:
                   $ref: '#/components/schemas/ErrorResponse'
           '500':
             description: Internal Server Error - Service, database, or unclassified error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/v2/portfolios:
+      get:
+        summary: Returns portfolios linked to the account slug provided.
+        tags:
+        - Portfolios
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        responses:
+          '200':
+            description: OK - List of the Portfolios linked to the account slug are
+              provided
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Portfolio'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      post:
+        summary: Creates a new portfolio linked to the account slug provided.
+        tags:
+        - Portfolios
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to create a portfolio.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioCreate'
+        responses:
+          '200':
+            description: Ok - New portfolio created.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Portfolio'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+
+    /accounts/{slug}/v2/portfolios/{portfolio-slug}:
+      get:
+        summary: Returns portfolio data by account slug and portfolio slug.
+        tags:
+        - Portfolios
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        - name: portfolio-slug
+          in: path
+          description: Portfolio slug to be queried.
+          required: true
+          schema:
+            type: string
+          example: marketing-domains
+        responses:
+          '200':
+            description: Ok - Single Portfolio is provided
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Portfolio'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - Account or portfolio not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+      put:
+        summary: Updates portfolio data by account slug and portfolio slug.
+        tags:
+        - Portfolios
+        parameters:
+        - name: slug
+          in: path
+          description: Account slug to update a portfolio.
+          required: true
+          schema:
+            type: string
+          example: valimail
+        - name: portfolio-slug
+          in: path
+          description: Portfolio slug to be updated.
+          required: true
+          schema:
+            type: string
+          example: marketing-domains
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioCreate'
+        responses:
+          '200':
+            description: Ok - Portfolio updated.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Portfolio'
+          '400':
+            description: Bad Request - Invalid input data
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ValidationResponse'
+          '401':
+            description: Unauthorized - Authentication failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '403':
+            description: Forbidden - Authorization failed
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Not Found - Account or portfolio not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '422':
+            description: Unprocessable Entity - Failed to normalize or parse
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '429':
+            description: Over Rate - Rate limit exceeded
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal Server Error - Service, database, or unclassified
+              error
             content:
               application/json:
                 schema:
@@ -1924,3 +2461,120 @@ components:
       properties:
         request-id:
           type: string
+
+    Team:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        slug:
+          type: string
+        saml-group-id:
+          type: string
+          description: Present when the team is linked to a SAML group for SSO-based assignment.
+      example:
+        name: "Engineering"
+        description: "Engineering team"
+        slug: "engineering"
+        saml-group-id: "eng-saml-group"
+
+    TeamCreate:
+      type: object
+      properties:
+        name:
+          description: "Name of the team."
+          type: string
+        description:
+          description: "Description of the team."
+          type: string
+        saml-group-id:
+          description: "Optional SAML group ID used to auto-assign SSO users to this team."
+          type: string
+
+    Portfolio:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        slug:
+          type: string
+        dynamic:
+          type: boolean
+          description: When true, domain membership is computed from the criteria fields below instead of the explicit domain lists.
+        org-domain-names:
+          type: array
+          items:
+            type: string
+        domain-names:
+          type: array
+          items:
+            type: string
+        enforcement-status-criteria:
+          type: array
+          items:
+            type: string
+        sending-status-criteria:
+          type: array
+          items:
+            type: string
+        dmarc-policy-criteria:
+          type: array
+          items:
+            type: string
+      example:
+        name: "Marketing Domains"
+        description: "Domains managed by the marketing team"
+        slug: "marketing-domains"
+        dynamic: true
+        org-domain-names:
+          - "dmarceverywhere.com"
+        domain-names:
+          - "heytest.com"
+        enforcement-status-criteria:
+          - "enforced"
+        sending-status-criteria:
+          - "sending"
+        dmarc-policy-criteria:
+          - "reject"
+
+    PortfolioCreate:
+      type: object
+      properties:
+        name:
+          description: "Name of the portfolio."
+          type: string
+        description:
+          description: "Description of the portfolio."
+          type: string
+        dynamic:
+          description: "When true, domain membership is computed from the criteria fields below instead of the explicit domain lists."
+          type: boolean
+        enforcement-status-criteria:
+          description: "List of enforcement statuses used to dynamically select domains for the portfolio."
+          type: array
+          items:
+            type: string
+        sending-status-criteria:
+          description: "List of sending statuses used to dynamically select domains for the portfolio."
+          type: array
+          items:
+            type: string
+        dmarc-policy-criteria:
+          description: "List of DMARC policies used to dynamically select domains for the portfolio."
+          type: array
+          items:
+            type: string
+        org-domain-names:
+          description: "Organizational domain names to include in the portfolio."
+          type: array
+          items:
+            type: string
+        domain-names:
+          description: "Domain names to include in the portfolio."
+          type: array
+          items:
+            type: string

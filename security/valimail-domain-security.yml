@@ -1,6 +1,6 @@
-generated: '2026-07-21'
+generated: '2026-08-14'
 method: probed
-source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI servers[] hosts
 hosts:
 - host: www.valimail.com
   https: true
@@ -14,12 +14,28 @@ hosts:
   cert_expires: Feb  3 23:59:59 2027 GMT
   hsts: true
   hsts_max_age: 63113904
+  hsts_include_subdomains: true
+  hsts_preload: true
+- host: app.valimail.com
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Feb  3 23:59:59 2027 GMT
+  hsts: true
+  hsts_max_age: 63113904
+- host: support.valimail.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 17 13:50:05 2026 GMT
+  hsts: true
+  hsts_max_age: 15552000
+  note: Intercom-hosted help center (third-party host, not Valimail infrastructure).
 - host: api.valimail-staging.com
   https: true
   tls_version: TLSv1.2
   cert_expires: Feb  2 23:59:59 2027 GMT
   hsts: true
   hsts_max_age: 63113904
+  note: Stage test server declared in the published Configuration/Account/Partner OpenAPI servers[].
 domains:
 - domain: valimail.com
   dnssec: false
@@ -27,9 +43,16 @@ domains:
   spf: true
   dmarc: true
   dmarc_policy: reject
+  dmarc_record: v=DMARC1; p=reject; rua=mailto:dmarc_agg@vali.email,mailto:dmarc.reports@valimail.com
 - domain: valimail-staging.com
   dnssec: false
   caa: []
   spf: true
   dmarc: true
   dmarc_policy: quarantine
+  dmarc_record: v=DMARC1; p=quarantine; rua=mailto:dmarc_agg@vali.email
+notes: >-
+  Valimail dogfoods its own product: the corporate domain publishes DMARC at
+  p=reject with aggregate reporting to vali.email. No CAA records and no DNSSEC
+  on either registrable domain (probed 2026-08-14) — both are honest absences.
+  HSTS is set with includeSubDomains + preload on the API host.

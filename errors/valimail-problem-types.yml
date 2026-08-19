@@ -1,6 +1,15 @@
-generated: '2026-07-21'
+generated: '2026-08-14'
 method: derived
-source: openapi/valimail-config-openapi-original.yml, openapi/valimail-account-openapi-original.yml
+source: openapi/_original/valimail-config-openapi-original.yml, openapi/_original/valimail-account-openapi-original.yml,
+  openapi/_original/valimail-partner-openapi-original.yml
+rescanned: '2026-08-14'
+rescan_note: >-
+  Re-derived against the refreshed 2026-08-14 harvest, which added the Partner
+  API spec and a fuller SSO surface on the Account Management API. The Partner
+  API reuses the same ErrorResponse envelope and the same status set as the
+  Account Management API (400/401/403/404/422/429/500), plus the
+  DelegatedAPIValidationErrorResponse variant; no new problem shapes were
+  introduced.
 format: custom-envelope
 envelope:
   content_type: application/json

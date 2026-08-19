@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts Netblocks API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Netblocks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of all netblocks of a domain or subdomain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/netblocks",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain to be queried."
+              },
+              {
+                "name": "reverse",
+                "value": "false",
+                "type": "query",
+                "description": "Reverse the order of the list to be provided."
+              }
+            ]
+          },
+          "docs": "Returns a list of all netblocks of a domain or subdomain"
+        },
+        {
+          "info": {
+            "name": "Creates a new netblock for the domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/netblocks",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to create a netblock for the domain."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the netblock will be linked to."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new netblock for the domain or subdomain. The comment and the sender-slug are optional.\n"
+        },
+        {
+          "info": {
+            "name": "Returns a single netblock according to IP or CIDR",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/netblocks/:netblock",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the netblock is linked to."
+              },
+              {
+                "name": "netblock",
+                "value": "127.0.0.1/32",
+                "type": "path",
+                "description": "IP or CIDR of the netblock"
+              }
+            ]
+          },
+          "docs": "Returns a single netblock according to IP or CIDR"
+        },
+        {
+          "info": {
+            "name": "Updates a netblock comment or the sender-slug associated with it",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/netblocks/:netblock",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to update a netblock."
+              },
+              {
+                "name": "domain",
+                "value": "dmarceverywhere.com",
+                "type": "path",
+                "description": "Domain which the netblock is linked to."
+              },
+              {
+                "name": "netblock",
+                "value": "127.0.0.1/32",
+                "type": "path",
+                "description": "IP or CIDR of the netblock"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates a netblock comment or the sender-slug associated with it"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

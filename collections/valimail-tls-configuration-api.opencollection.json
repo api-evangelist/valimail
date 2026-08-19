@@ -1,0 +1,126 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts TLS Configuration API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "TLS Configuration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns TLS-RPT (TLS Reporting) policy configuration for a domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/smtp_tls_policy",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "domain",
+                "value": "example.com",
+                "type": "path",
+                "description": "Domain name to be queried."
+              }
+            ]
+          },
+          "docs": "Returns TLS-RPT (TLS Reporting) policy configuration for a domain"
+        },
+        {
+          "info": {
+            "name": "Creates a new TLS Configuration for a domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/smtp_tls_policy",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to create a policy for."
+              },
+              {
+                "name": "domain",
+                "value": "example.com",
+                "type": "path",
+                "description": "Domain name to create a policy for."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new TLS Configuration for a domain"
+        },
+        {
+          "info": {
+            "name": "Updates an existing TLS Configuration for a domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.valimail.com/accounts/:slug/domains/:domain/smtp_tls_policy",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to update a policy for."
+              },
+              {
+                "name": "domain",
+                "value": "example.com",
+                "type": "path",
+                "description": "Domain name to update a policy for."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing TLS Configuration for a domain"
+        },
+        {
+          "info": {
+            "name": "Returns a list of all TLS-RPT policies for an account",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/smtp_tls_policies",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              }
+            ]
+          },
+          "docs": "Returns a list of all TLS-RPT policies for an account"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

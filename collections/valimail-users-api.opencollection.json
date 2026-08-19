@@ -1,0 +1,230 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts Users API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns users linked to the account slug provided.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/users",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Filter by Account slug."
+              },
+              {
+                "name": "email",
+                "value": "test@email.com,anothertest@email.com",
+                "type": "query",
+                "description": "Filter by List of emails."
+              },
+              {
+                "name": "first-name",
+                "value": "John,Jane",
+                "type": "query",
+                "description": "Filter by List of First Names."
+              },
+              {
+                "name": "last-name",
+                "value": "Doe,Smith",
+                "type": "query",
+                "description": "Filter by List of Last Names."
+              },
+              {
+                "name": "user-slug",
+                "value": "john-doe,jane-smith",
+                "type": "query",
+                "description": "Filter by List of User slugs."
+              },
+              {
+                "name": "has-accepted-invitation",
+                "value": "true",
+                "type": "query",
+                "description": "Boolean flag. Use true to return users whose invitation has already been accepted, and false to return users whose invitation has not been accepted."
+              },
+              {
+                "name": "user-type",
+                "value": "owner,marketer",
+                "type": "query",
+                "description": "Filter by List of user types."
+              },
+              {
+                "name": "reverse",
+                "value": "false",
+                "type": "query",
+                "description": "Reverse the order of the list to be provided."
+              },
+              {
+                "name": "sort-key",
+                "value": "email",
+                "type": "query",
+                "description": "Sorts the given list by a key. Allowed values: slug, email, first_name, last_name, account_slug, last_active_at, user_type."
+              },
+              {
+                "name": "page",
+                "value": "1",
+                "type": "query",
+                "description": "Page to be accessed according to the division of items provided in conjunction with the 'per-page' parameter."
+              },
+              {
+                "name": "per-page",
+                "value": "100",
+                "type": "query",
+                "description": "Number of users per page on the provided list."
+              }
+            ]
+          },
+          "docs": "Returns users linked to the account slug provided."
+        },
+        {
+          "info": {
+            "name": "Creates a new user linked to the account slug provided and sends an invitation email.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/users",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to create an user."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new user linked to the account slug provided and sends an invitation email."
+        },
+        {
+          "info": {
+            "name": "Sends a new invitation email for the existing user and returns the latest activation link.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/users/:user-slug/invitation",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to find the user."
+              },
+              {
+                "name": "user-slug",
+                "value": "john-doe",
+                "type": "path",
+                "description": "User slug to receive a new invitation."
+              }
+            ]
+          },
+          "docs": "If the user has already accepted the invitation, the response returns invitation-accepted-at and an empty activation-link."
+        },
+        {
+          "info": {
+            "name": "Returns account user data by account slug and user slug.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/users/:user-slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "user-slug",
+                "value": "john-doe",
+                "type": "path",
+                "description": "User slug to be queried."
+              }
+            ]
+          },
+          "docs": "Returns account user data by account slug and user slug."
+        },
+        {
+          "info": {
+            "name": "Updates user data by account slug and user slug.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.valimail.com/accounts/:slug/users/:user-slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to update an user."
+              },
+              {
+                "name": "user-slug",
+                "value": "john-doe",
+                "type": "path",
+                "description": "User slug to be updated."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates user data by account slug and user slug."
+        },
+        {
+          "info": {
+            "name": "Inactivates a user according to the account slug and user slug provided.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.valimail.com/accounts/:slug/v2/users/:user-slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "user-slug",
+                "value": "john-doe",
+                "type": "path",
+                "description": "User slug to be queried."
+              }
+            ]
+          },
+          "docs": "Inactivates a user according to the account slug and user slug provided."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

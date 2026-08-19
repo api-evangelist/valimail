@@ -1,6 +1,6 @@
-generated: '2026-07-21'
+generated: '2026-08-14'
 method: derived
-source: openapi/valimail-config-openapi-original.yml, openapi/valimail-account-openapi-original.yml, https://support.valimail.com/en/articles/10911168-api-authentication-and-authorization
+source: openapi/_original/valimail-config-openapi-original.yml, openapi/_original/valimail-account-openapi-original.yml, openapi/_original/valimail-partner-openapi-original.yml, https://support.valimail.com/en/articles/10911168-api-authentication-and-authorization
 authentication:
   style: bearer-token
   detail: >-
@@ -40,6 +40,9 @@ error_envelope:
   cross_link: errors/valimail-problem-types.yml
 rate_limits:
   signaling: 429 status ("Over Rate - Rate limit exceeded") documented on most operations; no documented rate-limit headers.
+  headers: none
+  published_values: none
+  cross_link: rate-limits/valimail-rate-limits.yml
 webhooks:
   signing: Ed25519 signatures; public keys published at GET /webhooks/keys (map of key ID to base64 key).
   cross_link: asyncapi/valimail-webhooks.yml
@@ -47,3 +50,9 @@ environments:
   production: https://api.valimail.com
   staging: https://api.valimail-staging.com
   cross_link: sandbox/valimail-sandbox.yml
+entitlement:
+  notes: >-
+    API access is a plan entitlement, not a self-serve capability: it is an
+    add-on on Enforce Premium and included only on Enforce Enterprise, and the
+    account must have SSO or MFA enabled before an Owner can mint keys.
+  cross_link: plans/valimail-plans-pricing.yml

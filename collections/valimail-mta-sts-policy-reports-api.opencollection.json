@@ -1,0 +1,183 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts MTA-STS Policy Reports API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "MTA-STS Policy Reports",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "GET /accounts/{slug}/mta-sts/tls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/mta-sts/tls",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "start-date",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the report (ISO 8601 format) -  The date value should be formatted as YYYY-MM-DD. This is the starting date of the time range you wish to retrieve the report for"
+              },
+              {
+                "name": "end-date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the report (ISO 8601 format) - The date value should be formatted as YYYY-MM-DD. This is the end date of the time range you wish to retrieve the report for"
+              },
+              {
+                "name": "domain-names",
+                "value": "",
+                "type": "query",
+                "description": "Array of domain names to filter the report data. If not provided, the report will return data for all existing domains on the account."
+              },
+              {
+                "name": "policy-mx-host",
+                "value": "",
+                "type": "query",
+                "description": "policy-mx-host to filter the report data. "
+              },
+              {
+                "name": "policy-mode",
+                "value": "",
+                "type": "query",
+                "description": "policy-mode to filter the report data. "
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Limit the number of records returned. Default is 20."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for pagination. Default is 1."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Sort the results by a specific field. The '-' prefix indicates descending order."
+              }
+            ]
+          },
+          "docs": "The MTA-STS Policy Reports - TLS endpoint responds with the data available within MTA-STS policy report files."
+        },
+        {
+          "info": {
+            "name": "GET /accounts/{slug}/mta-sts/tls/summary",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/mta-sts/tls/summary",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "start-date",
+                "value": "",
+                "type": "query",
+                "description": "Start date of the report. The date value should be formatted as YYYY-MM-DD."
+              },
+              {
+                "name": "end-date",
+                "value": "",
+                "type": "query",
+                "description": "End date of the report. The date value should be formatted as YYYY-MM-DD."
+              },
+              {
+                "name": "domain-names",
+                "value": "",
+                "type": "query",
+                "description": "Array of domain names to filter the report data. If not provided, the report will return data for all existing domains on the account."
+              },
+              {
+                "name": "policy-mx-host",
+                "value": "",
+                "type": "query",
+                "description": "The MX host value present in the TLS reports."
+              },
+              {
+                "name": "policy-mode",
+                "value": "",
+                "type": "query",
+                "description": "The policy mode value present in the TLS reports."
+              }
+            ]
+          },
+          "docs": "The MTA-STS Policy Reports - TLS summary endpoint responds with aggregated success and failure counts, plus a daily message count series."
+        },
+        {
+          "info": {
+            "name": "GET /accounts/{slug}/mta-sts/tls/failure-details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/mta-sts/tls/failure-details",
+            "params": [
+              {
+                "name": "slug",
+                "value": "",
+                "type": "path",
+                "description": "Account slug to be queried."
+              },
+              {
+                "name": "report-id",
+                "value": "",
+                "type": "query",
+                "description": "Report Identifier - The report ID is a unique identifier for the TLS report. It is typically a string of alphanumeric characters that is generated by the reporting system. This ID is used to reference and retrieve specific reports files."
+              },
+              {
+                "name": "domain-name",
+                "value": "",
+                "type": "query",
+                "description": "Domain Name - The domain name is the name of the domain for which the TLS report is generated. It is typically in the format of \"example.com\". This parameter is used to filter the results to a specific domain."
+              },
+              {
+                "name": "policy-mode",
+                "value": "",
+                "type": "query",
+                "description": "policy-mode to filter the report data. "
+              },
+              {
+                "name": "policy-type",
+                "value": "",
+                "type": "query",
+                "description": "policy-type to filter the report data. "
+              }
+            ]
+          },
+          "docs": "The MTA-STS Policy Reports - Failure Details endpoint responds with the details of the failure messages present in the MTA-STS policy reports received."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

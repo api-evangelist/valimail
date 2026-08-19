@@ -1,0 +1,108 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts SSO API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "SSO",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns the SSO configuration for the account slug provided.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug/app/sso",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              }
+            ]
+          },
+          "docs": "Returns the SSO configuration for the account slug provided."
+        },
+        {
+          "info": {
+            "name": "Creates an SSO configuration for the account slug provided.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts/:slug/app/sso",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to create an SSO configuration."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates an SSO configuration for the account slug provided."
+        },
+        {
+          "info": {
+            "name": "Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.valimail.com/accounts/:slug/app/sso",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to update the SSO configuration."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed."
+        },
+        {
+          "info": {
+            "name": "Deletes the SSO configuration for the account slug provided.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.valimail.com/accounts/:slug/app/sso",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to delete the SSO configuration."
+              }
+            ]
+          },
+          "docs": "Deletes the SSO configuration for the account slug provided."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

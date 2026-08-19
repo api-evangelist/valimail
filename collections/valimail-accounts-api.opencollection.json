@@ -1,0 +1,172 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Account Management Accounts API",
+    "version": "1.0.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Accounts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Returns a list of packages available for a partner account.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/packages"
+          },
+          "docs": "This endpoint returns a list of packages available for a partner account. The response will include the package slug and package name. (Packages are listed according to the authenticated credential)"
+        },
+        {
+          "info": {
+            "name": "Returns accounts and subsidiaries that are linked to the partner account. (If no query parameters are provided, all accounts and subsidiaries linked to the partner account will be returned.)",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts",
+            "params": [
+              {
+                "name": "domains",
+                "value": "",
+                "type": "query",
+                "description": "Filter by List of Organizational Domain Names (org domains)."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter by List of Account Names"
+              },
+              {
+                "name": "slug",
+                "value": "",
+                "type": "query",
+                "description": "Filter by List of Account Slugs"
+              },
+              {
+                "name": "parent-slug",
+                "value": "",
+                "type": "query",
+                "description": "Filter by List of Parent Account Slugs (Only valid for admin accounts)"
+              },
+              {
+                "name": "reverse",
+                "value": "false",
+                "type": "query",
+                "description": "Reverse the order of the list to be provided."
+              },
+              {
+                "name": "sort-key",
+                "value": "name",
+                "type": "query",
+                "description": "Sorts the given list by a key. Allowed values: slug, name, parent_slug, enabled_org_domains_limit, blocked_org_domains_limit, sending_sub_domains_limit, approved_senders_limit."
+              },
+              {
+                "name": "page",
+                "value": "1",
+                "type": "query",
+                "description": "Page to be accessed according to the division of items provided in conjunction with the 'per-page' parameter."
+              },
+              {
+                "name": "per-page",
+                "value": "100",
+                "type": "query",
+                "description": "Number of accounts per page on the provided list."
+              }
+            ]
+          },
+          "docs": "Returns accounts and subsidiaries that are linked to the partner account. (If no query parameters are provided, all accounts and subsidiaries linked to the partner account will be returned.)"
+        },
+        {
+          "info": {
+            "name": "Creates a new account with the partner account as the parent account and also creates all domains provided in the request body as enabled domains linked to the account that was created.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.valimail.com/accounts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "<b>Optional:</b> <br> - org-domain-name (the list of the domains that will be associated with the account) <br> - enabled-org-domains-limit (the limit of enabled domains) <br> - blocked-org-domains-limit (the limit of blocked domains) <br> - sending-sub-domains-limit (the limit of domains with sender services) <br> - approved-senders-limit (the limit of approved senders) <br> - package-slug (if it is not provided, the account will be created with the default package Valimail Core, subject to par"
+        },
+        {
+          "info": {
+            "name": "Returns a single account that are linked to the partner account according to the account slug provided.",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.valimail.com/accounts/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be queried."
+              }
+            ]
+          },
+          "docs": "Returns a single account that are linked to the partner account according to the account slug provided."
+        },
+        {
+          "info": {
+            "name": "Updates name, limits, and package of authorized accounts according to the slug provided in the path.",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.valimail.com/accounts/:slug",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be updated."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Empty string values are treated as not provided. Numeric 0 values are treated as not provided. If approved-senders-limit is -1, the account stores a null approved sender limit and reads it back as -1. If package-slug is omitted, the existing package is preserved."
+        },
+        {
+          "info": {
+            "name": "Deletes the account according to the account slug provided. Depending on the account's domains, either destroys the account or revokes it by removing its users and domains.",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.valimail.com/accounts/:slug/v2",
+            "params": [
+              {
+                "name": "slug",
+                "value": "valimail",
+                "type": "path",
+                "description": "Account slug to be deleted."
+              }
+            ]
+          },
+          "docs": "Deletes the account according to the account slug provided. Depending on the account's domains, either destroys the account or revokes it by removing its users and domains."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

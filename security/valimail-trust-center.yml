@@ -1,4 +1,4 @@
-generated: '2026-07-21'
+generated: '2026-08-14'
 method: searched
 probe: true
 source: https://security.valimail.com/
@@ -30,3 +30,10 @@ evidence:
   - fedramp
   - trust center
   - responsible disclosure
+  http_status: 200
+  checked: '2026-08-14'
+notes: >-
+  Re-probed 2026-08-14; the mechanical probe reads only the coarse "SOC 2" and
+  "FedRAMP" keywords off the SafeBase page, so the richer certification names
+  and the document list captured by the 2026-07-21 docs search are retained here
+  rather than being downgraded.
