@@ -66,6 +66,8 @@ apis:
   humanURL: https://api.valimail.com/docs/config.html
   baseURL: https://api.valimail.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -179,6 +181,8 @@ apis:
   humanURL: https://api.valimail.com/docs/config.html
   baseURL: https://api.valimail.com
   tags:
+  - Portfolio
+  tags_raw:
   - Portfolios
   properties:
   - type: OpenAPI
@@ -249,6 +253,8 @@ apis:
   humanURL: https://api.valimail.com/docs/config.html
   baseURL: https://api.valimail.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
@@ -263,6 +269,8 @@ apis:
   humanURL: https://api.valimail.com/docs/config.html
   baseURL: https://api.valimail.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
@@ -289,6 +297,12 @@ apis:
   humanURL: https://api.valimail.com/docs/partner.html
   baseURL: https://api.valimail.com
   tags:
+  - Partner
+  - Account
+  - User
+  - SSO
+  - Portfolio
+  tags_raw:
   - Partner
   - Accounts
   - Users
