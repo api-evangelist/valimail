@@ -279,44 +279,6 @@ apis:
     url: https://api.valimail.com/docs/config.html
   - type: APIReference
     url: https://api.valimail.com/docs/account.html
-- aid: valimail:valimail-partner-api
-  name: Valimail Partner API
-  description: >-
-    The Valimail Partner API is the reseller/MSP surface for managing customer
-    accounts under a partner account — account lifecycle (create, read, update,
-    delete, and hard-delete under /v2), user lifecycle and invitations, full SSO
-    configuration CRUD, subscription packages, portfolios, and an account senders
-    report. OpenAPI 3.0.0, 12 paths, 21 operations, bearer-JWT secured via the
-    shared POST /auth credential exchange. Overlaps the Account Management API
-    but adds GET /accounts/{slug}/reports/senders and the GET/PUT/DELETE SSO
-    operations. Discovered 2026-08-14 at https://api.valimail.com/docs/partner.yml;
-    it is served from Valimail's own API host, its servers[] are
-    api.valimail.com / api.valimail-staging.com, and info.title is "Partner API"
-    with description "ValiMail Integration API" — but nothing in the Valimail
-    help center links to it.
-  humanURL: https://api.valimail.com/docs/partner.html
-  baseURL: https://api.valimail.com
-  tags:
-  - Partner
-  - Account
-  - User
-  - SSO
-  - Portfolio
-  tags_raw:
-  - Partner
-  - Accounts
-  - Users
-  - SSO
-  - Portfolios
-  properties:
-  - type: OpenAPI
-    url: openapi/_original/valimail-partner-openapi-original.yml
-  - type: APIReference
-    url: https://api.valimail.com/docs/partner.html
-  - type: Overlay
-    url: overlays/valimail-partner-overlay.yaml
-  - type: Documentation
-    url: https://support.valimail.com/en/collections/12071845-introduction-to-the-valimail-apis
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
