@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Account Management Accounts Senders API
-  description: ValiMail Integration API
-  version: 1.0.0
+  title: Configuration Senders API
+  description: ValiMail Configuration API
+  version: 1.1.0
 servers:
 - url: https://api.valimail.com
   description: API services
@@ -660,50 +660,6 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
-    DelegatedAPIValidationErrorResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    SendersProviders:
-      type: object
-      properties:
-        slug:
-          type: string
-          description: The sender slug to be used in all senders endpoints
-        name:
-          type: string
-          description: The real name of the sender
     Sender:
       type: object
       properties:
@@ -734,6 +690,7 @@ components:
         status: pending_approval
         domainSlug: dmarceverywhere.com
         accountSlug: valimail
+    Any: {}
     ErrorResponse:
       type: object
       properties:
@@ -747,15 +704,59 @@ components:
           type: string
         call:
           type: string
-    Any: {}
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    SendersProviders:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: The sender slug to be used in all senders endpoints
+        name:
+          type: string
+          description: The real name of the sender
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     DelegatedAPIValidationErrorDetail:
       type: object
       properties:
         field:
           type: string
         value:
-          type: string
-          nullable: true
+          type:
+          - string
+          - 'null'
         message:
           type: string
   securitySchemes:

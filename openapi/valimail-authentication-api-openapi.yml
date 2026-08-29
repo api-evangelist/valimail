@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Account Management Accounts Authentication API
-  description: ValiMail Integration API
-  version: 1.0.0
+  title: Valimail Authentication API
+  version: '1.0'
+  description: 'Operations tagged Authentication across 3 of this provider''s published API definitions: valimail-account-openapi-original.yml, valimail-config-openapi-original.yml, valimail-partner-openapi-original.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.valimail.com
   description: API services
@@ -64,8 +64,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://api.valimail.com
+      description: API services
+    - url: https://api.valimail-staging.com
+      description: Stage test server
+    - url: http://localhost:7001
+      description: Local development server
 components:
   schemas:
+    KeyRequest:
+      type: object
+      properties:
+        client-id:
+          type: string
+        app-id:
+          type: string
     ValidationResponse:
       type: object
       properties:
@@ -75,6 +89,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
     ErrorResponse:
       type: object
       properties:
@@ -95,24 +118,38 @@ components:
           type: string
         expires-at:
           type: string
-    KeyRequest:
+    DefaultOdinErrorResponse:
       type: object
       properties:
-        client-id:
-          type: string
-        app-id:
-          type: string
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
+        request:
           type: string
         message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
           type: string
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
       bearerFormat: JWT
+x-refined-from:
+- valimail-account-openapi-original.yml
+- valimail-config-openapi-original.yml
+- valimail-partner-openapi-original.yml

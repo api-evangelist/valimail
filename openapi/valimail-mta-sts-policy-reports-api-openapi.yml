@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Account Management Accounts MTA-STS Policy Reports API
-  description: ValiMail Integration API
-  version: 1.0.0
+  title: Configuration MTA-STS Policy Reports API
+  description: ValiMail Configuration API
+  version: 1.1.0
 servers:
 - url: https://api.valimail.com
   description: API services
@@ -374,6 +374,39 @@ paths:
                     example: Internal server error
 components:
   schemas:
+    MtaStsTlsFailureDetailsResponse:
+      type: array
+      description: Array containing detailed failure information from MTA-STS TLS reports
+      items:
+        type: object
+        properties:
+          domain_name:
+            type: string
+            description: Domain name for which the TLS failure details were generated
+          report_id:
+            type: string
+            description: Unique identifier for the TLS report containing these failure details
+          sending_mta_ip:
+            type: string
+            description: IP address of the Mail Transfer Agent (MTA) that initiated the connection
+          start_date:
+            type: string
+            description: Start date of the reporting period from the original TLS report
+          end_date:
+            type: string
+            description: End date of the reporting period from the original TLS report
+          receiving_ip:
+            type: string
+            description: IP address of the receiving mail server that processed the connection
+          receiving_mx_host_name:
+            type: string
+            description: Hostname of the receiving Mail Exchange (MX) server
+          success_count:
+            type: integer
+            description: Total number of successful TLS sessions during the reporting period
+          failure_count:
+            type: integer
+            description: Total number of failed TLS sessions during the reporting period
     DefaultOdinErrorResponse:
       type: object
       properties:
@@ -425,39 +458,6 @@ components:
               max-age:
                 type: integer
                 description: Maximum age in seconds for caching the policy
-    MtaStsTlsFailureDetailsResponse:
-      type: array
-      description: Array containing detailed failure information from MTA-STS TLS reports
-      items:
-        type: object
-        properties:
-          domain_name:
-            type: string
-            description: Domain name for which the TLS failure details were generated
-          report_id:
-            type: string
-            description: Unique identifier for the TLS report containing these failure details
-          sending_mta_ip:
-            type: string
-            description: IP address of the Mail Transfer Agent (MTA) that initiated the connection
-          start_date:
-            type: string
-            description: Start date of the reporting period from the original TLS report
-          end_date:
-            type: string
-            description: End date of the reporting period from the original TLS report
-          receiving_ip:
-            type: string
-            description: IP address of the receiving mail server that processed the connection
-          receiving_mx_host_name:
-            type: string
-            description: Hostname of the receiving Mail Exchange (MX) server
-          success_count:
-            type: integer
-            description: Total number of successful TLS sessions during the reporting period
-          failure_count:
-            type: integer
-            description: Total number of failed TLS sessions during the reporting period
   securitySchemes:
     bearerAuth:
       type: http

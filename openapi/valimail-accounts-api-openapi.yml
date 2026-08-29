@@ -1,8 +1,8 @@
-openapi: 3.0.0
+openapi: 3.2.0
 info:
-  title: Account Management Accounts API
-  description: ValiMail Integration API
+  title: Valimail Accounts API
   version: 1.0.0
+  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: valimail-account-openapi-original.yml, valimail-partner-openapi-original.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.valimail.com
   description: API services
@@ -76,6 +76,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://api.valimail.com
+      description: API services
+    - url: https://api.valimail-staging.com
+      description: Stage test server
+    - url: http://localhost:7001
+      description: Local development server
   /accounts:
     get:
       summary: Returns accounts and subsidiaries that are linked to the partner account. (If no query parameters are provided, all accounts and subsidiaries linked to the partner account will be returned.)
@@ -353,6 +360,13 @@ paths:
                 message: Error response from Internal API
                 type: internal-api-error
                 call: internal
+    servers:
+    - url: https://api.valimail.com
+      description: API services
+    - url: https://api.valimail-staging.com
+      description: Stage test server
+    - url: http://localhost:7001
+      description: Local development server
   /accounts/{slug}:
     get:
       summary: Returns a single account that are linked to the partner account according to the account slug provided.
@@ -534,6 +548,68 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Deactivates account by updating the account limits to zero
+      tags:
+      - Accounts
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be deactivated.
+        required: true
+        schema:
+          type: string
+        example: valimail
+      responses:
+        '200':
+          description: account limits deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://api.valimail.com
+      description: API services
+    - url: https://api.valimail-staging.com
+      description: Stage test server
+    - url: http://localhost:7001
+      description: Local development server
   /accounts/{slug}/v2:
     delete:
       summary: Deletes the account according to the account slug provided. Depending on the account's domains, either destroys the account or revokes it by removing its users and domains.
@@ -590,28 +666,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+    servers:
+    - url: https://api.valimail.com
+      description: API services
+    - url: https://api.valimail-staging.com
+      description: Stage test server
+    - url: http://localhost:7001
+      description: Local development server
 components:
   schemas:
-    DelegatedAPIValidationErrorResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
     ValidationResponse:
       type: object
       properties:
@@ -634,6 +697,45 @@ components:
           type: string
         call:
           type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    UpdateAccount:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the account. Empty strings are treated as not provided.
+        enabled-org-domains-limit:
+          type: integer
+          description: Limit of enabled domains. A value of 0 is treated as not provided.
+        blocked-org-domains-limit:
+          type: integer
+          description: Limit of blocked domains. A value of 0 is treated as not provided.
+        sending-sub-domains-limit:
+          type: integer
+          description: Limit of domains with sender services. A value of 0 is treated as not provided.
+        approved-senders-limit:
+          type: integer
+          description: Limit of approved senders. A value of 0 is treated as not provided. A value of -1 clears the stored limit and reads back as -1.
+        package-slug:
+          type: string
+          description: Package slug to assign to the account. When omitted, the existing package remains unchanged.
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     Account:
       type: object
       description: Account response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
@@ -667,27 +769,6 @@ components:
         package-slug:
           type: string
           description: 'Optional: Slug of the package assigned to the account.'
-    UpdateAccount:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the account. Empty strings are treated as not provided.
-        enabled-org-domains-limit:
-          type: integer
-          description: Limit of enabled domains. A value of 0 is treated as not provided.
-        blocked-org-domains-limit:
-          type: integer
-          description: Limit of blocked domains. A value of 0 is treated as not provided.
-        sending-sub-domains-limit:
-          type: integer
-          description: Limit of domains with sender services. A value of 0 is treated as not provided.
-        approved-senders-limit:
-          type: integer
-          description: Limit of approved senders. A value of 0 is treated as not provided. A value of -1 clears the stored limit and reads back as -1.
-        package-slug:
-          type: string
-          description: Package slug to assign to the account. When omitted, the existing package remains unchanged.
     AccountListItem:
       type: object
       description: Account read response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
@@ -718,23 +799,26 @@ components:
         approved-senders-limit:
           type: string
           description: 'Optional: Limit of approved senders, serialized as a string in responses.'
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     DelegatedAPIValidationErrorDetail:
       type: object
       properties:
         field:
           type: string
         value:
-          type: string
-          nullable: true
-        message:
-          type: string
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
+          type:
+          - string
+          - 'null'
         message:
           type: string
   securitySchemes:
@@ -742,3 +826,6 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+x-refined-from:
+- valimail-account-openapi-original.yml
+- valimail-partner-openapi-original.yml

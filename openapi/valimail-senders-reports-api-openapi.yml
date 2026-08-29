@@ -1,0 +1,214 @@
+openapi: 3.2.0
+info:
+  title: Partner Senders Reports API
+  description: ValiMail Integration API
+  version: 1.0.0
+servers:
+- url: https://api.valimail.com
+  description: API services
+- url: https://api.valimail-staging.com
+  description: Stage test server
+- url: http://localhost:7001
+  description: Local development server
+security:
+- bearerAuth: []
+tags:
+- name: Senders Reports
+paths:
+  /accounts/{slug}/reports/senders:
+    get:
+      tags:
+      - Senders Reports
+      summary: Returns senders report
+      parameters:
+      - name: slug
+        in: path
+        description: Account slug to be queried.
+        required: true
+        schema:
+          type: string
+          example: test-account-01
+      - name: domains
+        in: query
+        description: List of domains to filter the report.
+        required: true
+        schema:
+          type: array
+          items:
+            type: string
+          example:
+          - dmarceverywhere.com
+          - heytest.com
+      - name: start-date
+        in: query
+        description: Start date of the report (ISO 8601 format) -  The date value should be formatted as yyyy-MM-ddThh:mm:ssZ. This is the starting date of the time range you wish to retrieve the senders report for
+        required: true
+        schema:
+          type: string
+          format: date-time
+          example: '2020-01-02T15:04:05Z'
+      - name: end-date
+        in: query
+        description: End date of the report (ISO 8601 format) - The date value should be formatted as yyyy-MM-ddThh:mm:ssZ. This is the end date of the time range you wish to retrieve the senders report for
+        required: true
+        schema:
+          type: string
+          format: date-time
+          example: '2026-01-02T15:04:05Z'
+      - name: reverse
+        in: query
+        description: Reverse the order of the report
+        schema:
+          type: boolean
+          example: false
+      - name: page
+        in: query
+        description: Page number for the report
+        schema:
+          type: integer
+          example: 1
+      - name: per-page
+        in: query
+        description: Number of items per page
+        schema:
+          type: integer
+          example: 100
+      responses:
+        '200':
+          description: senders report for account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Senders'
+        '429':
+          description: Over Rate - Rate limit exceeded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '400':
+          description: Bad Request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationResponse'
+        '401':
+          description: Unauthorized - Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Forbidden - Authorization failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '422':
+          description: Unprocessable Entity - Failed to normalize or parse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal Server Error - Service, database, or unclassified error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    Senders:
+      type: array
+      items:
+        type: object
+        properties:
+          service_name:
+            type: string
+            description: Name of the service
+            example: SendGrid
+          service_status:
+            type: string
+            description: Current status of the service
+            example: active
+          total_messages_count:
+            type: integer
+            description: Total number of messages
+            example: 1500
+          passing_percentage:
+            type: number
+            format: float
+            description: Percentage of passing messages
+            example: 95.5
+          dmarc_passing_count:
+            type: integer
+            description: Number of messages passing DMARC
+            example: 1400
+          dmarc_failing_count:
+            type: integer
+            description: Number of messages failing DMARC
+            example: 100
+          allowed_through_no_enforcement_count:
+            type: integer
+            description: Messages allowed through without enforcement
+            example: 50
+          allowed_through_with_enforcement_count:
+            type: integer
+            description: Messages allowed through with enforcement
+            example: 20
+          aligned_spf_count:
+            type: integer
+            description: Number of SPF aligned messages
+            example: 1300
+          failing_or_unaligned_spf_count:
+            type: integer
+            description: Number of messages failing or unaligned with SPF
+            example: 200
+          dmarc_overridden_count:
+            type: integer
+            description: Number of DMARC overridden messages
+            example: 30
+          quarantined_count:
+            type: integer
+            description: Number of messages quarantined
+            example: 10
+          rejected_count:
+            type: integer
+            description: Number of messages rejected
+            example: 5
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

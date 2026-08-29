@@ -291,6 +291,26 @@ apis:
     url: https://api.valimail.com/docs/config.html
   - type: APIReference
     url: https://api.valimail.com/docs/account.html
+- aid: valimail:valimail-senders-reports-api
+  name: Valimail Senders Reports API
+  description: The Senders Reports API from Valimail — 1 operation(s) for senders reports.
+  humanURL: https://support.valimail.com/en/articles/10911206-api-overview
+  baseURL: https://api.valimail.com
+  tags:
+  - Senders Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-senders-reports-api-openapi.yml
+- aid: valimail:valimail-teams-api
+  name: Valimail Teams API
+  description: The Teams API from Valimail — 2 operation(s) for teams.
+  humanURL: https://support.valimail.com/en/articles/10911206-api-overview
+  baseURL: https://api.valimail.com
+  tags:
+  - Teams
+  properties:
+  - type: OpenAPI
+    url: openapi/valimail-teams-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
