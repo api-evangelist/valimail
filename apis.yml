@@ -307,6 +307,8 @@ apis:
   humanURL: https://support.valimail.com/en/articles/10911206-api-overview
   baseURL: https://api.valimail.com
   tags:
+  - Team
+  tags_raw:
   - Teams
   properties:
   - type: OpenAPI
