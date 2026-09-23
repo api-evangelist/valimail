@@ -116,17 +116,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugReportsSenders
+      x-operation-id-source: derived
 components:
   schemas:
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
     Senders:
       type: array
       items:
@@ -185,6 +178,15 @@ components:
             type: integer
             description: Number of messages rejected
             example: 5
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
     ValidationResponse:
       type: object
       properties:

@@ -17,7 +17,7 @@ tags:
 paths:
   /accounts/packages:
     get:
-      summary: Returns a list of packages available for a partner account.
+      summary: Returns a list of packages available for a partner account
       description: This endpoint returns a list of packages available for a partner account. The response will include the package slug and package name. (Packages are listed according to the authenticated credential)
       tags:
       - Accounts
@@ -76,6 +76,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsPackages
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -85,7 +87,7 @@ paths:
       description: Local development server
   /accounts:
     get:
-      summary: Returns accounts and subsidiaries that are linked to the partner account. (If no query parameters are provided, all accounts and subsidiaries linked to the partner account will be returned.)
+      summary: Returns accounts and subsidiaries that are linked to the partner account.
       tags:
       - Accounts
       parameters:
@@ -228,9 +230,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccounts
+      x-operation-id-source: derived
     post:
-      summary: Creates a new account with the partner account as the parent account and also creates all domains provided in the request body as enabled domains linked to the account that was created.
-      description: <b>Optional:</b> <br> - org-domain-name (the list of the domains that will be associated with the account) <br> - enabled-org-domains-limit (the limit of enabled domains) <br> - blocked-org-domains-limit (the limit of blocked domains) <br> - sending-sub-domains-limit (the limit of domains with sender services) <br> - approved-senders-limit (the limit of approved senders) <br> - package-slug (if it is not provided, the account will be created with the default package Valimail Core, subject to partner package permissions. To get the package-slug, please use [GET]/accounts/packages endpoint) <br> <b>Required:</b> <br> - name (the name of the account. It also is the base for the account slug to be created) <br><br> <b>Response notes:</b> <br> - empty or null fields are omitted from the response payload <br> - numeric limit fields are serialized as strings in the response payload
+      summary: Creates a new account with the partner account as the parent account and also…
+      description: 'Optional:
+
+        - org-domain-name (the list of the domains that will be associated with the account)
+
+        - enabled-org-domains-limit (the limit of enabled domains)
+
+        - blocked-org-domains-limit (the limit of blocked domains)
+
+        - sending-sub-domains-limit (the limit of domains with sender services)
+
+        - approved-senders-limit (the limit of approved senders)
+
+        - package-slug (if it is not provided, the account will be created with the default package Valimail Core, subject to partner package permissions. To get the package-slug, please use [GET]/accounts/packages endpoint)
+
+        Required:
+
+        - name (the name of the account. It also is the base for the account slug to be created)
+
+
+        Response notes:
+
+        - empty or null fields are omitted from the response payload
+
+        - numeric limit fields are serialized as strings in the response payload'
       tags:
       - Accounts
       requestBody:
@@ -360,6 +387,8 @@ paths:
                 message: Error response from Internal API
                 type: internal-api-error
                 call: internal
+      operationId: postAccounts
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -369,7 +398,7 @@ paths:
       description: Local development server
   /accounts/{slug}:
     get:
-      summary: Returns a single account that are linked to the partner account according to the account slug provided.
+      summary: Returns a single account that are linked to the partner account according to…
       tags:
       - Accounts
       parameters:
@@ -451,8 +480,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlug
+      x-operation-id-source: derived
     put:
-      summary: Updates name, limits, and package of authorized accounts according to the slug provided in the path.
+      summary: Updates name, limits, and package of authorized accounts according to the slug…
       description: Empty string values are treated as not provided. Numeric 0 values are treated as not provided. If approved-senders-limit is -1, the account stores a null approved sender limit and reads it back as -1. If package-slug is omitted, the existing package is preserved.
       tags:
       - Accounts
@@ -548,6 +579,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlug
+      x-operation-id-source: derived
     delete:
       summary: Deactivates account by updating the account limits to zero
       tags:
@@ -603,6 +636,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteAccountsBySlug
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -612,7 +647,7 @@ paths:
       description: Local development server
   /accounts/{slug}/v2:
     delete:
-      summary: Deletes the account according to the account slug provided. Depending on the account's domains, either destroys the account or revokes it by removing its users and domains.
+      summary: Deletes the account according to the account slug provided.
       tags:
       - Accounts
       parameters:
@@ -666,6 +701,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteAccountsBySlugV2
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -675,6 +712,24 @@ paths:
       description: Local development server
 components:
   schemas:
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
     ValidationResponse:
       type: object
       properties:
@@ -684,26 +739,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-    ValidationDetail:
+    DelegatedAPIValidationErrorDetail:
       type: object
       properties:
         field:
           type: string
         value:
-          type: string
+          type:
+          - string
+          - 'null'
         message:
           type: string
     UpdateAccount:
@@ -727,15 +771,17 @@ components:
         package-slug:
           type: string
           description: Package slug to assign to the account. When omitted, the existing package remains unchanged.
-    DelegatedAPIValidationErrorResponse:
+    DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
-        params:
+        request:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     Account:
       type: object
       description: Account response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
@@ -799,7 +845,7 @@ components:
         approved-senders-limit:
           type: string
           description: 'Optional: Limit of approved senders, serialized as a string in responses.'
-    DefaultDelegatedAPIErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
@@ -808,18 +854,9 @@ components:
           type: string
         type:
           type: string
+        request-id:
+          type: string
         call:
-          type: string
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
           type: string
   securitySchemes:
     bearerAuth:

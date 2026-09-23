@@ -17,7 +17,7 @@ tags:
 paths:
   /accounts/{slug}/users:
     get:
-      summary: Returns users linked to the account slug provided.
+      summary: Returns users linked to the account slug provided
       tags:
       - Users
       parameters:
@@ -157,8 +157,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugUsers
+      x-operation-id-source: derived
     post:
-      summary: Creates a new user linked to the account slug provided and sends an invitation email.
+      summary: Creates a new user linked to the account slug provided and sends an invitation…
       tags:
       - Users
       parameters:
@@ -218,6 +220,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugUsers
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -227,7 +231,7 @@ paths:
       description: Local development server
   /accounts/{slug}/users/{user-slug}/invitation:
     post:
-      summary: Sends a new invitation email for the existing user and returns the latest activation link.
+      summary: Sends a new invitation email for the existing user and returns the latest…
       description: If the user has already accepted the invitation, the response returns invitation-accepted-at and an empty activation-link.
       tags:
       - Users
@@ -319,6 +323,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugUsersByUserSlugInvitation
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -328,7 +334,7 @@ paths:
       description: Local development server
   /accounts/{slug}/users/{user-slug}:
     get:
-      summary: Returns account user data by account slug and user slug.
+      summary: Returns account user data by account slug and user slug
       tags:
       - Users
       parameters:
@@ -395,8 +401,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugUsersByUserSlug
+      x-operation-id-source: derived
     put:
-      summary: Updates user data by account slug and user slug.
+      summary: Updates user data by account slug and user slug
       tags:
       - Users
       parameters:
@@ -469,8 +477,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugUsersByUserSlug
+      x-operation-id-source: derived
     delete:
-      summary: Inactivates a user according to the account slug and user slug provided.
+      summary: Inactivates a user according to the account slug and user slug provided
       tags:
       - Users
       parameters:
@@ -531,6 +541,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteAccountsBySlugUsersByUserSlug
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -540,7 +552,7 @@ paths:
       description: Local development server
   /accounts/{slug}/v2/users/{user-slug}:
     delete:
-      summary: Inactivates a user according to the account slug and user slug provided.
+      summary: Inactivates a user according to the account slug and user slug provided
       tags:
       - Users
       parameters:
@@ -601,6 +613,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteAccountsBySlugV2UsersByUserSlug
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -629,12 +643,86 @@ components:
           - member
           - owner
           - marketer
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    UserUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+        first-name:
+          type: string
+        last-name:
+          type: string
+        user-type:
+          type: string
+          enum:
+          - member
+          - owner
+          - marketer
+    InvitedUser:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          activation-link:
+            type: string
+            description: Invitation activation URL. Returned as an empty string when the invitation has already been accepted and invitation-accepted-at is present in the response.
+      example:
+        email: test@234.com
+        first-name: John
+        last-name: Doe
+        slug: john-doe
+        account-slug: valimail
+        last-active-at: '2026-02-24T12:30:00Z'
+        user-type: owner
+        activation-link: https://app.valimail.com/users/invitation/accept?invitation_token=example-token
     UserDelete:
       type: object
       properties:
         slug:
           type: string
         account-slug:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
           type: string
     User:
       type: object
@@ -671,80 +759,6 @@ components:
         last-active-at: '2026-02-24T12:30:00Z'
         invitation-accepted-at: '2026-04-07T09:15:00Z'
         user-type: owner
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-    UserUpdate:
-      type: object
-      properties:
-        email:
-          type: string
-        first-name:
-          type: string
-        last-name:
-          type: string
-        user-type:
-          type: string
-          enum:
-          - member
-          - owner
-          - marketer
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    InvitedUser:
-      allOf:
-      - $ref: '#/components/schemas/User'
-      - type: object
-        properties:
-          activation-link:
-            type: string
-            description: Invitation activation URL. Returned as an empty string when the invitation has already been accepted and invitation-accepted-at is present in the response.
-      example:
-        email: test@234.com
-        first-name: John
-        last-name: Doe
-        slug: john-doe
-        account-slug: valimail
-        last-active-at: '2026-02-24T12:30:00Z'
-        user-type: owner
-        activation-link: https://app.valimail.com/users/invitation/accept?invitation_token=example-token
   securitySchemes:
     bearerAuth:
       type: http

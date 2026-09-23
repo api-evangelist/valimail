@@ -3,10 +3,10 @@ method: derived
 status: candidate
 source: openapi/_original/valimail-config-openapi-original.yml, openapi/_original/valimail-account-openapi-original.yml,
   openapi/_original/valimail-partner-openapi-original.yml
-notes: No official Valimail MCP server was found (official MCP registry, npm, GitHub org ValiMail,
-  and docs re-searched 2026-08-14 — same result as 2026-07-21). This is a candidate tool list derived
-  from the published Configuration, Account Management and Partner OpenAPI documents. The specs declare
-  no operationIds, so tools reference method + path.
+notes: No official Valimail MCP server was found (official MCP registry, npm, GitHub org ValiMail, and
+  docs re-searched 2026-08-14 — same result as 2026-07-21). This is a candidate tool list derived from
+  the published Configuration, Account Management and Partner OpenAPI documents. The specs declare no
+  operationIds, so tools reference method + path.
 server:
   name: valimail
   transport: http
@@ -97,16 +97,7 @@ tools:
   source_operation: openapi/_original/valimail-partner-openapi-original.yml#POST /accounts/{slug}/users/{user-slug}/invitation
 deployment:
   mode: none
-  endpoint: null
-  install: null
-  package: null
-  auth: unknown
-  verified: searched
-  tools: 28
-  checked: '2026-08-14'
-  source: >-
-    Re-searched 2026-08-14 across the official MCP registry, npm (@valimail and
-    @modelcontextprotocol scopes), the ValiMail GitHub org (43 public repos, none
-    MCP-related), and support.valimail.com. Valimail ships neither a remote MCP
-    endpoint nor a stdio package; mode is none and the tools below are a derived
-    candidate list, not an agent surface that exists today.
+  verified: derived
+  tools: 25
+  checked: '2026-08-12'
+  source: catalog MCP census

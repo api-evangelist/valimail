@@ -160,6 +160,10 @@ paths:
                     type: string
                     description: Error message
                     example: Internal server error
+      summary: Get accounts by slug mta sts tls
+      x-summary-source: derived
+      operationId: getAccountsBySlugMtaStsTls
+      x-operation-id-source: derived
   /accounts/{slug}/mta-sts/tls/summary:
     get:
       tags:
@@ -262,6 +266,10 @@ paths:
           description: Unprocessable Entity - Failed to normalize or parse
         '500':
           description: Internal server error - Service, database, or unclassified error
+      summary: Get accounts by slug mta sts tls summary
+      x-summary-source: derived
+      operationId: getAccountsBySlugMtaStsTlsSummary
+      x-operation-id-source: derived
   /accounts/{slug}/mta-sts/tls/failure-details:
     get:
       tags:
@@ -372,8 +380,27 @@ paths:
                     type: string
                     description: Error message
                     example: Internal server error
+      summary: Get accounts by slug mta sts tls failure details
+      x-summary-source: derived
+      operationId: getAccountsBySlugMtaStsTlsFailureDetails
+      x-operation-id-source: derived
 components:
   schemas:
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
     MtaStsTlsFailureDetailsResponse:
       type: array
       description: Array containing detailed failure information from MTA-STS TLS reports
@@ -407,21 +434,6 @@ components:
           failure_count:
             type: integer
             description: Total number of failed TLS sessions during the reporting period
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
     MtaStsTlsReportResponse:
       type: object
       properties:

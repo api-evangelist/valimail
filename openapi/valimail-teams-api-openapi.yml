@@ -17,7 +17,7 @@ tags:
 paths:
   /accounts/{slug}/teams:
     get:
-      summary: Returns teams linked to the account slug provided.
+      summary: Returns teams linked to the account slug provided
       tags:
       - Teams
       parameters:
@@ -73,8 +73,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugTeams
+      x-operation-id-source: derived
     post:
-      summary: Creates a new team linked to the account slug provided.
+      summary: Creates a new team linked to the account slug provided
       tags:
       - Teams
       parameters:
@@ -134,9 +136,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugTeams
+      x-operation-id-source: derived
   /accounts/{slug}/teams/{team-slug}:
     get:
-      summary: Returns team data by account slug and team slug.
+      summary: Returns team data by account slug and team slug
       tags:
       - Teams
       parameters:
@@ -203,8 +207,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugTeamsByTeamSlug
+      x-operation-id-source: derived
     put:
-      summary: Updates team data by account slug and team slug.
+      summary: Updates team data by account slug and team slug
       tags:
       - Teams
       parameters:
@@ -277,51 +283,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugTeamsByTeamSlug
+      x-operation-id-source: derived
 components:
   schemas:
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-    TeamCreate:
-      type: object
-      properties:
-        name:
-          description: Name of the team.
-          type: string
-        description:
-          description: Description of the team.
-          type: string
-        saml-group-id:
-          description: Optional SAML group ID used to auto-assign SSO users to this team.
-          type: string
     Team:
       type: object
       properties:
@@ -339,6 +304,49 @@ components:
         description: Engineering team
         slug: engineering
         saml-group-id: eng-saml-group
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    TeamCreate:
+      type: object
+      properties:
+        name:
+          description: Name of the team.
+          type: string
+        description:
+          description: Description of the team.
+          type: string
+        saml-group-id:
+          description: Optional SAML group ID used to auto-assign SSO users to this team.
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -55,14 +55,16 @@ paths:
                 type: internal-error
                 request-id: XnZlLUJLJvcdFXExvFpPVdLiROhoAMKy
                 call: internal
+      operationId: getWebhooksKeys
+      x-operation-id-source: derived
 components:
   schemas:
+    Any: {}
     WebhookPublicKeys:
       type: object
       description: Map of key IDs to base64-encoded Ed25519 public keys.
       additionalProperties:
         type: string
-    Any: {}
     ErrorResponse:
       type: object
       properties:

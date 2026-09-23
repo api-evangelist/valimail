@@ -131,13 +131,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugDomainsByDomainDkims
+      x-operation-id-source: derived
     post:
       summary: Creates a new DKIM for the domain or subdomain
       tags:
       - DKIMs by Domain
-      description: 'Creates a new DKIM for the domain. The DKIM can be create either with a public key or with a CNAME target, but not both.
-
-        '
+      description: Creates a new DKIM for the domain. The DKIM can be create either with a public key or with a CNAME target, but not both.
       parameters:
       - name: slug
         in: path
@@ -343,6 +343,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugDomainsByDomainDkims
+      x-operation-id-source: derived
   /accounts/{slug}/domains/{domain}/dkims/{selector}:
     get:
       summary: Returns a single DKIM according to the selector
@@ -465,8 +467,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugDomainsByDomainDkimsBySelector
+      x-operation-id-source: derived
     put:
-      summary: Updates DKIM comment, sender owner, and domain owner, and optionally sender slug associated with it
+      summary: Updates DKIM comment, sender owner, and domain owner, and optionally sender…
       tags:
       - DKIMs by Domain
       description: Update a specific DKIM comment, sender owner, and domain owner by selector. When the "new-sender-slug" is part of the request, the DKIM will updated the link to the new sender slug.
@@ -637,22 +641,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugDomainsByDomainDkimsBySelector
+      x-operation-id-source: derived
 components:
   schemas:
-    Any: {}
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
     DelegatedAPIValidationErrorResponse:
       type: object
       properties:
@@ -662,6 +654,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    Any: {}
     Dkim:
       type: object
       properties:
@@ -701,6 +694,28 @@ components:
         domain-slug: dmarceverywhere.com
         sender-owner: valimail
         domain-owner: valimail
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     DefaultOdinErrorResponse:
       type: object
       properties:
@@ -716,27 +731,18 @@ components:
           type: string
         status:
           type: string
-    DefaultDelegatedAPIErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
-          type: string
+          $ref: '#/components/schemas/Any'
         message:
           type: string
         type:
           type: string
+        request-id:
+          type: string
         call:
-          type: string
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
           type: string
   securitySchemes:
     bearerAuth:

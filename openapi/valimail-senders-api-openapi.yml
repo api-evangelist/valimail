@@ -136,8 +136,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugDomainsByDomainSenders
+      x-operation-id-source: derived
     post:
-      summary: Creates a new sender link with a domain/subdomain (to list the senders available to be connected to the domain/subdomain, use /resource/senders)
+      summary: Creates a new sender link with a domain/subdomain (to list the senders…
       tags:
       - Senders
       parameters:
@@ -307,6 +309,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugDomainsByDomainSenders
+      x-operation-id-source: derived
   /accounts/{slug}/domains/{domain}/senders/{sender-slug}:
     get:
       summary: Retuns a single sender according to the sender slug
@@ -435,8 +439,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugDomainsByDomainSendersBySenderSlug
+      x-operation-id-source: derived
     put:
-      summary: Updates the status of a sender linked to the domain/subdomain to "approved", "denied" or "pending_approval".
+      summary: Updates the status of a sender linked to the domain/subdomain to "approved"…
       tags:
       - Senders
       parameters:
@@ -579,9 +585,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugDomainsByDomainSendersBySenderSlug
+      x-operation-id-source: derived
   /resource/senders:
     get:
-      summary: Returns the list of senders available to be connected to the domain (the slug can be used on [POST]"/accounts/{slug}/domains/{domain}/senders")
+      summary: Returns the list of senders available to be connected to the domain (the slug…
       tags:
       - Senders
       responses:
@@ -658,8 +666,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getResourceSenders
+      x-operation-id-source: derived
 components:
   schemas:
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     Sender:
       type: object
       properties:
@@ -691,28 +710,6 @@ components:
         domainSlug: dmarceverywhere.com
         accountSlug: valimail
     Any: {}
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-    DelegatedAPIValidationErrorResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     SendersProviders:
       type: object
       properties:
@@ -722,6 +719,28 @@ components:
         name:
           type: string
           description: The real name of the sender
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     DefaultOdinErrorResponse:
       type: object
       properties:
@@ -737,27 +756,18 @@ components:
           type: string
         status:
           type: string
-    DefaultDelegatedAPIErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
-          type: string
+          $ref: '#/components/schemas/Any'
         message:
           type: string
         type:
           type: string
+        request-id:
+          type: string
         call:
-          type: string
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
           type: string
   securitySchemes:
     bearerAuth:

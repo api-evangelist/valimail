@@ -17,7 +17,7 @@ tags:
 paths:
   /accounts/{slug}/domains:
     get:
-      summary: Returns a list of domains and/or subdomains with relevant data for a given account
+      summary: Returns a list of domains and/or subdomains with relevant data for a given…
       tags:
       - Domains
       parameters:
@@ -189,6 +189,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DefaultOdinErrorResponse'
+      operationId: getAccountsBySlugDomains
+      x-operation-id-source: derived
     post:
       summary: Creates an domain/subdomain associated with an account
       tags:
@@ -324,6 +326,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugDomains
+      x-operation-id-source: derived
   /accounts/{slug}/domains/{domain}:
     get:
       summary: Returns a domain or subdomain's relevant data for a given account slug
@@ -433,6 +437,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugDomainsByDomain
+      x-operation-id-source: derived
     put:
       summary: Updates domain's dmarc-policy and sending-status
       tags:
@@ -575,6 +581,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugDomainsByDomain
+      x-operation-id-source: derived
     delete:
       summary: Deletes a domain for a given account slug
       tags:
@@ -681,9 +689,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteAccountsBySlugDomainsByDomain
+      x-operation-id-source: derived
 components:
   schemas:
-    Any: {}
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     DomainUpdate:
       type: object
       properties:
@@ -691,18 +709,12 @@ components:
           type: string
         sending-status:
           type: string
-    ErrorResponse:
+    Any: {}
+    EmptyObjectResponse:
       type: object
+      additionalProperties: false
       properties:
-        request:
-          $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
         request-id:
-          type: string
-        call:
           type: string
     Domain:
       type: object
@@ -737,25 +749,32 @@ components:
         dmarc-pcd:
           type: string
           description: The dmarc policy compliance.
-    DelegatedAPIValidationErrorResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     DomainCreate:
       type: object
       properties:
         domain:
           type: string
-    EmptyObjectResponse:
+    DelegatedAPIValidationErrorDetail:
       type: object
-      additionalProperties: false
       properties:
-        request-id:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
           type: string
     DefaultOdinErrorResponse:
       type: object
@@ -772,27 +791,18 @@ components:
           type: string
         status:
           type: string
-    DefaultDelegatedAPIErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
-          type: string
+          $ref: '#/components/schemas/Any'
         message:
           type: string
         type:
           type: string
+        request-id:
+          type: string
         call:
-          type: string
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
           type: string
   securitySchemes:
     bearerAuth:

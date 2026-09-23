@@ -64,6 +64,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAuth
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -73,12 +75,14 @@ paths:
       description: Local development server
 components:
   schemas:
-    KeyRequest:
+    ValidationDetail:
       type: object
       properties:
-        client-id:
+        field:
           type: string
-        app-id:
+        value:
+          type: string
+        message:
           type: string
     ValidationResponse:
       type: object
@@ -89,14 +93,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
-    ValidationDetail:
+    KeyResponse:
       type: object
       properties:
-        field:
+        token:
           type: string
-        value:
+        expires-at:
           type: string
-        message:
+    KeyRequest:
+      type: object
+      properties:
+        client-id:
+          type: string
+        app-id:
           type: string
     ErrorResponse:
       type: object
@@ -111,12 +120,16 @@ components:
           type: string
         call:
           type: string
-    KeyResponse:
+    DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
-        token:
+        request:
           type: string
-        expires-at:
+        message:
+          type: string
+        type:
+          type: string
+        call:
           type: string
     DefaultOdinErrorResponse:
       type: object
@@ -132,17 +145,6 @@ components:
         call:
           type: string
         status:
-          type: string
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
           type: string
   securitySchemes:
     bearerAuth:

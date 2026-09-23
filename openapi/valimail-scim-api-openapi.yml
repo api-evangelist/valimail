@@ -171,6 +171,8 @@ paths:
                 - urn:ietf:params:scim:api:messages:2.0:Error
                 status: '500'
                 detail: 'An internal error occurred. Please contact support with reference: a1b2c3d4'
+      operationId: getAccountsBySlugScimV2Users
+      x-operation-id-source: derived
     post:
       summary: Creates a new user in SCIM format
       description: Creates a new SCIM user in the specified account (RFC 7643/7644). Requires the core User schema and the ValiMail user extension schema. Supports userName, name.givenName, name.familyName, optional externalId, and extension memberType. Allowed memberType values are 'owner' and 'member'; 'marketer' is accepted only when enabled for the account. Returns 409 when userName already exists and 400 for invalid or missing fields.
@@ -283,6 +285,8 @@ paths:
                 - urn:ietf:params:scim:api:messages:2.0:Error
                 status: '500'
                 detail: 'An internal error occurred. Please contact support with reference: a1b2c3d4'
+      operationId: postAccountsBySlugScimV2Users
+      x-operation-id-source: derived
   /accounts/{slug}/scim/v2/Users/{id}:
     get:
       summary: Returns a single user in SCIM format
@@ -385,9 +389,37 @@ paths:
                 - urn:ietf:params:scim:api:messages:2.0:Error
                 status: '500'
                 detail: 'An internal error occurred. Please contact support with reference: a1b2c3d4'
+      operationId: getAccountsBySlugScimV2UsersById
+      x-operation-id-source: derived
     patch:
       summary: Updates a user's attributes using SCIM PATCH operation
-      description: "Partially updates an existing SCIM user (RFC 7644 PatchOp).\n\nSupported operations:\n- op: \"replace\" only\n\nSupported paths:\n- active (boolean: true/false)\n- urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User.memberType\n  (owner, member, or marketer when enabled for the account)\n\nRequirements:\n- schemas must include \"urn:ietf:params:scim:api:messages:2.0:PatchOp\"\n\nNotes:\n- PUT is not supported for this endpoint.\n- Unsupported op/path/value returns 400.\n"
+      description: 'Partially updates an existing SCIM user (RFC 7644 PatchOp).
+
+
+        Supported operations:
+
+        - op: "replace" only
+
+
+        Supported paths:
+
+        - active (boolean: true/false)
+
+        - urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User.memberType
+
+        (owner, member, or marketer when enabled for the account)
+
+
+        Requirements:
+
+        - schemas must include "urn:ietf:params:scim:api:messages:2.0:PatchOp"
+
+
+        Notes:
+
+        - PUT is not supported for this endpoint.
+
+        - Unsupported op/path/value returns 400.'
       tags:
       - SCIM
       parameters:
@@ -490,6 +522,8 @@ paths:
                 - urn:ietf:params:scim:api:messages:2.0:Error
                 status: '500'
                 detail: 'An internal error occurred. Please contact support with reference: a1b2c3d4'
+      operationId: patchAccountsBySlugScimV2UsersById
+      x-operation-id-source: derived
 components:
   schemas:
     ScimPatchRequest:
@@ -531,65 +565,6 @@ components:
         - op: replace
           path: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:memberType
           value: owner
-    ScimUserCreate:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-        userName:
-          type: string
-          format: email
-          description: Email address used as the username
-        name:
-          type: object
-          properties:
-            givenName:
-              type: string
-              description: First name
-            familyName:
-              type: string
-              description: Last name
-        active:
-          type: boolean
-          description: Whether the user account is active
-      required:
-      - schemas
-      - userName
-      - name
-      example:
-        schemas:
-        - urn:ietf:params:scim:schemas:core:2.0:User
-        userName: foo@somedomain.com
-        name:
-          givenName: John
-          familyName: Doe
-        active: true
-    ScimError:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            enum:
-            - urn:ietf:params:scim:api:messages:2.0:Error
-        status:
-          type: string
-          description: HTTP status code as a string
-        scimType:
-          type: string
-          description: SCIM error type identifier
-        detail:
-          type: string
-          description: Detailed error message
-      example:
-        schemas:
-        - urn:ietf:params:scim:api:messages:2.0:Error
-        status: '400'
-        scimType: invalidFilter
-        detail: The specified filter syntax was invalid
     ScimUser:
       type: object
       properties:
@@ -667,6 +642,65 @@ components:
           created: '2026-03-16T14:13:09.867Z'
           lastModified: '2026-03-25T13:22:47.26Z'
           location: https://api.valimail.com/account/valimail/scim/v2/users/49c398b12b
+    ScimError:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:api:messages:2.0:Error
+        status:
+          type: string
+          description: HTTP status code as a string
+        scimType:
+          type: string
+          description: SCIM error type identifier
+        detail:
+          type: string
+          description: Detailed error message
+      example:
+        schemas:
+        - urn:ietf:params:scim:api:messages:2.0:Error
+        status: '400'
+        scimType: invalidFilter
+        detail: The specified filter syntax was invalid
+    ScimUserCreate:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+        userName:
+          type: string
+          format: email
+          description: Email address used as the username
+        name:
+          type: object
+          properties:
+            givenName:
+              type: string
+              description: First name
+            familyName:
+              type: string
+              description: Last name
+        active:
+          type: boolean
+          description: Whether the user account is active
+      required:
+      - schemas
+      - userName
+      - name
+      example:
+        schemas:
+        - urn:ietf:params:scim:schemas:core:2.0:User
+        userName: foo@somedomain.com
+        name:
+          givenName: John
+          familyName: Doe
+        active: true
   securitySchemes:
     bearerAuth:
       type: http

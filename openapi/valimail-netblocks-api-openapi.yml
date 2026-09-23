@@ -153,13 +153,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugDomainsByDomainNetblocks
+      x-operation-id-source: derived
     post:
       summary: Creates a new netblock for the domain
       tags:
       - Netblocks
-      description: 'Creates a new netblock for the domain or subdomain. The comment and the sender-slug are optional.
-
-        '
+      description: Creates a new netblock for the domain or subdomain. The comment and the sender-slug are optional.
       parameters:
       - name: slug
         in: path
@@ -335,6 +335,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugDomainsByDomainNetblocks
+      x-operation-id-source: derived
   /accounts/{slug}/domains/{domain}/netblocks/{netblock}:
     get:
       summary: Returns a single netblock according to IP or CIDR
@@ -457,6 +459,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugDomainsByDomainNetblocksByNetblock
+      x-operation-id-source: derived
     put:
       summary: Updates a netblock comment or the sender-slug associated with it
       tags:
@@ -617,8 +621,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugDomainsByDomainNetblocksByNetblock
+      x-operation-id-source: derived
 components:
   schemas:
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    Any: {}
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
     Netblock:
       type: object
       properties:
@@ -643,29 +670,17 @@ components:
         comment: This is a comment
         sender-slug: sendgrid
         domain-slug: dmarceverywhere.com
-    Any: {}
-    ErrorResponse:
+    DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
         request:
-          $ref: '#/components/schemas/Any'
+          type: string
         message:
           type: string
         type:
           type: string
-        request-id:
-          type: string
         call:
           type: string
-    DelegatedAPIValidationErrorResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     DefaultOdinErrorResponse:
       type: object
       properties:
@@ -681,27 +696,18 @@ components:
           type: string
         status:
           type: string
-    DefaultDelegatedAPIErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
-          type: string
+          $ref: '#/components/schemas/Any'
         message:
           type: string
         type:
           type: string
+        request-id:
+          type: string
         call:
-          type: string
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
           type: string
   securitySchemes:
     bearerAuth:

@@ -59,7 +59,8 @@
     "tag 'Authentication' spans 3 source specs (valimail-account-openapi-original.yml, valimail-config-openapi-original.yml, valimail-partner-openapi-original.yml): per-path servers applied",
     "tag 'Portfolios' spans 2 source specs (valimail-account-openapi-original.yml, valimail-partner-openapi-original.yml): per-path servers applied",
     "tag 'SSO' spans 2 source specs (valimail-account-openapi-original.yml, valimail-partner-openapi-original.yml): per-path servers applied",
-    "tag 'Users' spans 2 source specs (valimail-account-openapi-original.yml, valimail-partner-openapi-original.yml): per-path servers applied"
+    "tag 'Users' spans 2 source specs (valimail-account-openapi-original.yml, valimail-partner-openapi-original.yml): per-path servers applied",
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "valimail-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
@@ -73,7 +74,9 @@
     "valimail-portfolios-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "valimail-scim-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "valimail-senders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "valimail-senders-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "valimail-sso-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "valimail-teams-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "valimail-tls-configuration-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "valimail-users-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "valimail-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"

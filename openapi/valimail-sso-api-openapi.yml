@@ -17,7 +17,7 @@ tags:
 paths:
   /accounts/{slug}/app/sso:
     get:
-      summary: Returns the SSO configuration for the account slug provided.
+      summary: Returns the SSO configuration for the account slug provided
       tags:
       - SSO
       parameters:
@@ -71,8 +71,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugAppSso
+      x-operation-id-source: derived
     post:
-      summary: Creates an SSO configuration for the account slug provided.
+      summary: Creates an SSO configuration for the account slug provided
       tags:
       - SSO
       parameters:
@@ -132,8 +134,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugAppSso
+      x-operation-id-source: derived
     put:
-      summary: Updates the SSO configuration for the account slug provided. Supports partial updates — only the fields provided in the request body will be changed.
+      summary: Updates the SSO configuration for the account slug provided.
       tags:
       - SSO
       parameters:
@@ -199,8 +203,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugAppSso
+      x-operation-id-source: derived
     delete:
-      summary: Deletes the SSO configuration for the account slug provided.
+      summary: Deletes the SSO configuration for the account slug provided
       tags:
       - SSO
       parameters:
@@ -254,6 +260,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: deleteAccountsBySlugAppSso
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -263,38 +271,6 @@ paths:
       description: Local development server
 components:
   schemas:
-    SsoCreate:
-      type: object
-      properties:
-        cert:
-          type: string
-          description: SAML certificate (manual mode).
-        idp-entity-id:
-          type: string
-          description: Identity provider entity ID (manual mode).
-        saml-endpoint:
-          type: string
-          description: SAML endpoint URL (manual mode).
-        idp-metadata-file:
-          type: string
-          description: IdP metadata file content (metadata mode; mutually exclusive with manual fields).
-        jit-provisioning-enabled:
-          type: boolean
-          description: Enable just-in-time user provisioning.
-        provisioning-domains:
-          type: array
-          items:
-            type: string
-          description: List of domains used for JIT provisioning.
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
     ValidationDetail:
       type: object
       properties:
@@ -304,19 +280,15 @@ components:
           type: string
         message:
           type: string
-    ErrorResponse:
+    ValidationResponse:
       type: object
       properties:
-        request:
+        params:
           type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
     SsoConfig:
       type: object
       properties:
@@ -340,6 +312,42 @@ components:
         updated-at:
           type: string
           format: date-time
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    SsoCreate:
+      type: object
+      properties:
+        cert:
+          type: string
+          description: SAML certificate (manual mode).
+        idp-entity-id:
+          type: string
+          description: Identity provider entity ID (manual mode).
+        saml-endpoint:
+          type: string
+          description: SAML endpoint URL (manual mode).
+        idp-metadata-file:
+          type: string
+          description: IdP metadata file content (metadata mode; mutually exclusive with manual fields).
+        jit-provisioning-enabled:
+          type: boolean
+          description: Enable just-in-time user provisioning.
+        provisioning-domains:
+          type: array
+          items:
+            type: string
+          description: List of domains used for JIT provisioning.
   securitySchemes:
     bearerAuth:
       type: http

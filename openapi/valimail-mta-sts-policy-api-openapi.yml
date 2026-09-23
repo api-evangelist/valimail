@@ -135,6 +135,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugDomainsByDomainMtaStsPolicy
+      x-operation-id-source: derived
     post:
       summary: Creates a new MTA-STS policy for a domain
       tags:
@@ -259,6 +261,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugDomainsByDomainMtaStsPolicy
+      x-operation-id-source: derived
     put:
       summary: Updates an existing MTA-STS policy for a domain
       tags:
@@ -391,6 +395,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugDomainsByDomainMtaStsPolicy
+      x-operation-id-source: derived
   /accounts/{slug}/mta_sts_policies:
     get:
       summary: Returns a list of all MTA-STS policies for an account
@@ -527,36 +533,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugMtaStsPolicies
+      x-operation-id-source: derived
 components:
   schemas:
-    MtaStsPolicyRequest:
+    ValidationDetail:
       type: object
-      required:
-      - policy-mode
-      - max-age
       properties:
-        policy-mode:
+        field:
           type: string
-          enum:
-          - none
-          - testing
-          - enforce
-          description: Policy enforcement level
-          example: testing
-        mx-hosts:
-          type: array
-          items:
-            type: string
-          description: List of authorized MX hostnames
-          example:
-          - mx1.example.com
-          - mx2.example.com
-        max-age:
-          type: integer
-          minimum: 0
-          description: Policy cache duration in seconds
-          example: 86400
-    Any: {}
+        value:
+          type: string
+        message:
+          type: string
     MtaStsPoliciesListResponse:
       type: object
       properties:
@@ -649,31 +638,6 @@ components:
                 format: date-time
                 description: Policy last update timestamp in RFC3339 format
                 example: '2025-06-01T12:30:45Z'
-    MtaStsPolicyUpdateRequest:
-      type: object
-      properties:
-        policy-mode:
-          type: string
-          enum:
-          - none
-          - testing
-          - enforce
-          description: Policy enforcement level
-          example: enforce
-        mx-hosts:
-          type: array
-          items:
-            type: string
-          description: List of authorized MX hostnames
-          example:
-          - mx1.example.com
-          - mx2.example.com
-          - mx3.example.com
-        max-age:
-          type: integer
-          minimum: 0
-          description: Policy cache duration in seconds
-          example: 604800
     ValidationResponse:
       type: object
       properties:
@@ -683,28 +647,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
     MtaStsPolicyResponse:
       type: object
       properties:
@@ -796,6 +738,70 @@ components:
               format: date-time
               description: Policy last update timestamp in RFC3339 format
               example: '2024-04-30T14:00:00Z'
+    MtaStsPolicyUpdateRequest:
+      type: object
+      properties:
+        policy-mode:
+          type: string
+          enum:
+          - none
+          - testing
+          - enforce
+          description: Policy enforcement level
+          example: enforce
+        mx-hosts:
+          type: array
+          items:
+            type: string
+          description: List of authorized MX hostnames
+          example:
+          - mx1.example.com
+          - mx2.example.com
+          - mx3.example.com
+        max-age:
+          type: integer
+          minimum: 0
+          description: Policy cache duration in seconds
+          example: 604800
+    Any: {}
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    MtaStsPolicyRequest:
+      type: object
+      required:
+      - policy-mode
+      - max-age
+      properties:
+        policy-mode:
+          type: string
+          enum:
+          - none
+          - testing
+          - enforce
+          description: Policy enforcement level
+          example: testing
+        mx-hosts:
+          type: array
+          items:
+            type: string
+          description: List of authorized MX hostnames
+          example:
+          - mx1.example.com
+          - mx2.example.com
+        max-age:
+          type: integer
+          minimum: 0
+          description: Policy cache duration in seconds
+          example: 86400
     DefaultOdinErrorResponse:
       type: object
       properties:
@@ -811,14 +817,16 @@ components:
           type: string
         status:
           type: string
-    DefaultDelegatedAPIErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
-          type: string
+          $ref: '#/components/schemas/Any'
         message:
           type: string
         type:
+          type: string
+        request-id:
           type: string
         call:
           type: string

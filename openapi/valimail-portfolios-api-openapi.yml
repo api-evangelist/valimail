@@ -71,6 +71,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugPortfolios
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -80,7 +82,7 @@ paths:
       description: Local development server
   /accounts/{slug}/v2/portfolios:
     get:
-      summary: Returns portfolios linked to the account slug provided.
+      summary: Returns portfolios linked to the account slug provided
       tags:
       - Portfolios
       parameters:
@@ -136,8 +138,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugV2Portfolios
+      x-operation-id-source: derived
     post:
-      summary: Creates a new portfolio linked to the account slug provided.
+      summary: Creates a new portfolio linked to the account slug provided
       tags:
       - Portfolios
       parameters:
@@ -197,6 +201,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: postAccountsBySlugV2Portfolios
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -206,7 +212,7 @@ paths:
       description: Local development server
   /accounts/{slug}/v2/portfolios/{portfolio-slug}:
     get:
-      summary: Returns portfolio data by account slug and portfolio slug.
+      summary: Returns portfolio data by account slug and portfolio slug
       tags:
       - Portfolios
       parameters:
@@ -273,8 +279,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: getAccountsBySlugV2PortfoliosByPortfolioSlug
+      x-operation-id-source: derived
     put:
-      summary: Updates portfolio data by account slug and portfolio slug.
+      summary: Updates portfolio data by account slug and portfolio slug
       tags:
       - Portfolios
       parameters:
@@ -347,6 +355,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      operationId: putAccountsBySlugV2PortfoliosByPortfolioSlug
+      x-operation-id-source: derived
     servers:
     - url: https://api.valimail.com
       description: API services
@@ -356,6 +366,15 @@ paths:
       description: Local development server
 components:
   schemas:
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
     PortfolioCreate:
       type: object
       properties:
@@ -393,6 +412,15 @@ components:
           type: array
           items:
             type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
     Portfolio:
       type: object
       properties:
@@ -440,37 +468,6 @@ components:
         - sending
         dmarc-policy-criteria:
         - reject
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
     PortfolioSets:
       type: array
       items:
@@ -492,6 +489,19 @@ components:
         account-name: Valimail
         domain-name: heytest.com
         org-domain-name: heytest.com
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http
