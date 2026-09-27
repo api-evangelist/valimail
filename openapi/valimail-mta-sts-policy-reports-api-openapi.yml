@@ -386,21 +386,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
     MtaStsTlsFailureDetailsResponse:
       type: array
       description: Array containing detailed failure information from MTA-STS TLS reports
@@ -470,6 +455,21 @@ components:
               max-age:
                 type: integer
                 description: Maximum age in seconds for caching the policy
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

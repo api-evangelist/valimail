@@ -392,6 +392,20 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    TlsRptPolicyUpdateRequest:
+      type: object
+      properties:
+        rua-uris:
+          type: array
+          description: Reporting URIs for TLS failure reports
+          example:
+          - mailto:tls-reports@example.com
+          - mailto:security@example.com
+          items:
+            type: string
+            format: uri
+            pattern: '^mailto:'
+    Any: {}
     TlsRptPoliciesListResponse:
       type: object
       properties:
@@ -425,6 +439,32 @@ components:
           type: string
           format: date-time
           description: Last update timestamp
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     ValidationDetail:
       type: object
       properties:
@@ -470,29 +510,19 @@ components:
               type: string
               format: date-time
               description: Last update timestamp
-    ValidationResponse:
+    ErrorResponse:
       type: object
       properties:
-        params:
+        request:
           $ref: '#/components/schemas/Any'
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
-    Any: {}
-    TlsRptPolicyUpdateRequest:
-      type: object
-      properties:
-        rua-uris:
-          type: array
-          description: Reporting URIs for TLS failure reports
-          example:
-          - mailto:tls-reports@example.com
-          - mailto:security@example.com
-          items:
-            type: string
-            format: uri
-            pattern: '^mailto:'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
     TlsRptPolicyRequest:
       type: object
       required:
@@ -508,45 +538,15 @@ components:
             type: string
             format: uri
             pattern: '^mailto:'
-    DefaultDelegatedAPIErrorResponse:
+    ValidationResponse:
       type: object
       properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
+        params:
           $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
   securitySchemes:
     bearerAuth:
       type: http

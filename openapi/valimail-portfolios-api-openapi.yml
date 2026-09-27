@@ -366,61 +366,6 @@ paths:
       description: Local development server
 components:
   schemas:
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
-    PortfolioCreate:
-      type: object
-      properties:
-        name:
-          description: Name of the portfolio.
-          type: string
-        description:
-          description: Description of the portfolio.
-          type: string
-        dynamic:
-          description: When true, domain membership is computed from the criteria fields below instead of the explicit domain lists.
-          type: boolean
-        enforcement-status-criteria:
-          description: List of enforcement statuses used to dynamically select domains for the portfolio.
-          type: array
-          items:
-            type: string
-        sending-status-criteria:
-          description: List of sending statuses used to dynamically select domains for the portfolio.
-          type: array
-          items:
-            type: string
-        dmarc-policy-criteria:
-          description: List of DMARC policies used to dynamically select domains for the portfolio.
-          type: array
-          items:
-            type: string
-        org-domain-names:
-          description: Organizational domain names to include in the portfolio.
-          type: array
-          items:
-            type: string
-        domain-names:
-          description: Domain names to include in the portfolio.
-          type: array
-          items:
-            type: string
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
     Portfolio:
       type: object
       properties:
@@ -489,6 +434,15 @@ components:
         account-name: Valimail
         domain-name: heytest.com
         org-domain-name: heytest.com
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
     ErrorResponse:
       type: object
       properties:
@@ -502,6 +456,52 @@ components:
           type: string
         call:
           type: string
+    PortfolioCreate:
+      type: object
+      properties:
+        name:
+          description: Name of the portfolio.
+          type: string
+        description:
+          description: Description of the portfolio.
+          type: string
+        dynamic:
+          description: When true, domain membership is computed from the criteria fields below instead of the explicit domain lists.
+          type: boolean
+        enforcement-status-criteria:
+          description: List of enforcement statuses used to dynamically select domains for the portfolio.
+          type: array
+          items:
+            type: string
+        sending-status-criteria:
+          description: List of sending statuses used to dynamically select domains for the portfolio.
+          type: array
+          items:
+            type: string
+        dmarc-policy-criteria:
+          description: List of DMARC policies used to dynamically select domains for the portfolio.
+          type: array
+          items:
+            type: string
+        org-domain-names:
+          description: Organizational domain names to include in the portfolio.
+          type: array
+          items:
+            type: string
+        domain-names:
+          description: Domain names to include in the portfolio.
+          type: array
+          items:
+            type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
   securitySchemes:
     bearerAuth:
       type: http

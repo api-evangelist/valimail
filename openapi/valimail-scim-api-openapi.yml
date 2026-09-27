@@ -526,45 +526,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ScimPatchRequest:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            enum:
-            - urn:ietf:params:scim:api:messages:2.0:PatchOp
-        Operations:
-          type: array
-          items:
-            type: object
-            properties:
-              op:
-                type: string
-                enum:
-                - add
-                - replace
-                - remove
-              path:
-                type: string
-                description: JSON path to the attribute to modify
-              value:
-                type: object
-                description: Value to set for the attribute
-      required:
-      - schemas
-      - Operations
-      example:
-        schemas:
-        - urn:ietf:params:scim:api:messages:2.0:PatchOp
-        Operations:
-        - op: replace
-          path: active
-          value: false
-        - op: replace
-          path: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:memberType
-          value: owner
     ScimUser:
       type: object
       properties:
@@ -666,6 +627,45 @@ components:
         status: '400'
         scimType: invalidFilter
         detail: The specified filter syntax was invalid
+    ScimPatchRequest:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+        Operations:
+          type: array
+          items:
+            type: object
+            properties:
+              op:
+                type: string
+                enum:
+                - add
+                - replace
+                - remove
+              path:
+                type: string
+                description: JSON path to the attribute to modify
+              value:
+                type: object
+                description: Value to set for the attribute
+      required:
+      - schemas
+      - Operations
+      example:
+        schemas:
+        - urn:ietf:params:scim:api:messages:2.0:PatchOp
+        Operations:
+        - op: replace
+          path: active
+          value: false
+        - op: replace
+          path: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:memberType
+          value: owner
     ScimUserCreate:
       type: object
       properties:

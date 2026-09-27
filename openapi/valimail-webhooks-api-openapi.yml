@@ -59,7 +59,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Any: {}
     WebhookPublicKeys:
       type: object
       description: Map of key IDs to base64-encoded Ed25519 public keys.
@@ -78,6 +77,7 @@ components:
           type: string
         call:
           type: string
+    Any: {}
   securitySchemes:
     bearerAuth:
       type: http

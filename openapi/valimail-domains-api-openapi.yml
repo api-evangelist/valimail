@@ -693,6 +693,62 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    DomainUpdate:
+      type: object
+      properties:
+        dmarc-policy:
+          type: string
+        sending-status:
+          type: string
+    EmptyObjectResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        request-id:
+          type: string
+    Any: {}
+    DomainCreate:
+      type: object
+      properties:
+        domain:
+          type: string
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     DelegatedAPIValidationErrorResponse:
       type: object
       properties:
@@ -702,20 +758,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    DomainUpdate:
-      type: object
-      properties:
-        dmarc-policy:
-          type: string
-        sending-status:
-          type: string
-    Any: {}
-    EmptyObjectResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        request-id:
-          type: string
     Domain:
       type: object
       properties:
@@ -749,48 +791,6 @@ components:
         dmarc-pcd:
           type: string
           description: The dmarc policy compliance.
-    DomainCreate:
-      type: object
-      properties:
-        domain:
-          type: string
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
     ErrorResponse:
       type: object
       properties:

@@ -624,34 +624,6 @@ paths:
       description: Local development server
 components:
   schemas:
-    CreateUser:
-      type: object
-      properties:
-        email:
-          description: Email of the user.
-          type: string
-        first-name:
-          description: First name of the user.
-          type: string
-        last-name:
-          description: Last name of the user.
-          type: string
-        user-type:
-          description: 'Optional: User type in the account. Defaults to owner. Marketer is only valid when the account supports that role.'
-          type: string
-          enum:
-          - member
-          - owner
-          - marketer
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
     ValidationResponse:
       type: object
       properties:
@@ -661,69 +633,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
-    UserUpdate:
-      type: object
-      properties:
-        email:
-          type: string
-        first-name:
-          type: string
-        last-name:
-          type: string
-        user-type:
-          type: string
-          enum:
-          - member
-          - owner
-          - marketer
-    InvitedUser:
-      allOf:
-      - $ref: '#/components/schemas/User'
-      - type: object
-        properties:
-          activation-link:
-            type: string
-            description: Invitation activation URL. Returned as an empty string when the invitation has already been accepted and invitation-accepted-at is present in the response.
-      example:
-        email: test@234.com
-        first-name: John
-        last-name: Doe
-        slug: john-doe
-        account-slug: valimail
-        last-active-at: '2026-02-24T12:30:00Z'
-        user-type: owner
-        activation-link: https://app.valimail.com/users/invitation/accept?invitation_token=example-token
-    UserDelete:
-      type: object
-      properties:
-        slug:
-          type: string
-        account-slug:
-          type: string
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
     User:
       type: object
       properties:
@@ -759,6 +668,97 @@ components:
         last-active-at: '2026-02-24T12:30:00Z'
         invitation-accepted-at: '2026-04-07T09:15:00Z'
         user-type: owner
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    UserUpdate:
+      type: object
+      properties:
+        email:
+          type: string
+        first-name:
+          type: string
+        last-name:
+          type: string
+        user-type:
+          type: string
+          enum:
+          - member
+          - owner
+          - marketer
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    InvitedUser:
+      allOf:
+      - $ref: '#/components/schemas/User'
+      - type: object
+        properties:
+          activation-link:
+            type: string
+            description: Invitation activation URL. Returned as an empty string when the invitation has already been accepted and invitation-accepted-at is present in the response.
+      example:
+        email: test@234.com
+        first-name: John
+        last-name: Doe
+        slug: john-doe
+        account-slug: valimail
+        last-active-at: '2026-02-24T12:30:00Z'
+        user-type: owner
+        activation-link: https://app.valimail.com/users/invitation/accept?invitation_token=example-token
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    UserDelete:
+      type: object
+      properties:
+        slug:
+          type: string
+        account-slug:
+          type: string
+    CreateUser:
+      type: object
+      properties:
+        email:
+          description: Email of the user.
+          type: string
+        first-name:
+          description: First name of the user.
+          type: string
+        last-name:
+          description: Last name of the user.
+          type: string
+        user-type:
+          description: 'Optional: User type in the account. Defaults to owner. Marketer is only valid when the account supports that role.'
+          type: string
+          enum:
+          - member
+          - owner
+          - marketer
   securitySchemes:
     bearerAuth:
       type: http

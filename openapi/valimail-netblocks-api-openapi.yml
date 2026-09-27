@@ -625,16 +625,22 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DelegatedAPIValidationErrorResponse:
+    Any: {}
+    DefaultOdinErrorResponse:
       type: object
       properties:
-        params:
+        request:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    Any: {}
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
     DelegatedAPIValidationErrorDetail:
       type: object
       properties:
@@ -645,6 +651,17 @@ components:
           - string
           - 'null'
         message:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
           type: string
     Netblock:
       type: object
@@ -670,32 +687,15 @@ components:
         comment: This is a comment
         sender-slug: sendgrid
         domain-slug: dmarceverywhere.com
-    DefaultDelegatedAPIErrorResponse:
+    DelegatedAPIValidationErrorResponse:
       type: object
       properties:
-        request:
+        params:
           type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     ErrorResponse:
       type: object
       properties:

@@ -537,15 +537,7 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
+    Any: {}
     MtaStsPoliciesListResponse:
       type: object
       properties:
@@ -638,15 +630,6 @@ components:
                 format: date-time
                 description: Policy last update timestamp in RFC3339 format
                 example: '2025-06-01T12:30:45Z'
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          $ref: '#/components/schemas/Any'
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
     MtaStsPolicyResponse:
       type: object
       properties:
@@ -738,32 +721,21 @@ components:
               format: date-time
               description: Policy last update timestamp in RFC3339 format
               example: '2024-04-30T14:00:00Z'
-    MtaStsPolicyUpdateRequest:
+    DefaultOdinErrorResponse:
       type: object
       properties:
-        policy-mode:
+        request:
           type: string
-          enum:
-          - none
-          - testing
-          - enforce
-          description: Policy enforcement level
-          example: enforce
-        mx-hosts:
-          type: array
-          items:
-            type: string
-          description: List of authorized MX hostnames
-          example:
-          - mx1.example.com
-          - mx2.example.com
-          - mx3.example.com
-        max-age:
-          type: integer
-          minimum: 0
-          description: Policy cache duration in seconds
-          example: 604800
-    Any: {}
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
     DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
@@ -774,6 +746,15 @@ components:
         type:
           type: string
         call:
+          type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
           type: string
     MtaStsPolicyRequest:
       type: object
@@ -802,21 +783,31 @@ components:
           minimum: 0
           description: Policy cache duration in seconds
           example: 86400
-    DefaultOdinErrorResponse:
+    MtaStsPolicyUpdateRequest:
       type: object
       properties:
-        request:
+        policy-mode:
           type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
+          enum:
+          - none
+          - testing
+          - enforce
+          description: Policy enforcement level
+          example: enforce
+        mx-hosts:
+          type: array
+          items:
+            type: string
+          description: List of authorized MX hostnames
+          example:
+          - mx1.example.com
+          - mx2.example.com
+          - mx3.example.com
+        max-age:
+          type: integer
+          minimum: 0
+          description: Policy cache duration in seconds
+          example: 604800
     ErrorResponse:
       type: object
       properties:
@@ -830,6 +821,15 @@ components:
           type: string
         call:
           type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          $ref: '#/components/schemas/Any'
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
   securitySchemes:
     bearerAuth:
       type: http

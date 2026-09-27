@@ -313,15 +313,6 @@ components:
           type: string
         message:
           type: string
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
     TeamCreate:
       type: object
       properties:
@@ -347,6 +338,15 @@ components:
           type: string
         call:
           type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
   securitySchemes:
     bearerAuth:
       type: http

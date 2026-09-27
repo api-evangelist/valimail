@@ -670,6 +670,53 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Any: {}
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
+    SendersProviders:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: The sender slug to be used in all senders endpoints
+        name:
+          type: string
+          description: The real name of the sender
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     DelegatedAPIValidationErrorResponse:
       type: object
       properties:
@@ -679,6 +726,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
     Sender:
       type: object
       properties:
@@ -709,66 +769,6 @@ components:
         status: pending_approval
         domainSlug: dmarceverywhere.com
         accountSlug: valimail
-    Any: {}
-    SendersProviders:
-      type: object
-      properties:
-        slug:
-          type: string
-          description: The sender slug to be used in all senders endpoints
-        name:
-          type: string
-          description: The real name of the sender
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

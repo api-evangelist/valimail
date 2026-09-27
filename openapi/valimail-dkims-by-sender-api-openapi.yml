@@ -687,16 +687,33 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    DelegatedAPIValidationErrorResponse:
+    Any: {}
+    DefaultOdinErrorResponse:
       type: object
       properties:
-        params:
+        request:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    Any: {}
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
     Dkim:
       type: object
       properties:
@@ -736,17 +753,6 @@ components:
         domain-slug: dmarceverywhere.com
         sender-owner: valimail
         domain-owner: valimail
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
     DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
@@ -758,21 +764,15 @@ components:
           type: string
         call:
           type: string
-    DefaultOdinErrorResponse:
+    DelegatedAPIValidationErrorResponse:
       type: object
       properties:
-        request:
+        params:
           type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     ErrorResponse:
       type: object
       properties:
