@@ -626,43 +626,6 @@ paths:
 components:
   schemas:
     Any: {}
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
     Netblock:
       type: object
       properties:
@@ -696,6 +659,43 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
     ErrorResponse:
       type: object
       properties:

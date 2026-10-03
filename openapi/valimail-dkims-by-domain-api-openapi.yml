@@ -661,6 +661,26 @@ components:
           type: string
         status:
           type: string
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
     DelegatedAPIValidationErrorDetail:
       type: object
       properties:
@@ -711,26 +731,6 @@ components:
         domain-slug: dmarceverywhere.com
         sender-owner: valimail
         domain-owner: valimail
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    DelegatedAPIValidationErrorResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     ErrorResponse:
       type: object
       properties:

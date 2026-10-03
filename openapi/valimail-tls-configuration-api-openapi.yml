@@ -406,6 +406,21 @@ components:
             format: uri
             pattern: '^mailto:'
     Any: {}
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
     TlsRptPoliciesListResponse:
       type: object
       properties:
@@ -439,21 +454,6 @@ components:
           type: string
           format: date-time
           description: Last update timestamp
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
     DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
@@ -465,15 +465,15 @@ components:
           type: string
         call:
           type: string
-    ValidationDetail:
+    ValidationResponse:
       type: object
       properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
+        params:
+          $ref: '#/components/schemas/Any'
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
     TlsRptPolicyResponse:
       type: object
       properties:
@@ -510,18 +510,14 @@ components:
               type: string
               format: date-time
               description: Last update timestamp
-    ErrorResponse:
+    ValidationDetail:
       type: object
       properties:
-        request:
-          $ref: '#/components/schemas/Any'
+        field:
+          type: string
+        value:
+          type: string
         message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
           type: string
     TlsRptPolicyRequest:
       type: object
@@ -538,15 +534,19 @@ components:
             type: string
             format: uri
             pattern: '^mailto:'
-    ValidationResponse:
+    ErrorResponse:
       type: object
       properties:
-        params:
+        request:
           $ref: '#/components/schemas/Any'
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

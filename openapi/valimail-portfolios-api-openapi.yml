@@ -434,6 +434,15 @@ components:
         account-name: Valimail
         domain-name: heytest.com
         org-domain-name: heytest.com
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
     ValidationDetail:
       type: object
       properties:
@@ -442,19 +451,6 @@ components:
         value:
           type: string
         message:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
           type: string
     PortfolioCreate:
       type: object
@@ -493,15 +489,19 @@ components:
           type: array
           items:
             type: string
-    ValidationResponse:
+    ErrorResponse:
       type: object
       properties:
-        params:
+        request:
           type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

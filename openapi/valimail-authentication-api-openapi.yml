@@ -75,13 +75,22 @@ paths:
       description: Local development server
 components:
   schemas:
-    KeyResponse:
+    KeyRequest:
       type: object
       properties:
-        token:
+        client-id:
           type: string
-        expires-at:
+        app-id:
           type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
     ValidationDetail:
       type: object
       properties:
@@ -91,12 +100,12 @@ components:
           type: string
         message:
           type: string
-    KeyRequest:
+    KeyResponse:
       type: object
       properties:
-        client-id:
+        token:
           type: string
-        app-id:
+        expires-at:
           type: string
     ErrorResponse:
       type: object
@@ -111,15 +120,6 @@ components:
           type: string
         call:
           type: string
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
     DefaultDelegatedAPIErrorResponse:
       type: object
       properties:

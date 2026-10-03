@@ -287,6 +287,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
     Team:
       type: object
       properties:
@@ -304,15 +313,6 @@ components:
         description: Engineering team
         slug: engineering
         saml-group-id: eng-saml-group
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
     TeamCreate:
       type: object
       properties:
@@ -324,6 +324,15 @@ components:
           type: string
         saml-group-id:
           description: Optional SAML group ID used to auto-assign SSO users to this team.
+          type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
           type: string
     ErrorResponse:
       type: object
@@ -338,15 +347,6 @@ components:
           type: string
         call:
           type: string
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
   securitySchemes:
     bearerAuth:
       type: http

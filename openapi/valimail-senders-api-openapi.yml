@@ -686,26 +686,15 @@ components:
           type: string
         status:
           type: string
-    DelegatedAPIValidationErrorDetail:
+    DelegatedAPIValidationErrorResponse:
       type: object
       properties:
-        field:
+        params:
           type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
-    SendersProviders:
-      type: object
-      properties:
-        slug:
-          type: string
-          description: The sender slug to be used in all senders endpoints
-        name:
-          type: string
-          description: The real name of the sender
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
     DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
@@ -717,27 +706,16 @@ components:
           type: string
         call:
           type: string
-    DelegatedAPIValidationErrorResponse:
+    DelegatedAPIValidationErrorDetail:
       type: object
       properties:
-        params:
+        field:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          $ref: '#/components/schemas/Any'
+        value:
+          type:
+          - string
+          - 'null'
         message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
           type: string
     Sender:
       type: object
@@ -769,6 +747,28 @@ components:
         status: pending_approval
         domainSlug: dmarceverywhere.com
         accountSlug: valimail
+    SendersProviders:
+      type: object
+      properties:
+        slug:
+          type: string
+          description: The sender slug to be used in all senders endpoints
+        name:
+          type: string
+          description: The real name of the sender
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

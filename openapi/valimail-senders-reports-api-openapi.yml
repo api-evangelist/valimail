@@ -120,6 +120,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
     ValidationDetail:
       type: object
       properties:
@@ -128,19 +137,6 @@ components:
         value:
           type: string
         message:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
           type: string
     Senders:
       type: array
@@ -200,15 +196,19 @@ components:
             type: integer
             description: Number of messages rejected
             example: 5
-    ValidationResponse:
+    ErrorResponse:
       type: object
       properties:
-        params:
+        request:
           type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

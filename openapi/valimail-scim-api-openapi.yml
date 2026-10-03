@@ -627,6 +627,41 @@ components:
         status: '400'
         scimType: invalidFilter
         detail: The specified filter syntax was invalid
+    ScimUserCreate:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+        userName:
+          type: string
+          format: email
+          description: Email address used as the username
+        name:
+          type: object
+          properties:
+            givenName:
+              type: string
+              description: First name
+            familyName:
+              type: string
+              description: Last name
+        active:
+          type: boolean
+          description: Whether the user account is active
+      required:
+      - schemas
+      - userName
+      - name
+      example:
+        schemas:
+        - urn:ietf:params:scim:schemas:core:2.0:User
+        userName: foo@somedomain.com
+        name:
+          givenName: John
+          familyName: Doe
+        active: true
     ScimPatchRequest:
       type: object
       properties:
@@ -666,41 +701,6 @@ components:
         - op: replace
           path: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:memberType
           value: owner
-    ScimUserCreate:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-        userName:
-          type: string
-          format: email
-          description: Email address used as the username
-        name:
-          type: object
-          properties:
-            givenName:
-              type: string
-              description: First name
-            familyName:
-              type: string
-              description: Last name
-        active:
-          type: boolean
-          description: Whether the user account is active
-      required:
-      - schemas
-      - userName
-      - name
-      example:
-        schemas:
-        - urn:ietf:params:scim:schemas:core:2.0:User
-        userName: foo@somedomain.com
-        name:
-          givenName: John
-          familyName: Doe
-        active: true
   securitySchemes:
     bearerAuth:
       type: http
