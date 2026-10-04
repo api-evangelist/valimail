@@ -1,0 +1,78 @@
+slug: valimail
+provider: Valimail
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 6
+edges:
+- tag: SSO
+  spec_file: valimail-sso-api-openapi.yml
+  capability_id: BC-4230.50
+  capability_id_l1: BC-4230
+  capability_name: Tenant Identity Federation
+  confidence: 0.75
+  evidence: GET /accounts/{slug}/app/sso "Returns the SSO configuration for the account slug provided";
+    schema SsoConfig
+  reason: Per-account (per-tenant) single sign-on configuration lifecycle in a multi-tenant SaaS, which
+    is exactly Tenant Identity Federation. Residual ambiguity with generic Identity & Access Management.
+- tag: DKIMs by Domain
+  spec_file: valimail-dkims-by-domain-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.74
+  evidence: POST /accounts/{slug}/domains/{domain}/dkims  Creates a new DKIM for the domain or subdomain
+  reason: Operations create and maintain DKIM signing records for owned domains, i.e. configuration of
+    email-authentication security controls that stop spoofing and phishing per the vendor description.
+    Mapped at the Cybersecurity Management L1 only because no candidate L2 cleanly covers email-authentication
+    control configuration.
+- tag: DKIMs by Sender
+  spec_file: valimail-dkims-by-sender-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.72
+  evidence: GET /accounts/{slug}/domains/{domain}/senders/{sender-slug}/dkims  Returns a list of all DKIMs
+    from a sender linked to the domain or subdomain
+  reason: Same DKIM key/record administration surface, scoped per authorised sending service — management
+    of email authentication security controls. L1 Cybersecurity Management only, as none of the offered
+    L2s (IAM, vulnerability, SOC) describe DKIM/DMARC control configuration.
+- tag: MTA-STS Policy
+  spec_file: valimail-mta-sts-policy-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.72
+  evidence: POST /accounts/{slug}/domains/{domain}/mta_sts_policy  Creates a new MTA-STS policy for a
+    domain
+  reason: Creates and updates MTA-STS policies enforcing TLS for inbound mail transport — configuration
+    of a technical email security control. Deliberately not mapped to BC-620.10 Policy/Governance, which
+    concerns corporate security policy documents rather than protocol policy records.
+- tag: SCIM
+  spec_file: valimail-scim-api-openapi.yml
+  capability_id: BC-4230.50
+  capability_id_l1: BC-4230
+  capability_name: Tenant Identity Federation
+  confidence: 0.72
+  evidence: '"Returns a list of users in SCIM format according to RFC 7644"; schema ScimUser, ScimPatchRequest'
+  reason: SaaS vendor exposing SCIM user provisioning endpoints per tenant account; the candidate BC-4230.50
+    explicitly covers "lifecycle of tenant user accounts via single sign-on and SCIM". Some chance the
+    intended reading is generic IAM (BC-620.20), hence moderate confidence.
+- tag: Domains
+  spec_file: valimail-domains-api-openapi.yml
+  capability_id: BC-620
+  capability_id_l1: BC-620
+  capability_name: Cybersecurity Management
+  confidence: 0.7
+  evidence: PUT /accounts/{slug}/domains/{domain}  Updates domain's dmarc-policy and sending-status
+  reason: Domain records here carry DMARC policy and sending status, so the tag administers the inventory
+    of protected sending domains and their enforcement posture — a security control estate, not DNS/infrastructure
+    provisioning per se. Kept at L1 given no fitting L2.

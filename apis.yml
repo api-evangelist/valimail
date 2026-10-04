@@ -322,6 +322,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/valimail-capability-edges.yml
+  name: Valimail Business Capability Map
 - type: Overlay
   url: overlays/valimail-account-overlay.yaml
 - type: Overlay
