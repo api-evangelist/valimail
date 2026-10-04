@@ -366,6 +366,86 @@ paths:
       description: Local development server
 components:
   schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    PortfolioSets:
+      type: array
+      items:
+        properties:
+          portfolio-name:
+            type: string
+          account-name:
+            type: string
+          domain-name:
+            type: string
+          org-domain-name:
+            type: string
+      example:
+      - portfolio-name: Valimail
+        account-name: Valimail
+        domain-name: dmarceverywhere.com
+        org-domain-name: dmarceverywhere.com
+      - portfolio-name: Valimail
+        account-name: Valimail
+        domain-name: heytest.com
+        org-domain-name: heytest.com
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    PortfolioCreate:
+      type: object
+      properties:
+        name:
+          description: Name of the portfolio.
+          type: string
+        description:
+          description: Description of the portfolio.
+          type: string
+        dynamic:
+          description: When true, domain membership is computed from the criteria fields below instead of the explicit domain lists.
+          type: boolean
+        enforcement-status-criteria:
+          description: List of enforcement statuses used to dynamically select domains for the portfolio.
+          type: array
+          items:
+            type: string
+        sending-status-criteria:
+          description: List of sending statuses used to dynamically select domains for the portfolio.
+          type: array
+          items:
+            type: string
+        dmarc-policy-criteria:
+          description: List of DMARC policies used to dynamically select domains for the portfolio.
+          type: array
+          items:
+            type: string
+        org-domain-names:
+          description: Organizational domain names to include in the portfolio.
+          type: array
+          items:
+            type: string
+        domain-names:
+          description: Domain names to include in the portfolio.
+          type: array
+          items:
+            type: string
     Portfolio:
       type: object
       properties:
@@ -413,27 +493,6 @@ components:
         - sending
         dmarc-policy-criteria:
         - reject
-    PortfolioSets:
-      type: array
-      items:
-        properties:
-          portfolio-name:
-            type: string
-          account-name:
-            type: string
-          domain-name:
-            type: string
-          org-domain-name:
-            type: string
-      example:
-      - portfolio-name: Valimail
-        account-name: Valimail
-        domain-name: dmarceverywhere.com
-        org-domain-name: dmarceverywhere.com
-      - portfolio-name: Valimail
-        account-name: Valimail
-        domain-name: heytest.com
-        org-domain-name: heytest.com
     ValidationResponse:
       type: object
       properties:
@@ -443,65 +502,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
-    PortfolioCreate:
-      type: object
-      properties:
-        name:
-          description: Name of the portfolio.
-          type: string
-        description:
-          description: Description of the portfolio.
-          type: string
-        dynamic:
-          description: When true, domain membership is computed from the criteria fields below instead of the explicit domain lists.
-          type: boolean
-        enforcement-status-criteria:
-          description: List of enforcement statuses used to dynamically select domains for the portfolio.
-          type: array
-          items:
-            type: string
-        sending-status-criteria:
-          description: List of sending statuses used to dynamically select domains for the portfolio.
-          type: array
-          items:
-            type: string
-        dmarc-policy-criteria:
-          description: List of DMARC policies used to dynamically select domains for the portfolio.
-          type: array
-          items:
-            type: string
-        org-domain-names:
-          description: Organizational domain names to include in the portfolio.
-          type: array
-          items:
-            type: string
-        domain-names:
-          description: Domain names to include in the portfolio.
-          type: array
-          items:
-            type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

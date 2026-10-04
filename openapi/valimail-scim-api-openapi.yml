@@ -526,6 +526,45 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    ScimPatchRequest:
+      type: object
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+            enum:
+            - urn:ietf:params:scim:api:messages:2.0:PatchOp
+        Operations:
+          type: array
+          items:
+            type: object
+            properties:
+              op:
+                type: string
+                enum:
+                - add
+                - replace
+                - remove
+              path:
+                type: string
+                description: JSON path to the attribute to modify
+              value:
+                type: object
+                description: Value to set for the attribute
+      required:
+      - schemas
+      - Operations
+      example:
+        schemas:
+        - urn:ietf:params:scim:api:messages:2.0:PatchOp
+        Operations:
+        - op: replace
+          path: active
+          value: false
+        - op: replace
+          path: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:memberType
+          value: owner
     ScimUser:
       type: object
       properties:
@@ -603,30 +642,6 @@ components:
           created: '2026-03-16T14:13:09.867Z'
           lastModified: '2026-03-25T13:22:47.26Z'
           location: https://api.valimail.com/account/valimail/scim/v2/users/49c398b12b
-    ScimError:
-      type: object
-      properties:
-        schemas:
-          type: array
-          items:
-            type: string
-            enum:
-            - urn:ietf:params:scim:api:messages:2.0:Error
-        status:
-          type: string
-          description: HTTP status code as a string
-        scimType:
-          type: string
-          description: SCIM error type identifier
-        detail:
-          type: string
-          description: Detailed error message
-      example:
-        schemas:
-        - urn:ietf:params:scim:api:messages:2.0:Error
-        status: '400'
-        scimType: invalidFilter
-        detail: The specified filter syntax was invalid
     ScimUserCreate:
       type: object
       properties:
@@ -662,7 +677,7 @@ components:
           givenName: John
           familyName: Doe
         active: true
-    ScimPatchRequest:
+    ScimError:
       type: object
       properties:
         schemas:
@@ -670,37 +685,22 @@ components:
           items:
             type: string
             enum:
-            - urn:ietf:params:scim:api:messages:2.0:PatchOp
-        Operations:
-          type: array
-          items:
-            type: object
-            properties:
-              op:
-                type: string
-                enum:
-                - add
-                - replace
-                - remove
-              path:
-                type: string
-                description: JSON path to the attribute to modify
-              value:
-                type: object
-                description: Value to set for the attribute
-      required:
-      - schemas
-      - Operations
+            - urn:ietf:params:scim:api:messages:2.0:Error
+        status:
+          type: string
+          description: HTTP status code as a string
+        scimType:
+          type: string
+          description: SCIM error type identifier
+        detail:
+          type: string
+          description: Detailed error message
       example:
         schemas:
-        - urn:ietf:params:scim:api:messages:2.0:PatchOp
-        Operations:
-        - op: replace
-          path: active
-          value: false
-        - op: replace
-          path: urn:ietf:params:scim:schemas:extension:valimailuserextension:2.0:User:memberType
-          value: owner
+        - urn:ietf:params:scim:api:messages:2.0:Error
+        status: '400'
+        scimType: invalidFilter
+        detail: The specified filter syntax was invalid
   securitySchemes:
     bearerAuth:
       type: http

@@ -138,6 +138,19 @@ components:
           type: string
         message:
           type: string
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
     Senders:
       type: array
       items:
@@ -196,19 +209,6 @@ components:
             type: integer
             description: Number of messages rejected
             example: 5
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

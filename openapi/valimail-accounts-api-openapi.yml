@@ -712,16 +712,7 @@ paths:
       description: Local development server
 components:
   schemas:
-    DelegatedAPIValidationErrorResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    DefaultDelegatedAPIErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
@@ -730,26 +721,38 @@ components:
           type: string
         type:
           type: string
+        request-id:
+          type: string
         call:
           type: string
-    ValidationResponse:
+    UpdateAccount:
       type: object
       properties:
-        params:
+        name:
           type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
-    DelegatedAPIValidationErrorDetail:
+          description: Name of the account. Empty strings are treated as not provided.
+        enabled-org-domains-limit:
+          type: integer
+          description: Limit of enabled domains. A value of 0 is treated as not provided.
+        blocked-org-domains-limit:
+          type: integer
+          description: Limit of blocked domains. A value of 0 is treated as not provided.
+        sending-sub-domains-limit:
+          type: integer
+          description: Limit of domains with sender services. A value of 0 is treated as not provided.
+        approved-senders-limit:
+          type: integer
+          description: Limit of approved senders. A value of 0 is treated as not provided. A value of -1 clears the stored limit and reads back as -1.
+        package-slug:
+          type: string
+          description: Package slug to assign to the account. When omitted, the existing package remains unchanged.
+    ValidationDetail:
       type: object
       properties:
         field:
           type: string
         value:
-          type:
-          - string
-          - 'null'
+          type: string
         message:
           type: string
     Account:
@@ -785,36 +788,6 @@ components:
         package-slug:
           type: string
           description: 'Optional: Slug of the package assigned to the account.'
-    UpdateAccount:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the account. Empty strings are treated as not provided.
-        enabled-org-domains-limit:
-          type: integer
-          description: Limit of enabled domains. A value of 0 is treated as not provided.
-        blocked-org-domains-limit:
-          type: integer
-          description: Limit of blocked domains. A value of 0 is treated as not provided.
-        sending-sub-domains-limit:
-          type: integer
-          description: Limit of domains with sender services. A value of 0 is treated as not provided.
-        approved-senders-limit:
-          type: integer
-          description: Limit of approved senders. A value of 0 is treated as not provided. A value of -1 clears the stored limit and reads back as -1.
-        package-slug:
-          type: string
-          description: Package slug to assign to the account. When omitted, the existing package remains unchanged.
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
     AccountListItem:
       type: object
       description: Account read response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
@@ -845,7 +818,25 @@ components:
         approved-senders-limit:
           type: string
           description: 'Optional: Limit of approved senders, serialized as a string in responses.'
-    ErrorResponse:
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
         request:
@@ -854,9 +845,18 @@ components:
           type: string
         type:
           type: string
-        request-id:
-          type: string
         call:
+          type: string
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
           type: string
   securitySchemes:
     bearerAuth:

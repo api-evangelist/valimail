@@ -82,15 +82,19 @@ components:
           type: string
         app-id:
           type: string
-    ValidationResponse:
+    ErrorResponse:
       type: object
       properties:
-        params:
+        request:
           type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
     ValidationDetail:
       type: object
       properties:
@@ -107,30 +111,15 @@ components:
           type: string
         expires-at:
           type: string
-    ErrorResponse:
+    ValidationResponse:
       type: object
       properties:
-        request:
+        params:
           type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
     DefaultOdinErrorResponse:
       type: object
       properties:
@@ -145,6 +134,17 @@ components:
         call:
           type: string
         status:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
           type: string
   securitySchemes:
     bearerAuth:

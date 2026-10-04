@@ -670,12 +670,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Any: {}
-    DefaultOdinErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
-          type: string
+          $ref: '#/components/schemas/Any'
         message:
           type: string
         type:
@@ -684,39 +683,16 @@ components:
           type: string
         call:
           type: string
-        status:
-          type: string
-    DelegatedAPIValidationErrorResponse:
+    Any: {}
+    SendersProviders:
       type: object
       properties:
-        params:
+        slug:
           type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
+          description: The sender slug to be used in all senders endpoints
+        name:
           type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    DelegatedAPIValidationErrorDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
-          type: string
+          description: The real name of the sender
     Sender:
       type: object
       properties:
@@ -747,20 +723,31 @@ components:
         status: pending_approval
         domainSlug: dmarceverywhere.com
         accountSlug: valimail
-    SendersProviders:
+    DelegatedAPIValidationErrorResponse:
       type: object
       properties:
-        slug:
+        params:
           type: string
-          description: The sender slug to be used in all senders endpoints
-        name:
-          type: string
-          description: The real name of the sender
-    ErrorResponse:
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    DefaultDelegatedAPIErrorResponse:
       type: object
       properties:
         request:
-          $ref: '#/components/schemas/Any'
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
+          type: string
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
         message:
           type: string
         type:
@@ -768,6 +755,19 @@ components:
         request-id:
           type: string
         call:
+          type: string
+        status:
+          type: string
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
           type: string
   securitySchemes:
     bearerAuth:

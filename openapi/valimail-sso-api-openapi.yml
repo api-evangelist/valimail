@@ -271,38 +271,6 @@ paths:
       description: Local development server
 components:
   schemas:
-    SsoConfig:
-      type: object
-      properties:
-        account-slug:
-          type: string
-        cert:
-          type: string
-        idp-entity-id:
-          type: string
-        saml-endpoint:
-          type: string
-        jit-provisioning-enabled:
-          type: boolean
-        provisioning-domains:
-          type: array
-          items:
-            type: string
-        created-at:
-          type: string
-          format: date-time
-        updated-at:
-          type: string
-          format: date-time
-    ValidationResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        detail:
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationDetail'
     SsoCreate:
       type: object
       properties:
@@ -326,15 +294,6 @@ components:
           items:
             type: string
           description: List of domains used for JIT provisioning.
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
     ErrorResponse:
       type: object
       properties:
@@ -348,6 +307,47 @@ components:
           type: string
         call:
           type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    ValidationResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        detail:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationDetail'
+    SsoConfig:
+      type: object
+      properties:
+        account-slug:
+          type: string
+        cert:
+          type: string
+        idp-entity-id:
+          type: string
+        saml-endpoint:
+          type: string
+        jit-provisioning-enabled:
+          type: boolean
+        provisioning-domains:
+          type: array
+          items:
+            type: string
+        created-at:
+          type: string
+          format: date-time
+        updated-at:
+          type: string
+          format: date-time
   securitySchemes:
     bearerAuth:
       type: http

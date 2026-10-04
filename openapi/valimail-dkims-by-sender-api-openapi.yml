@@ -687,12 +687,11 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Any: {}
-    DefaultOdinErrorResponse:
+    ErrorResponse:
       type: object
       properties:
         request:
-          type: string
+          $ref: '#/components/schemas/Any'
         message:
           type: string
         type:
@@ -701,8 +700,7 @@ components:
           type: string
         call:
           type: string
-        status:
-          type: string
+    Any: {}
     DelegatedAPIValidationErrorResponse:
       type: object
       properties:
@@ -722,6 +720,21 @@ components:
         type:
           type: string
         call:
+          type: string
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
           type: string
     DelegatedAPIValidationErrorDetail:
       type: object
@@ -773,19 +786,6 @@ components:
         domain-slug: dmarceverywhere.com
         sender-owner: valimail
         domain-owner: valimail
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -693,6 +693,25 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    EmptyObjectResponse:
+      type: object
+      additionalProperties: false
+      properties:
+        request-id:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
     Domain:
       type: object
       properties:
@@ -727,20 +746,12 @@ components:
           type: string
           description: The dmarc policy compliance.
     Any: {}
-    DefaultOdinErrorResponse:
+    DomainUpdate:
       type: object
       properties:
-        request:
+        dmarc-policy:
           type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
+        sending-status:
           type: string
     DelegatedAPIValidationErrorResponse:
       type: object
@@ -762,6 +773,21 @@ components:
           type: string
         call:
           type: string
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
     DelegatedAPIValidationErrorDetail:
       type: object
       properties:
@@ -777,32 +803,6 @@ components:
       type: object
       properties:
         domain:
-          type: string
-    EmptyObjectResponse:
-      type: object
-      additionalProperties: false
-      properties:
-        request-id:
-          type: string
-    DomainUpdate:
-      type: object
-      properties:
-        dmarc-policy:
-          type: string
-        sending-status:
-          type: string
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
           type: string
   securitySchemes:
     bearerAuth:
