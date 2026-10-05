@@ -1,0 +1,12 @@
+{
+ "url": "https://api.valimail.com/docs/config.yml",
+ "requested_url": "https://api.valimail.com/docs/config.yml",
+ "status": 200,
+ "content_type": "text/plain; charset=utf-8",
+ "bytes": 236544,
+ "sha256": "b7c27cb6c210e8b4d7f5454b02b7cb8c1add8545b426959298ec31ec8124f2d3",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 0.951), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
