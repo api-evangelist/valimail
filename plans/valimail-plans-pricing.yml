@@ -99,3 +99,42 @@ api_access_gate:
     is entitled, and SSO or MFA must be enabled on the account first.
   docs: https://support.valimail.com/en/articles/10580387-requesting-api-access
   cross_link: authentication/valimail-authentication.yml
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - negotiated
+  - subscription
+  units: []
+  plans:
+  - name: Monitor
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enforce Starter
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enforce Premium
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enforce Enterprise
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Amplify
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
