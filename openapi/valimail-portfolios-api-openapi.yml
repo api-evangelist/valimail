@@ -366,49 +366,6 @@ paths:
       description: Local development server
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-    PortfolioSets:
-      type: array
-      items:
-        properties:
-          portfolio-name:
-            type: string
-          account-name:
-            type: string
-          domain-name:
-            type: string
-          org-domain-name:
-            type: string
-      example:
-      - portfolio-name: Valimail
-        account-name: Valimail
-        domain-name: dmarceverywhere.com
-        org-domain-name: dmarceverywhere.com
-      - portfolio-name: Valimail
-        account-name: Valimail
-        domain-name: heytest.com
-        org-domain-name: heytest.com
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
     PortfolioCreate:
       type: object
       properties:
@@ -446,6 +403,28 @@ components:
           type: array
           items:
             type: string
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
     Portfolio:
       type: object
       properties:
@@ -502,6 +481,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
+    PortfolioSets:
+      type: array
+      items:
+        properties:
+          portfolio-name:
+            type: string
+          account-name:
+            type: string
+          domain-name:
+            type: string
+          org-domain-name:
+            type: string
+      example:
+      - portfolio-name: Valimail
+        account-name: Valimail
+        domain-name: dmarceverywhere.com
+        org-domain-name: dmarceverywhere.com
+      - portfolio-name: Valimail
+        account-name: Valimail
+        domain-name: heytest.com
+        org-domain-name: heytest.com
   securitySchemes:
     bearerAuth:
       type: http

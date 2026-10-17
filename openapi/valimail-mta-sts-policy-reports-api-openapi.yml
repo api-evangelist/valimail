@@ -419,6 +419,21 @@ components:
           failure_count:
             type: integer
             description: Total number of failed TLS sessions during the reporting period
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
     MtaStsTlsReportResponse:
       type: object
       properties:
@@ -455,21 +470,6 @@ components:
               max-age:
                 type: integer
                 description: Maximum age in seconds for caching the policy
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
   securitySchemes:
     bearerAuth:
       type: http

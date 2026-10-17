@@ -712,82 +712,6 @@ paths:
       description: Local development server
 components:
   schemas:
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-    UpdateAccount:
-      type: object
-      properties:
-        name:
-          type: string
-          description: Name of the account. Empty strings are treated as not provided.
-        enabled-org-domains-limit:
-          type: integer
-          description: Limit of enabled domains. A value of 0 is treated as not provided.
-        blocked-org-domains-limit:
-          type: integer
-          description: Limit of blocked domains. A value of 0 is treated as not provided.
-        sending-sub-domains-limit:
-          type: integer
-          description: Limit of domains with sender services. A value of 0 is treated as not provided.
-        approved-senders-limit:
-          type: integer
-          description: Limit of approved senders. A value of 0 is treated as not provided. A value of -1 clears the stored limit and reads back as -1.
-        package-slug:
-          type: string
-          description: Package slug to assign to the account. When omitted, the existing package remains unchanged.
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
-    Account:
-      type: object
-      description: Account response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
-      properties:
-        name:
-          type: string
-          description: 'Required: Name of the account.'
-        org-domain-name:
-          type: array
-          items:
-            type: string
-          description: 'Optional: List of domains associated with the account.'
-        parent-slug:
-          type: string
-          description: 'Optional: Partner account slug of the child account'
-        slug:
-          type: string
-          description: 'Optional: Account identifier.'
-        enabled-org-domains-limit:
-          type: string
-          description: 'Optional: Limit of enabled domains, serialized as a string in responses.'
-        blocked-org-domains-limit:
-          type: string
-          description: 'Optional: Limit of blocked domains, serialized as a string in responses.'
-        sending-sub-domains-limit:
-          type: string
-          description: 'Optional: Limit of domains with sender services, serialized as a string in responses.'
-        approved-senders-limit:
-          type: string
-          description: 'Optional: Limit of approved senders, serialized as a string in responses.'
-        package-slug:
-          type: string
-          description: 'Optional: Slug of the package assigned to the account.'
     AccountListItem:
       type: object
       description: Account read response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
@@ -827,6 +751,60 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    UpdateAccount:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the account. Empty strings are treated as not provided.
+        enabled-org-domains-limit:
+          type: integer
+          description: Limit of enabled domains. A value of 0 is treated as not provided.
+        blocked-org-domains-limit:
+          type: integer
+          description: Limit of blocked domains. A value of 0 is treated as not provided.
+        sending-sub-domains-limit:
+          type: integer
+          description: Limit of domains with sender services. A value of 0 is treated as not provided.
+        approved-senders-limit:
+          type: integer
+          description: Limit of approved senders. A value of 0 is treated as not provided. A value of -1 clears the stored limit and reads back as -1.
+        package-slug:
+          type: string
+          description: Package slug to assign to the account. When omitted, the existing package remains unchanged.
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    DelegatedAPIValidationErrorDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type:
+          - string
+          - 'null'
+        message:
+          type: string
     ValidationResponse:
       type: object
       properties:
@@ -847,17 +825,39 @@ components:
           type: string
         call:
           type: string
-    DelegatedAPIValidationErrorDetail:
+    Account:
       type: object
+      description: Account response payload. Fields with empty or null values are omitted. Numeric limit fields are serialized as strings.
       properties:
-        field:
+        name:
           type: string
-        value:
-          type:
-          - string
-          - 'null'
-        message:
+          description: 'Required: Name of the account.'
+        org-domain-name:
+          type: array
+          items:
+            type: string
+          description: 'Optional: List of domains associated with the account.'
+        parent-slug:
           type: string
+          description: 'Optional: Partner account slug of the child account'
+        slug:
+          type: string
+          description: 'Optional: Account identifier.'
+        enabled-org-domains-limit:
+          type: string
+          description: 'Optional: Limit of enabled domains, serialized as a string in responses.'
+        blocked-org-domains-limit:
+          type: string
+          description: 'Optional: Limit of blocked domains, serialized as a string in responses.'
+        sending-sub-domains-limit:
+          type: string
+          description: 'Optional: Limit of domains with sender services, serialized as a string in responses.'
+        approved-senders-limit:
+          type: string
+          description: 'Optional: Limit of approved senders, serialized as a string in responses.'
+        package-slug:
+          type: string
+          description: 'Optional: Slug of the package assigned to the account.'
   securitySchemes:
     bearerAuth:
       type: http

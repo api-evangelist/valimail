@@ -294,6 +294,29 @@ components:
           items:
             type: string
           description: List of domains used for JIT provisioning.
+    SsoConfig:
+      type: object
+      properties:
+        account-slug:
+          type: string
+        cert:
+          type: string
+        idp-entity-id:
+          type: string
+        saml-endpoint:
+          type: string
+        jit-provisioning-enabled:
+          type: boolean
+        provisioning-domains:
+          type: array
+          items:
+            type: string
+        created-at:
+          type: string
+          format: date-time
+        updated-at:
+          type: string
+          format: date-time
     ErrorResponse:
       type: object
       properties:
@@ -325,29 +348,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
-    SsoConfig:
-      type: object
-      properties:
-        account-slug:
-          type: string
-        cert:
-          type: string
-        idp-entity-id:
-          type: string
-        saml-endpoint:
-          type: string
-        jit-provisioning-enabled:
-          type: boolean
-        provisioning-domains:
-          type: array
-          items:
-            type: string
-        created-at:
-          type: string
-          format: date-time
-        updated-at:
-          type: string
-          format: date-time
   securitySchemes:
     bearerAuth:
       type: http

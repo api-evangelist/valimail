@@ -129,15 +129,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
-    ValidationDetail:
-      type: object
-      properties:
-        field:
-          type: string
-        value:
-          type: string
-        message:
-          type: string
     ErrorResponse:
       type: object
       properties:
@@ -209,6 +200,15 @@ components:
             type: integer
             description: Number of messages rejected
             example: 5
+    ValidationDetail:
+      type: object
+      properties:
+        field:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

@@ -287,6 +287,23 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    Team:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        slug:
+          type: string
+        saml-group-id:
+          type: string
+          description: Present when the team is linked to a SAML group for SSO-based assignment.
+      example:
+        name: Engineering
+        description: Engineering team
+        slug: engineering
+        saml-group-id: eng-saml-group
     ErrorResponse:
       type: object
       properties:
@@ -330,23 +347,6 @@ components:
         saml-group-id:
           description: Optional SAML group ID used to auto-assign SSO users to this team.
           type: string
-    Team:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        slug:
-          type: string
-        saml-group-id:
-          type: string
-          description: Present when the team is linked to a SAML group for SSO-based assignment.
-      example:
-        name: Engineering
-        description: Engineering team
-        slug: engineering
-        saml-group-id: eng-saml-group
   securitySchemes:
     bearerAuth:
       type: http

@@ -60,11 +60,6 @@ paths:
 components:
   schemas:
     Any: {}
-    WebhookPublicKeys:
-      type: object
-      description: Map of key IDs to base64-encoded Ed25519 public keys.
-      additionalProperties:
-        type: string
     ErrorResponse:
       type: object
       properties:
@@ -78,6 +73,11 @@ components:
           type: string
         call:
           type: string
+    WebhookPublicKeys:
+      type: object
+      description: Map of key IDs to base64-encoded Ed25519 public keys.
+      additionalProperties:
+        type: string
   securitySchemes:
     bearerAuth:
       type: http

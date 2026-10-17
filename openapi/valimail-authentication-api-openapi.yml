@@ -104,13 +104,6 @@ components:
           type: string
         message:
           type: string
-    KeyResponse:
-      type: object
-      properties:
-        token:
-          type: string
-        expires-at:
-          type: string
     ValidationResponse:
       type: object
       properties:
@@ -120,6 +113,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationDetail'
+    KeyResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        expires-at:
+          type: string
     DefaultOdinErrorResponse:
       type: object
       properties:

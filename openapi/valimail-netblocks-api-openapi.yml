@@ -625,6 +625,44 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    DefaultOdinErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
+        status:
+          type: string
+    Any: {}
+    DelegatedAPIValidationErrorResponse:
+      type: object
+      properties:
+        params:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
+    ErrorResponse:
+      type: object
+      properties:
+        request:
+          $ref: '#/components/schemas/Any'
+        message:
+          type: string
+        type:
+          type: string
+        request-id:
+          type: string
+        call:
+          type: string
     Netblock:
       type: object
       properties:
@@ -649,55 +687,6 @@ components:
         comment: This is a comment
         sender-slug: sendgrid
         domain-slug: dmarceverywhere.com
-    ErrorResponse:
-      type: object
-      properties:
-        request:
-          $ref: '#/components/schemas/Any'
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-    Any: {}
-    DelegatedAPIValidationErrorResponse:
-      type: object
-      properties:
-        params:
-          type: string
-        details:
-          type: array
-          items:
-            $ref: '#/components/schemas/DelegatedAPIValidationErrorDetail'
-    DefaultDelegatedAPIErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        call:
-          type: string
-    DefaultOdinErrorResponse:
-      type: object
-      properties:
-        request:
-          type: string
-        message:
-          type: string
-        type:
-          type: string
-        request-id:
-          type: string
-        call:
-          type: string
-        status:
-          type: string
     DelegatedAPIValidationErrorDetail:
       type: object
       properties:
@@ -708,6 +697,17 @@ components:
           - string
           - 'null'
         message:
+          type: string
+    DefaultDelegatedAPIErrorResponse:
+      type: object
+      properties:
+        request:
+          type: string
+        message:
+          type: string
+        type:
+          type: string
+        call:
           type: string
   securitySchemes:
     bearerAuth:
